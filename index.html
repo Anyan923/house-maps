@@ -26,10 +26,9 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
-body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:var(--ink);font-size:15px;line-height:1.55;min-height:100vh;-webkit-font-smoothing:antialiased;background-image:radial-gradient(circle at 10% 20%,rgba(217,169,78,.04) 0%,transparent 40%),radial-gradient(circle at 90% 80%,rgba(200,90,63,.03) 0%,transparent 40%)}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:var(--ink);font-size:15px;line-height:1.55;min-height:100vh;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(circle at 10% 20%,rgba(217,169,78,.04) 0%,transparent 40%),radial-gradient(circle at 90% 80%,rgba(200,90,63,.03) 0%,transparent 40%)}
 .hand{font-family:'Caveat',cursive;font-weight:500}
-.display{font-family:'Fraunces',Georgia,serif;letter-spacing:-.01em}
-h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.01em;color:var(--sepia)}
 
 /* ===== LOGIN ===== */
 .gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;background:linear-gradient(170deg,var(--peach) 0%,var(--paper) 55%,var(--peach-deep) 100%);position:relative;overflow:hidden}
@@ -41,8 +40,8 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.0
 .gate-title{font-size:34px;font-weight:500;font-family:'Fraunces',serif;line-height:1.05;margin-bottom:8px;color:var(--sepia)}
 .gate-sub{font-family:'Caveat',cursive;font-weight:500;font-size:22px;color:var(--brick);margin-bottom:32px;line-height:1.1}
 .gate-copy{font-size:14px;color:var(--sepia-soft);line-height:1.6;margin-bottom:32px;max-width:300px;margin-left:auto;margin-right:auto}
-.google-btn{display:inline-flex;align-items:center;gap:12px;padding:14px 28px;background:var(--sepia);color:var(--paper);border:none;border-radius:14px;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;box-shadow:var(--shadow)}
-.google-btn:hover{background:var(--ink);transform:translateY(-1px);box-shadow:var(--shadow-lg)}
+.google-btn{display:inline-flex;align-items:center;gap:12px;padding:14px 28px;background:var(--sepia);color:var(--paper);border:none;border-radius:14px;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;cursor:pointer;box-shadow:var(--shadow);transition:all .2s}
+.google-btn:hover{background:var(--ink);transform:translateY(-1px)}
 .google-btn svg{width:20px;height:20px}
 .gate-foot{font-size:11.5px;color:var(--sepia-faint);margin-top:28px;line-height:1.6}
 .gate-error{background:var(--brick-pale);color:var(--brick-deep);border-radius:10px;padding:10px 14px;font-size:13px;margin-bottom:16px;text-align:left;display:none}
@@ -51,150 +50,157 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.0
 /* ===== APP SHELL ===== */
 .app{display:none;min-height:100vh;padding-bottom:88px}
 .app.show{display:block}
-.app-header{background:rgba(255,249,240,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule);padding:16px 20px 12px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50}
+.app-header{background:rgba(255,249,240,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule);padding:14px 20px 12px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50}
 .brand{display:flex;align-items:center;gap:10px}
 .brand-mark{width:36px;height:36px;background:linear-gradient(145deg,var(--brick) 0%,var(--brick-deep) 100%);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm)}
 .brand-mark svg{width:22px;height:22px}
-.brand-name{font-family:'Fraunces',serif;font-weight:500;font-size:18px;color:var(--sepia);letter-spacing:-.01em}
-.members-chip{display:flex;align-items:center}
-.member-dot{width:30px;height:30px;border-radius:50%;margin-left:-8px;border:2.5px solid var(--paper);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:12px;font-weight:600;color:var(--paper);box-shadow:var(--shadow-sm)}
-.member-dot:first-child{margin-left:0}
-.container{max-width:600px;margin:0 auto;padding:20px 18px}
+.brand-name{font-family:'Fraunces',serif;font-weight:500;font-size:18px;color:var(--sepia)}
+.hdr-xp{display:flex;align-items:center;gap:6px;padding:5px 11px 5px 7px;background:linear-gradient(135deg,var(--brick),var(--brick-deep));color:var(--paper);border-radius:999px;font-size:12px;font-weight:600;font-family:'Fraunces',serif;cursor:pointer;transition:transform .2s}
+.hdr-xp:active{transform:scale(.95)}
+.hdr-xp svg{width:14px;height:14px}
+.container{max-width:600px;margin:0 auto;padding:0 18px}
 
 /* ===== BOTTOM NAV ===== */
 .tabnav{position:fixed;left:0;right:0;bottom:0;background:rgba(255,249,240,.95);backdrop-filter:blur(14px);border-top:1px solid var(--rule);display:flex;justify-content:center;padding:8px 10px 14px;z-index:60}
 .tabnav-inner{display:flex;gap:4px;max-width:600px;width:100%;justify-content:space-around}
-.tabnav button{flex:1;background:none;border:none;cursor:pointer;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--sepia-faint);font-family:'Inter',sans-serif;font-size:11px;font-weight:500;transition:color .2s}
-.tabnav button svg{width:22px;height:22px;stroke-width:1.8}
+.tabnav button{flex:1;background:none;border:none;cursor:pointer;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--sepia-faint);font-family:'Inter',sans-serif;font-size:11px;font-weight:500;transition:all .2s}
+.tabnav button svg{width:22px;height:22px;stroke-width:1.8;transition:stroke-width .2s}
 .tabnav button.active{color:var(--brick);font-weight:600}
 .tabnav button.active svg{stroke-width:2.2}
+.tabnav button:active{transform:scale(.9)}
 
-/* ===== DAY HERO ===== */
-.day-hero{text-align:center;padding:14px 10px 24px;position:relative}
-.day-date{font-family:'Caveat',cursive;font-weight:500;font-size:22px;color:var(--brick);line-height:1}
-.day-greeting{font-family:'Fraunces',serif;font-size:28px;font-weight:500;color:var(--sepia);margin:4px 0 10px;letter-spacing:-.015em;line-height:1.1}
-.day-verse{font-size:13.5px;color:var(--sepia-soft);line-height:1.55;max-width:380px;margin:0 auto;font-style:italic}
-.day-verse::before{content:'"';color:var(--gold);font-size:20px;font-family:'Fraunces',serif;vertical-align:-4px}
-.day-verse::after{content:'"';color:var(--gold);font-size:20px;font-family:'Fraunces',serif;vertical-align:-4px}
+/* ===== HERO ===== */
+.hero{padding:16px 0 8px;text-align:center}
+.hero-greet{font-family:'Caveat',cursive;font-size:18px;color:var(--brick);line-height:1}
+.hero-title{font-family:'Fraunces',serif;font-size:26px;font-weight:500;color:var(--sepia);margin:4px 0 6px;letter-spacing:-.015em;line-height:1.1}
+.hero-verse{font-size:12.5px;color:var(--sepia-soft);line-height:1.5;max-width:380px;margin:0 auto;font-style:italic;padding:0 10px}
 
-/* ===== CARD "AHORA" ===== */
-.now-card{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,var(--brick) 0%,var(--brick-deep) 100%);color:var(--paper);border-radius:18px;padding:14px 18px;margin:0 0 18px;box-shadow:var(--shadow)}
-.now-card.empty{background:linear-gradient(135deg,var(--peach) 0%,var(--peach-deep) 100%);color:var(--sepia-soft)}
-.now-card.empty .now-label{color:var(--brick-deep)}
-.now-pulse{width:12px;height:12px;background:#fff;border-radius:50%;flex-shrink:0;position:relative}
-.now-pulse::after{content:'';position:absolute;inset:-4px;border-radius:50%;background:rgba(255,255,255,.6);animation:pulse 2s ease-out infinite}
-.now-card.empty .now-pulse{background:var(--brick-deep)}
-.now-card.empty .now-pulse::after{background:rgba(169,68,41,.3)}
-@keyframes pulse{0%{transform:scale(.6);opacity:1}100%{transform:scale(2);opacity:0}}
-.now-info{flex:1;min-width:0}
-.now-label{font-family:'Caveat',cursive;font-size:16px;font-weight:500;opacity:.9;line-height:1;color:var(--paper)}
-.now-title{font-family:'Fraunces',serif;font-size:17px;font-weight:600;line-height:1.2;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.now-time{font-size:12px;font-weight:500;margin-top:3px;opacity:.9}
+/* ===== HOUSE SVG ===== */
+.house-stage{position:relative;width:100%;max-width:420px;margin:14px auto 0;aspect-ratio:4/3}
+.house-stage svg{width:100%;height:100%;display:block}
+.window-glow{animation:winglow 2.6s ease-in-out infinite}
+@keyframes winglow{0%,100%{opacity:.65}50%{opacity:1}}
+.window-today-pulse{animation:todaypulse 1.8s ease-in-out infinite}
+@keyframes todaypulse{0%,100%{r:3}50%{r:5}}
+.smoke{animation:smokeRise 5s ease-in-out infinite}
+@keyframes smokeRise{0%{transform:translateY(0);opacity:0.7}50%{transform:translateY(-4px);opacity:0.4}100%{transform:translateY(0);opacity:0.7}}
+.sun-rays{animation:sunspin 20s linear infinite;transform-origin:340px 80px}
+@keyframes sunspin{to{transform:rotate(360deg)}}
+
+/* ===== STREAK BANNER ===== */
+.streak-banner{display:flex;align-items:center;justify-content:center;gap:12px;margin:12px auto 16px;padding:11px 22px;background:linear-gradient(135deg,var(--brick-pale) 0%,var(--peach) 100%);border:1px solid var(--brick-pale);border-radius:999px;max-width:360px;cursor:pointer;transition:all .25s}
+.streak-banner:active{transform:scale(.97)}
+.streak-flames{font-size:19px;letter-spacing:1px}
+.streak-text{font-family:'Fraunces',serif;font-weight:600;font-size:14px;color:var(--brick-deep)}
+.streak-text small{display:block;font-family:'Caveat',cursive;font-weight:500;font-size:14px;color:var(--sepia-soft);margin-top:-2px}
 
 /* ===== SECTION TITLE ===== */
-.section-title{display:flex;align-items:center;gap:14px;margin:28px 0 14px}
+.section-title{display:flex;align-items:center;gap:14px;margin:24px 0 12px}
 .section-title::before,.section-title::after{content:'';flex:1;height:1px;background:var(--rule)}
-.section-title span{font-family:'Caveat',cursive;font-size:19px;color:var(--brick);letter-spacing:.02em;white-space:nowrap}
+.section-title span{font-family:'Caveat',cursive;font-size:19px;color:var(--brick);white-space:nowrap}
 
-/* ===== PATH / CAMINO ===== */
-.path{position:relative;padding-left:40px}
-.path::before{content:'';position:absolute;left:18px;top:12px;bottom:12px;width:2px;background:repeating-linear-gradient(to bottom,var(--peach-deep) 0,var(--peach-deep) 6px,transparent 6px,transparent 12px)}
-.stop{position:relative;margin-bottom:12px;background:var(--paper);border:1px solid var(--rule);border-radius:14px;padding:12px 14px;transition:all .2s}
-.stop:hover{box-shadow:var(--shadow-sm)}
-.stop-marker{position:absolute;left:-30px;top:14px;width:18px;height:18px;border-radius:50%;background:var(--paper);border:2px solid var(--sepia-faint);display:flex;align-items:center;justify-content:center}
-.stop.done .stop-marker{background:var(--sage);border-color:var(--sage)}
-.stop.done .stop-marker::after{content:'';width:6px;height:6px;background:var(--paper);border-radius:50%}
-.stop.now{border-color:var(--brick);background:linear-gradient(135deg,var(--paper) 0%,var(--brick-pale) 100%)}
-.stop.now .stop-marker{background:var(--brick);border-color:var(--brick);box-shadow:0 0 0 3px var(--brick-pale);animation:nowbeat 2s ease-in-out infinite}
-@keyframes nowbeat{0%,100%{box-shadow:0 0 0 3px var(--brick-pale)}50%{box-shadow:0 0 0 6px rgba(200,90,63,.2)}}
-.stop.past-done{opacity:.75}
-.stop.missed{border-color:var(--rule-soft);opacity:.6}
-.stop-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:3px}
-.stop-time{font-family:'Fraunces',serif;font-size:14px;font-weight:600;color:var(--brick);letter-spacing:-.01em;white-space:nowrap}
-.stop-time .end{font-weight:400;color:var(--sepia-faint);font-size:12.5px;margin-left:2px}
-.stop-duration{font-family:'Caveat',cursive;font-weight:500;font-size:14px;color:var(--sepia-faint)}
-.stop-title{font-size:14.5px;font-weight:500;color:var(--sepia);line-height:1.35;margin:4px 0 8px}
-.stop-tag{display:inline-flex;align-items:center;font-family:'Caveat',cursive;font-weight:500;font-size:13px;color:var(--sepia-faint);margin-right:6px}
-.stop-tag::before{margin-right:3px}
-.stop[data-type="oracion"] .stop-tag::before{content:'✝';color:var(--violet)}
-.stop[data-type="comida"] .stop-tag::before{content:'◉';color:var(--brick)}
-.stop[data-type="familia"] .stop-tag::before{content:'♡';color:var(--garnet)}
-.stop[data-type="escuela"] .stop-tag::before{content:'✎';color:var(--gold-deep)}
-.stop[data-type="trabajo"] .stop-tag::before{content:'◇';color:var(--anderson)}
-.stop[data-type="caminata"] .stop-tag::before{content:'→';color:var(--sage)}
-.stop[data-type="hogar"] .stop-tag::before{content:'◈';color:var(--gold-deep)}
-.stop[data-type="sueno"] .stop-tag::before{content:'☾';color:var(--violet)}
-.stop[data-type="iglesia"] .stop-tag::before{content:'†';color:var(--violet)}
-.stop[data-type="reunion"] .stop-tag::before{content:'■';color:var(--anderson)}
-.stop[data-type="otro"] .stop-tag::before{content:'·';color:var(--sepia-faint)}
+/* ===== FAMILY GRID ===== */
+.family-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.member-card{background:var(--paper);border:1px solid var(--rule);border-radius:16px;padding:12px 12px 14px;position:relative;overflow:hidden;transition:all .25s;cursor:pointer}
+.member-card:hover{box-shadow:var(--shadow-sm);transform:translateY(-2px)}
+.member-card:active{transform:scale(.98)}
+.member-card.anderson{border-top:3px solid var(--anderson)}
+.member-card.damaris{border-top:3px solid var(--damaris)}
+.member-card.jp{border-top:3px solid var(--jp)}
+.member-card.helena{border-top:3px solid var(--helena)}
+.member-card.leveled{animation:levelup .9s cubic-bezier(.3,1.4,.5,1)}
+@keyframes levelup{0%{transform:scale(1)}30%{transform:scale(1.06);box-shadow:0 0 0 6px var(--gold-pale)}60%{transform:scale(.99)}100%{transform:scale(1)}}
+.mc-head{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.mc-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--paper);font-family:'Fraunces',serif;font-weight:600;font-size:16px;box-shadow:var(--shadow-sm);flex-shrink:0}
+.mc-avatar.anderson{background:var(--anderson)}
+.mc-avatar.damaris{background:var(--damaris)}
+.mc-avatar.jp{background:var(--jp)}
+.mc-avatar.helena{background:var(--helena)}
+.mc-id{flex:1;min-width:0}
+.mc-name{font-family:'Fraunces',serif;font-weight:600;font-size:14px;color:var(--sepia);line-height:1.1}
+.mc-role{font-family:'Caveat',cursive;font-size:13px;color:var(--brick);line-height:1}
+.mc-level{display:flex;align-items:center;gap:5px;margin-bottom:6px}
+.mc-level-badge{background:var(--gold);color:var(--sepia);padding:1px 7px 1px 4px;border-radius:999px;font-size:10.5px;font-weight:700;display:flex;align-items:center;gap:3px}
+.mc-level-badge svg{width:10px;height:10px}
+.mc-xp-label{font-size:10.5px;color:var(--sepia-faint);font-weight:500}
+.mc-bar{height:6px;background:var(--peach);border-radius:999px;overflow:hidden;margin-bottom:7px}
+.mc-bar-fill{height:100%;border-radius:999px;transition:width .9s cubic-bezier(.5,1.6,.5,1);width:0}
+.mc-bar-fill.anderson{background:linear-gradient(90deg,var(--anderson),#6B9BAC)}
+.mc-bar-fill.damaris{background:linear-gradient(90deg,var(--damaris),#C85566)}
+.mc-bar-fill.jp{background:linear-gradient(90deg,var(--jp),#E8C271)}
+.mc-bar-fill.helena{background:linear-gradient(90deg,var(--helena),#D8B5E0)}
+.mc-next{font-size:11px;color:var(--sepia-soft);line-height:1.3;display:flex;gap:4px;align-items:flex-start}
+.mc-next-icon{color:var(--brick);flex-shrink:0;margin-top:1px}
 
-.stop-footer{display:flex;gap:8px;flex-wrap:wrap;padding-top:8px;border-top:1px dashed var(--rule);margin-top:8px;align-items:center;justify-content:space-between}
-.stop-prints{display:flex;gap:6px;flex-wrap:wrap}
-.footprint{display:inline-flex;align-items:center;gap:5px;padding:5px 10px 5px 6px;border-radius:999px;background:var(--paper-tint);border:1px solid var(--rule);cursor:pointer;font-size:12px;font-weight:500;color:var(--sepia-soft);transition:all .2s}
-.footprint:hover{background:var(--peach);border-color:var(--peach-deep)}
-.footprint:active{transform:scale(.96)}
-.footprint-avatar{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--paper);font-family:'Fraunces',serif;font-size:10px;font-weight:600}
-.footprint.done{background:var(--sage-pale);border-color:var(--sage);color:var(--sepia);font-weight:600}
-.footprint.done::after{content:'✓';color:var(--sage);font-weight:700;margin-left:2px;animation:popCheck .35s cubic-bezier(.5,1.6,.5,1)}
+/* ===== MISSION CARD ===== */
+.mission-card{background:linear-gradient(135deg,var(--paper) 0%,var(--peach) 100%);border:1px solid var(--peach-deep);border-radius:18px;padding:14px 16px 10px;position:relative;overflow:hidden}
+.mission-card::before{content:'';position:absolute;top:-30%;right:-10%;width:160px;height:160px;background:radial-gradient(circle,rgba(217,169,78,.2) 0%,transparent 60%);pointer-events:none}
+.mission-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px;position:relative}
+.mission-title{font-family:'Fraunces',serif;font-size:16px;font-weight:600;color:var(--sepia)}
+.mission-sub{font-family:'Caveat',cursive;font-size:14px;color:var(--brick)}
+.mission{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--rule);position:relative;cursor:pointer}
+.mission:last-child{border-bottom:none}
+.mission-check{width:28px;height:28px;border-radius:50%;background:var(--paper);border:2px solid var(--sepia-faint);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .25s}
+.mission.done .mission-check{background:var(--sage);border-color:var(--sage)}
+.mission.done .mission-check::after{content:'✓';color:var(--paper);font-weight:700;font-size:15px;animation:popCheck .35s cubic-bezier(.5,1.6,.5,1)}
 @keyframes popCheck{0%{transform:scale(0)}100%{transform:scale(1)}}
-.btn-info{background:var(--paper-tint);border:1px solid var(--rule);border-radius:999px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--sepia-soft);transition:all .2s;flex-shrink:0}
-.btn-info:hover{background:var(--peach);color:var(--sepia)}
-.btn-info svg{width:14px;height:14px;stroke-width:2}
+.mission.now .mission-check{border-color:var(--brick);background:var(--brick-pale);animation:nowbeat 1.8s ease-in-out infinite}
+@keyframes nowbeat{0%,100%{box-shadow:0 0 0 0 rgba(200,90,63,.3)}50%{box-shadow:0 0 0 6px rgba(200,90,63,0)}}
+.mission-body{flex:1;min-width:0}
+.mission-time{font-family:'Fraunces',serif;font-weight:600;font-size:13px;color:var(--brick)}
+.mission-name{font-size:14px;color:var(--sepia);font-weight:500;margin-top:1px}
+.mission-tag{font-family:'Caveat',cursive;font-size:14px;color:var(--sepia-soft);margin-top:3px}
+.mission-reward{display:flex;align-items:center;gap:4px;background:var(--gold-pale);border:1px solid var(--gold);color:var(--gold-deep);padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700;flex-shrink:0;align-self:center}
+.mission.done .mission-reward{background:var(--sage-pale);border-color:var(--sage);color:var(--sage-deep)}
 
-/* Day empty state */
-.day-empty{text-align:center;padding:40px 20px;color:var(--sepia-faint);font-family:'Caveat',cursive;font-size:18px}
+/* ===== ALBUM STRIP ===== */
+.album-strip{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 14px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.album-strip::-webkit-scrollbar{display:none}
+.album-item{flex:0 0 112px;position:relative;cursor:pointer}
+.album-polaroid{background:var(--paper);border:1px solid var(--rule);padding:6px 6px 24px;box-shadow:var(--shadow-sm);transform:rotate(-1.2deg);transition:all .3s}
+.album-item:nth-child(even) .album-polaroid{transform:rotate(1.5deg)}
+.album-item:nth-child(3n) .album-polaroid{transform:rotate(-2deg)}
+.album-polaroid:hover{transform:rotate(0) scale(1.04);box-shadow:var(--shadow);z-index:5}
+.album-img{width:100%;aspect-ratio:1;background:linear-gradient(135deg,var(--peach) 0%,var(--brick-pale) 100%);display:flex;align-items:center;justify-content:center;color:var(--brick-deep);font-size:28px;overflow:hidden;position:relative}
+.album-img img{width:100%;height:100%;object-fit:cover;display:block}
+.album-day-tag{position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,.45);color:#fff;padding:1px 5px;border-radius:4px;font-size:9px;font-weight:700;letter-spacing:.04em}
+.album-caption{position:absolute;bottom:4px;left:6px;right:6px;font-family:'Caveat',cursive;font-size:13px;color:var(--sepia);line-height:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.album-reactions{position:absolute;top:-6px;right:-4px;background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:3px 7px;font-size:11px;box-shadow:var(--shadow-sm);display:flex;gap:2px;align-items:center}
+.album-add{flex:0 0 112px;background:var(--paper);border:2px dashed var(--peach-deep);border-radius:4px;aspect-ratio:4/5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--brick);cursor:pointer;transition:all .2s}
+.album-add:hover,.album-add:active{background:var(--peach);border-style:solid}
+.album-add svg{width:22px;height:22px}
+.album-add-text{font-family:'Caveat',cursive;font-size:14px;text-align:center;line-height:1.1;padding:0 8px}
+.album-empty{display:flex;align-items:center;justify-content:center;padding:30px 20px;color:var(--sepia-faint);font-family:'Caveat',cursive;font-size:16px;font-style:italic;width:100%}
 
-/* ===== TREASURE (racha+badges) ===== */
-.treasure{background:linear-gradient(135deg,var(--gold-pale) 0%,var(--peach) 100%);border:1px solid var(--gold);border-radius:18px;padding:18px;margin:10px 0 22px;position:relative;overflow:hidden}
-.treasure::before{content:'';position:absolute;top:-30%;right:-10%;width:180px;height:180px;background:radial-gradient(circle,rgba(217,169,78,.3) 0%,transparent 60%)}
-.streak-row{display:flex;gap:14px;align-items:center;margin-bottom:14px;position:relative}
-.streak-fire{width:48px;height:48px;background:var(--brick);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--shadow-sm)}
-.streak-fire svg{width:28px;height:28px}
-.streak-count{font-family:'Fraunces',serif;font-size:28px;font-weight:600;color:var(--sepia);line-height:1;letter-spacing:-.02em}
-.streak-label{font-family:'Caveat',cursive;font-weight:500;font-size:17px;color:var(--brick-deep);margin-top:2px}
-.badges{display:flex;gap:8px;flex-wrap:wrap;position:relative}
-.badge{flex:1 1 calc(50% - 4px);min-width:130px;background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:9px 11px;text-align:left}
-.badge-name{font-family:'Fraunces',serif;font-size:12.5px;font-weight:600;color:var(--sepia);line-height:1.2}
-.badge-progress{font-family:'Caveat',cursive;font-size:14px;color:var(--sage);margin-top:2px}
-.badge.earned{background:linear-gradient(135deg,var(--sage-pale) 0%,var(--paper) 100%);border-color:var(--sage)}
-.badge.earned .badge-progress{color:var(--sage);font-weight:700}
-
-/* ===== HAPPINESS BUTTON ===== */
-.happiness-btn{display:block;width:100%;background:linear-gradient(135deg,var(--garnet) 0%,var(--brick) 100%);color:var(--paper);border:none;border-radius:18px;padding:18px 22px;font-family:'Fraunces',serif;font-size:17px;font-weight:500;cursor:pointer;margin:22px 0;text-align:center;letter-spacing:-.01em;box-shadow:var(--shadow);transition:all .2s}
-.happiness-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
-.happiness-btn .hb-heart{display:inline-block;margin-right:6px;animation:beat 1.6s ease-in-out infinite}
-@keyframes beat{0%,100%{transform:scale(1)}40%{transform:scale(1.15)}60%{transform:scale(.95)}}
-.happiness-btn .hb-sub{display:block;font-family:'Caveat',cursive;font-size:15px;font-weight:500;opacity:.9;margin-top:2px}
-
-/* ===== MOMENT STRIP ===== */
-.moment-strip{background:var(--paper);border:1px solid var(--rule);border-radius:16px;padding:14px}
-.moment-strip-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
-.moment-strip-head h3{font-size:16px}
-.moment-strip-head button{background:none;border:none;color:var(--brick);font-family:'Caveat',cursive;font-size:15px;cursor:pointer}
-.moment{display:flex;gap:11px;padding:9px 0;border-bottom:1px dashed var(--rule)}
-.moment:last-child{border-bottom:none}
-.moment-mark{width:28px;height:28px;border-radius:9px;background:var(--garnet-pale);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.moment-mark svg{width:16px;height:16px;fill:var(--garnet)}
-.moment-body{flex:1;min-width:0}
-.moment-date{font-family:'Caveat',cursive;font-size:14px;color:var(--brick);line-height:1}
-.moment-text{font-size:13.5px;color:var(--sepia);line-height:1.4;margin-top:2px}
-.moment-author{font-family:'Caveat',cursive;font-size:13px;color:var(--sepia-faint);margin-top:2px}
-.empty-strip{text-align:center;padding:18px 10px;color:var(--sepia-faint);font-size:13px;font-style:italic}
+/* ===== ACHIEVEMENTS ===== */
+.achievement{display:flex;gap:12px;background:var(--paper);border:1px solid var(--rule);border-radius:14px;padding:10px 14px;margin-bottom:8px;align-items:center;transition:all .3s;cursor:pointer}
+.achievement:hover{box-shadow:var(--shadow-sm)}
+.achievement.earned{background:linear-gradient(135deg,var(--sage-pale) 0%,var(--paper) 100%);border-color:var(--sage)}
+.achievement.near{animation:nearShimmer 2.6s ease-in-out infinite;background-size:200% 100%}
+@keyframes nearShimmer{0%,100%{background:var(--paper)}50%{background:linear-gradient(90deg,var(--paper),var(--gold-pale),var(--paper))}}
+.ach-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--gold-pale) 0%,var(--gold) 100%);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--shadow-sm);font-size:22px}
+.achievement.earned .ach-icon{background:linear-gradient(135deg,var(--sage-pale) 0%,var(--sage) 100%)}
+.ach-body{flex:1;min-width:0}
+.ach-name{font-family:'Fraunces',serif;font-weight:600;font-size:14px;color:var(--sepia);line-height:1.15}
+.ach-desc{font-family:'Caveat',cursive;font-size:14px;color:var(--brick);margin-top:1px;line-height:1}
+.ach-bar{height:5px;background:var(--peach);border-radius:999px;overflow:hidden;margin-top:6px}
+.ach-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--brick));border-radius:999px;transition:width 1s cubic-bezier(.5,1.6,.5,1)}
+.achievement.earned .ach-bar-fill{background:linear-gradient(90deg,var(--sage),var(--sage-deep))}
+.ach-progress{font-size:10.5px;color:var(--sepia-faint);margin-top:3px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
 
 /* ===== PAGES ===== */
 .page{display:none}
-.page.show{display:block}
+.page.show{display:block;animation:fadeInUp .35s ease-out}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-/* ===== WEEK PAGE ===== */
-.week-head{text-align:center;padding:10px 0 20px}
-.week-head h1{font-size:26px;margin-bottom:6px}
+/* ===== WEEK PAGE (Mi semana) ===== */
+.week-head{text-align:center;padding:10px 0 18px}
+.week-head h1{font-family:'Fraunces',serif;font-size:26px;font-weight:500;color:var(--sepia);margin-bottom:6px}
 .week-head p{font-family:'Caveat',cursive;color:var(--brick);font-size:17px}
-.day-chips{display:flex;gap:5px;overflow-x:auto;padding:4px 2px 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin-bottom:14px}
+.day-chips{display:flex;gap:5px;overflow-x:auto;padding:4px 2px 12px;scrollbar-width:none;margin-bottom:14px}
 .day-chips::-webkit-scrollbar{display:none}
-.day-chip{flex:0 0 auto;background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:9px 12px 10px;cursor:pointer;min-width:58px;text-align:center;transition:all .15s}
-.day-chip:hover{border-color:var(--peach-deep)}
+.day-chip{flex:0 0 auto;background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:9px 12px 10px;cursor:pointer;min-width:58px;text-align:center;transition:all .15s;position:relative}
 .day-chip.active{background:var(--brick);border-color:var(--brick);color:var(--paper)}
-.day-chip.today{position:relative}
 .day-chip.today::after{content:'';position:absolute;top:5px;right:7px;width:6px;height:6px;background:var(--gold);border-radius:50%}
 .day-chip-name{font-family:'Caveat',cursive;font-size:14px;font-weight:500;line-height:1;color:var(--sepia-faint)}
 .day-chip.active .day-chip-name{color:var(--peach-deep)}
@@ -202,7 +208,7 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.0
 .week-list{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
 .week-block{background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:11px 13px;cursor:pointer;transition:all .15s;display:flex;gap:10px;align-items:flex-start}
 .week-block:hover{border-color:var(--peach-deep);background:var(--paper-tint)}
-.week-block-time{font-family:'Fraunces',serif;font-size:13px;font-weight:600;color:var(--brick);letter-spacing:-.01em;min-width:88px;line-height:1.3;padding-top:1px}
+.week-block-time{font-family:'Fraunces',serif;font-size:13px;font-weight:600;color:var(--brick);min-width:88px;line-height:1.3;padding-top:1px}
 .week-block-time .duration{display:block;font-family:'Caveat',cursive;font-weight:500;color:var(--sepia-faint);font-size:13px;margin-top:1px}
 .week-block-body{flex:1;min-width:0}
 .week-block-title{font-size:14px;font-weight:500;color:var(--sepia);line-height:1.3}
@@ -212,11 +218,11 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.0
 .week-block-fors .footprint-avatar{width:16px;height:16px;font-size:9px}
 .src-badge{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:2px 6px;border-radius:5px;background:var(--violet-pale);color:var(--violet)}
 .src-badge.base{background:var(--sage-pale);color:var(--sage-deep)}
-.btn-add{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--paper);border:1.5px dashed var(--peach-deep);color:var(--brick);border-radius:14px;padding:14px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;margin-bottom:20px}
-.btn-add:hover{background:var(--peach);border-style:solid}
+.btn-add{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--paper);border:1.5px dashed var(--peach-deep);color:var(--brick);border-radius:14px;padding:14px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:20px;transition:all .2s}
+.btn-add:hover,.btn-add:active{background:var(--peach);border-style:solid}
 .btn-add svg{width:18px;height:18px}
 
-/* ===== MODAL (sheet) ===== */
+/* ===== MODAL ===== */
 .modal{position:fixed;inset:0;background:rgba(42,31,18,.5);z-index:200;display:none;align-items:flex-end;justify-content:center;animation:fadeIn .2s}
 .modal.show{display:flex}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -227,14 +233,12 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.0
 .modal-close{position:absolute;top:18px;right:18px;width:32px;height:32px;background:var(--peach);border:none;border-radius:50%;cursor:pointer;color:var(--sepia);font-size:18px;line-height:1}
 .modal-title{font-family:'Fraunces',serif;font-size:22px;font-weight:500;color:var(--sepia);margin-bottom:4px;letter-spacing:-.01em}
 .modal-lead{font-family:'Caveat',cursive;font-size:17px;color:var(--brick);margin-bottom:18px}
-
-/* Sheet contextual */
 .sheet-type-tag{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;background:var(--peach);border-radius:999px;font-family:'Caveat',cursive;color:var(--brick-deep);font-size:14px;margin-bottom:8px}
 .sheet-block{margin:14px 0}
 .sheet-block h4{font-family:'Caveat',cursive;color:var(--brick);font-size:17px;font-weight:500;margin-bottom:4px}
 .sheet-block p{font-size:14px;color:var(--sepia);line-height:1.55}
 
-/* Form */
+/* ===== FORM ===== */
 .form-row{margin-bottom:14px}
 .form-row label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:600;color:var(--sepia-soft);margin-bottom:5px}
 .form-row input,.form-row select,.form-row textarea{width:100%;padding:10px 12px;background:var(--paper-tint);border:1px solid var(--rule);border-radius:10px;font-family:'Inter',sans-serif;font-size:14px;color:var(--sepia);outline:none;transition:border-color .2s}
@@ -244,7 +248,6 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.0
 .chip-group{display:flex;gap:6px;flex-wrap:wrap}
 .chip-sel{display:inline-flex;align-items:center;gap:5px;padding:7px 11px 7px 8px;border-radius:999px;background:var(--paper-tint);border:1.5px solid var(--rule);cursor:pointer;font-size:13px;font-weight:500;color:var(--sepia-soft);transition:all .15s;font-family:'Inter',sans-serif}
 .chip-sel.active{border-color:var(--brick);background:var(--brick-pale);color:var(--brick-deep);font-weight:600}
-.chip-sel small{font-size:11px}
 .btn-save,.btn-cancel,.btn-danger{padding:12px 16px;border-radius:12px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
 .btn-save{background:var(--brick);color:var(--paper)}
 .btn-save:hover{background:var(--brick-deep)}
@@ -261,7 +264,10 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.0
 .who-chip{display:inline-flex;align-items:center;gap:5px;padding:7px 11px 7px 8px;border-radius:999px;background:var(--paper-tint);border:1.5px solid var(--rule);cursor:pointer;font-size:13px;font-weight:500;color:var(--sepia-soft);transition:all .15s}
 .who-chip.active{border-color:var(--brick);background:var(--brick-pale);color:var(--brick-deep);font-weight:600}
 
-/* chat */
+/* footprint-avatar reused */
+.footprint-avatar{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--paper);font-family:'Fraunces',serif;font-size:10px;font-weight:600}
+
+/* ===== CHAT ===== */
 .chat-list{max-height:50vh;overflow-y:auto;padding:4px 2px;margin-bottom:14px;min-height:100px}
 .chat-msg{display:flex;margin-bottom:10px}
 .chat-msg.user{justify-content:flex-end}
@@ -274,29 +280,67 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.0
 .chat-send{width:38px;height:38px;background:var(--violet);color:var(--paper);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .chat-send svg{width:17px;height:17px}
 
-/* FAB */
-.fab{position:fixed;right:16px;bottom:96px;width:52px;height:52px;background:linear-gradient(145deg,var(--violet) 0%,#453866 100%);color:var(--paper);border:none;border-radius:50%;display:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow-lg);z-index:80;transition:all .2s}
+/* ===== FAB ===== */
+.fab{position:fixed;right:18px;bottom:88px;width:56px;height:56px;background:linear-gradient(145deg,var(--brick) 0%,var(--brick-deep) 100%);color:var(--paper);border:none;border-radius:50%;display:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow-lg);z-index:80;transition:all .2s}
 .app.show ~ .fab{display:flex}
 .fab:hover{transform:scale(1.08)}
-.fab svg{width:24px;height:24px}
+.fab:active{transform:scale(.92)}
+.fab svg{width:26px;height:26px}
 
-/* Toast */
+/* ===== CAMERA MODAL CONTENT ===== */
+.cam-preview{width:100%;aspect-ratio:1;background:var(--paper-tint);border:1px solid var(--rule);border-radius:14px;margin:12px 0;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.cam-preview img{width:100%;height:100%;object-fit:cover;display:block}
+.cam-preview-empty{color:var(--sepia-faint);font-family:'Caveat',cursive;font-size:16px;text-align:center;padding:20px}
+.cam-which{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+.cam-which select{width:100%;padding:10px 12px;background:var(--paper-tint);border:1px solid var(--rule);border-radius:10px;font-family:'Inter',sans-serif;font-size:14px}
+.cam-caption-row{margin-top:12px}
+.cam-caption-row textarea{width:100%;padding:10px 12px;background:var(--paper-tint);border:1px solid var(--rule);border-radius:10px;font-family:'Inter',sans-serif;font-size:14px;min-height:60px;resize:vertical}
+
+/* ===== TOAST ===== */
 .toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(--sepia);color:var(--paper);padding:11px 18px;border-radius:999px;font-size:13.5px;font-weight:500;z-index:300;box-shadow:var(--shadow-lg);opacity:0;transition:all .3s}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast.ok{background:var(--sage)}
 .toast.err{background:var(--brick-deep)}
 
-/* Boot */
+/* ===== +XP FLOATER ===== */
+.xp-float{position:fixed;pointer-events:none;font-family:'Fraunces',serif;font-weight:700;font-size:24px;color:var(--gold-deep);text-shadow:0 2px 6px rgba(0,0,0,.15);z-index:400;animation:xpRise 1.3s cubic-bezier(.22,.6,.3,1) forwards}
+@keyframes xpRise{0%{opacity:0;transform:translateY(0) scale(.6)}20%{opacity:1;transform:translateY(-10px) scale(1.15)}100%{opacity:0;transform:translateY(-90px) scale(1)}}
+
+/* ===== CONFETTI ===== */
+.confetti-stage{position:fixed;inset:0;pointer-events:none;z-index:350;overflow:hidden}
+.confetti{position:absolute;width:9px;height:9px;top:-20px;animation:confettiFall 2.2s cubic-bezier(.5,.1,.5,1) forwards}
+@keyframes confettiFall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+/* ===== LEVEL-UP CELEBRATION ===== */
+.celebrate{position:fixed;inset:0;background:rgba(42,31,18,.55);z-index:500;display:none;align-items:center;justify-content:center;animation:fadeIn .3s}
+.celebrate.show{display:flex}
+.celebrate-card{background:linear-gradient(135deg,var(--gold-pale),var(--peach));border-radius:24px;padding:36px 28px;max-width:360px;text-align:center;box-shadow:var(--shadow-lg);position:relative;animation:popIn .5s cubic-bezier(.3,1.5,.5,1)}
+@keyframes popIn{0%{transform:scale(.3) rotate(-10deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+.celebrate-icon{font-size:70px;line-height:1;margin-bottom:12px}
+.celebrate-title{font-family:'Fraunces',serif;font-size:28px;font-weight:600;color:var(--sepia);margin-bottom:6px}
+.celebrate-sub{font-family:'Caveat',cursive;font-size:19px;color:var(--brick-deep);margin-bottom:20px}
+.celebrate-close{background:var(--brick);color:var(--paper);border:none;padding:12px 28px;border-radius:999px;font-family:'Inter',sans-serif;font-weight:600;cursor:pointer;font-size:14px}
+
+/* ===== BOOT ===== */
 .boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper);z-index:999;flex-direction:column;gap:16px}
 .boot.hide{display:none}
 .boot-spin{width:38px;height:38px;border:3px solid var(--peach);border-top-color:var(--brick);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .boot-text{font-family:'Caveat',cursive;color:var(--brick);font-size:19px}
 
-/* mobile ultra small */
+/* ===== PHOTO VIEWER ===== */
+.photo-viewer{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:250;display:none;flex-direction:column;align-items:center;justify-content:center;padding:30px 16px}
+.photo-viewer.show{display:flex}
+.photo-viewer img{max-width:100%;max-height:70vh;border-radius:8px;box-shadow:var(--shadow-lg)}
+.photo-viewer .pv-close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.2);color:#fff;border:none;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:20px}
+.photo-viewer .pv-info{color:#fff;margin-top:16px;text-align:center;font-family:'Caveat',cursive;font-size:18px}
+.photo-viewer .pv-actions{margin-top:16px;display:flex;gap:10px}
+.photo-viewer .pv-react{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);padding:8px 14px;border-radius:999px;cursor:pointer;font-size:15px}
+
 @media (max-width:380px){
-  .day-greeting{font-size:24px}
+  .hero-title{font-size:24px}
   .gate-title{font-size:26px}
+  .family-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -340,52 +384,50 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.0
       </div>
       <div class="brand-name">House Mapp</div>
     </div>
-    <div class="members-chip" id="members-chip"></div>
+    <div class="hdr-xp" id="hdr-xp" title="XP familiar de la semana">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/></svg>
+      <span id="hdr-xp-val">0</span>
+    </div>
   </header>
 
   <main class="container">
 
-    <!-- PAGE: HOY -->
-    <section class="page show" id="page-hoy">
-      <div class="day-hero">
-        <div class="day-date" id="day-date">—</div>
-        <h1 class="day-greeting" id="day-greeting">Hoy</h1>
-        <p class="day-verse" id="day-verse">—</p>
+    <!-- PAGE: HOGAR -->
+    <section class="page show" id="page-hogar">
+
+      <div class="hero">
+        <div class="hero-greet" id="hero-greet">—</div>
+        <h1 class="hero-title" id="hero-title">Hogar</h1>
+        <p class="hero-verse" id="hero-verse">—</p>
       </div>
 
-      <div class="now-card empty" id="now-card">
-        <div class="now-pulse"></div>
-        <div class="now-info">
-          <div class="now-label">Siguiente</div>
-          <div class="now-title">—</div>
-          <div class="now-time"></div>
+      <div class="house-stage" id="house-stage"></div>
+
+      <div class="streak-banner" id="streak-banner">
+        <span class="streak-flames" id="streak-flames">🔥</span>
+        <div class="streak-text" id="streak-text">0 días
+          <small>empieza la aventura</small>
         </div>
       </div>
 
-      <div class="section-title"><span>El camino de hoy</span></div>
-      <div class="path" id="path"></div>
+      <div class="section-title"><span>Nuestra familia</span></div>
+      <div class="family-grid" id="family-grid"></div>
 
-      <div class="section-title"><span>Nuestra racha</span></div>
-      <div class="treasure">
-        <div class="streak-row">
-          <div class="streak-fire">
-            <svg viewBox="0 0 24 24"><path d="M12 2 C 11 6, 7 8, 7 13 A 5 5 0 0 0 17 13 C 17 10, 15 8, 14 6 C 13 8, 11 9, 11 11 C 11 9, 12 5, 12 2 Z" fill="#FFD4C2"/><path d="M12 7 C 10 9, 9 11, 9 13 A 3 3 0 0 0 15 13 C 15 11, 14 10, 13 9 C 13 11, 11 11, 12 10 C 12 9, 12 8, 12 7 Z" fill="#FFF9F0"/></svg>
-          </div>
-          <div style="flex:1">
-            <div class="streak-count" id="streak-count">0</div>
-            <div class="streak-label">días caminando juntos</div>
-          </div>
+      <div class="section-title"><span>Misión de hoy</span></div>
+      <div class="mission-card" id="mission-card">
+        <div class="mission-head">
+          <div class="mission-title">3 pasos del día</div>
+          <div class="mission-sub" id="mission-sub">0 XP posibles</div>
         </div>
-        <div class="badges" id="badges"></div>
+        <div id="mission-list"></div>
       </div>
 
-      <button class="happiness-btn" id="btn-happiness">
-        <span class="hb-heart">💛</span>Guardar el mejor momento de hoy
-        <span class="hb-sub">— un recuerdo para años</span>
-      </button>
+      <div class="section-title"><span>Nuestro álbum vivo</span></div>
+      <div class="album-strip" id="album-strip"></div>
 
-      <div class="section-title"><span>Álbum reciente</span></div>
-      <div class="moment-strip" id="moment-strip"></div>
+      <div class="section-title"><span>Logros cerca</span></div>
+      <div id="achievements-list"></div>
+
     </section>
 
     <!-- PAGE: SEMANA -->
@@ -402,27 +444,40 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.0
       </button>
     </section>
 
+    <!-- PAGE: ALBUM full -->
+    <section class="page" id="page-album">
+      <div class="week-head">
+        <h1>Álbum</h1>
+        <p>momentos que queremos recordar</p>
+      </div>
+      <div id="album-full" style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px"></div>
+    </section>
+
   </main>
 
   <nav class="tabnav">
     <div class="tabnav-inner">
-      <button data-page="hoy" class="active">
+      <button data-page="hogar" class="active">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-4a2 2 0 0 0-2-2h0a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V10z"/></svg>
-        <span>Hoy</span>
+        <span>Hogar</span>
       </button>
       <button data-page="semana">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg>
         <span>Mi semana</span>
       </button>
+      <button data-page="album">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        <span>Álbum</span>
+      </button>
       <button data-page="asistente" id="tab-chat">
-        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2 L13.7 9 L20.5 10.5 L13.7 12 L12 19 L10.3 12 L3.5 10.5 L10.3 9 Z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 L13.7 9 L20.5 10.5 L13.7 12 L12 19 L10.3 12 L3.5 10.5 L10.3 9 Z"/></svg>
         <span>Asistente</span>
       </button>
     </div>
   </nav>
 </div>
 
-<!-- MODALS -->
+<!-- MODAL: info sheet -->
 <div class="modal" id="modal-sheet">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
@@ -431,29 +486,7 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.0
   </div>
 </div>
 
-<div class="modal" id="modal-happiness">
-  <div class="modal-sheet">
-    <div class="modal-handle"></div>
-    <button class="modal-close" data-close>×</button>
-    <h2 class="modal-title">El mejor momento de hoy</h2>
-    <div class="modal-lead">lo que queremos recordar</div>
-    <textarea id="happiness-text" placeholder="Jose Pablo dijo &quot;mamá, mira&quot; mientras..." style="width:100%;min-height:110px;padding:14px;border:1px solid var(--rule);border-radius:12px;font-family:'Inter',sans-serif;font-size:14.5px;background:var(--paper-tint);resize:vertical;outline:none;line-height:1.5"></textarea>
-    <div style="margin-top:12px;font-size:12.5px;color:var(--sepia-soft);font-weight:500">¿Quién lo vivió?</div>
-    <div class="who-row" id="happiness-who"></div>
-    <button class="btn-save" id="save-happiness" style="width:100%;margin-top:14px">Guardar en el Álbum</button>
-  </div>
-</div>
-
-<div class="modal" id="modal-album">
-  <div class="modal-sheet">
-    <div class="modal-handle"></div>
-    <button class="modal-close" data-close>×</button>
-    <h2 class="modal-title">Nuestro Álbum</h2>
-    <div class="modal-lead">momentos para no olvidar</div>
-    <div id="album-full"></div>
-  </div>
-</div>
-
+<!-- MODAL: chat -->
 <div class="modal" id="modal-chat">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
@@ -470,13 +503,13 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.0
   </div>
 </div>
 
+<!-- MODAL: block editor -->
 <div class="modal" id="modal-block-editor">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
     <button class="modal-close" data-close>×</button>
     <h2 class="modal-title" id="editor-title">Nueva actividad</h2>
     <div class="modal-lead" id="editor-lead">se repetirá cada semana</div>
-
     <div class="form-grid-2">
       <div class="form-row">
         <label>Hora de inicio</label>
@@ -497,27 +530,22 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.0
         </select>
       </div>
     </div>
-
     <div class="form-row">
       <label>Título</label>
       <input type="text" id="ed-title" placeholder="Ej: Reunión GAC">
     </div>
-
     <div class="form-row">
       <label>Tipo</label>
       <div class="chip-group" id="ed-type"></div>
     </div>
-
     <div class="form-row">
       <label>Descripción (opcional)</label>
       <textarea id="ed-desc" placeholder="Qué pasa en este bloque..."></textarea>
     </div>
-
     <div class="form-row">
       <label>Para quién</label>
       <div class="chip-group" id="ed-for"></div>
     </div>
-
     <div class="form-actions">
       <button class="btn-cancel" id="ed-cancel">Cancelar</button>
       <button class="btn-danger" id="ed-delete" style="display:none">Eliminar</button>
@@ -526,16 +554,65 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.0
   </div>
 </div>
 
-<button class="fab" id="fab" title="Asistente IA">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 L13.7 9 L20.5 10.5 L13.7 12 L12 19 L10.3 12 L3.5 10.5 L10.3 9 Z"/><path d="M18.5 16 L19 18.4 L21.5 19 L19 19.6 L18.5 22 L18 19.6 L15.5 19 L18 18.4 Z" opacity=".75"/></svg>
+<!-- MODAL: camera -->
+<div class="modal" id="modal-camera">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <button class="modal-close" data-close>×</button>
+    <h2 class="modal-title">Capturar momento</h2>
+    <div class="modal-lead">una foto que querrás recordar</div>
+    <div class="cam-preview" id="cam-preview">
+      <div class="cam-preview-empty">toca "elegir foto" abajo para empezar</div>
+    </div>
+    <input type="file" id="cam-input" accept="image/*" capture="environment" style="display:none">
+    <button class="btn-save" id="cam-choose" style="width:100%;margin-bottom:10px">📷 Elegir foto / tomar foto</button>
+    <div class="cam-which">
+      <label style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:600;color:var(--sepia-soft);margin-bottom:5px">De qué actividad</label>
+      <select id="cam-block"></select>
+    </div>
+    <div class="cam-caption-row">
+      <label style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:600;color:var(--sepia-soft);margin-bottom:5px">¿Qué pasó?</label>
+      <textarea id="cam-caption" placeholder="Jose Pablo pidió pan..."></textarea>
+    </div>
+    <div class="form-actions">
+      <button class="btn-cancel" id="cam-cancel">Cancelar</button>
+      <button class="btn-save" id="cam-save" style="flex:1" disabled>Guardar en el álbum</button>
+    </div>
+  </div>
+</div>
+
+<!-- celebrate overlay -->
+<div class="celebrate" id="celebrate">
+  <div class="celebrate-card">
+    <div class="celebrate-icon" id="celebrate-icon">🎉</div>
+    <div class="celebrate-title" id="celebrate-title">¡Lo lograste!</div>
+    <div class="celebrate-sub" id="celebrate-sub">—</div>
+    <button class="celebrate-close" data-close-celebrate>Seguir</button>
+  </div>
+</div>
+
+<!-- photo viewer -->
+<div class="photo-viewer" id="photo-viewer">
+  <button class="pv-close" data-pv-close>×</button>
+  <img id="pv-img" src="" alt="">
+  <div class="pv-info" id="pv-info"></div>
+  <div class="pv-actions" id="pv-actions"></div>
+</div>
+
+<button class="fab" id="fab" title="Capturar un momento">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+    <circle cx="12" cy="13" r="4"/>
+  </svg>
 </button>
 
 <div class="toast" id="toast"></div>
+<div class="confetti-stage" id="confetti-stage"></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, addDoc, query, orderBy, limit, serverTimestamp, deleteDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, addDoc, query, orderBy, limit, serverTimestamp, deleteDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDzPPkoqkE4xECYP0D-fAYGaJBvQMy8jLg",
@@ -553,28 +630,27 @@ const googleProvider = new GoogleAuthProvider();
 const FAMILY_ID = "vilvel";
 const AUTHORIZED_EMAILS = ["anyan923@gmail.com", "damavillarreal@gmail.com"];
 const MEMBERS = [
-  { id: "anderson", name: "Anderson", short: "A", color: "var(--anderson)", email: "anyan923@gmail.com", adult: true },
-  { id: "damaris",  name: "Damaris",  short: "D", color: "var(--damaris)",  email: "damavillarreal@gmail.com", adult: true },
-  { id: "jp",       name: "José Pablo", short: "JP", color: "var(--jp)",   email: null, adult: false },
-  { id: "helena",   name: "Helena",   short: "H", color: "var(--helena)", email: null, adult: false }
+  { id: "anderson", name: "Anderson", short: "A", color: "var(--anderson)", email: "anyan923@gmail.com", adult: true, role: "Guardián de la Mesa" },
+  { id: "damaris",  name: "Damaris",  short: "D", color: "var(--damaris)",  email: "damavillarreal@gmail.com", adult: true, role: "Maestra del Camino" },
+  { id: "jp",       name: "José Pablo", short: "JP", color: "var(--jp)",   email: null, adult: false, role: "Pequeño Explorador" },
+  { id: "helena",   name: "Helena",   short: "H", color: "var(--helena)", email: null, adult: false, role: "Estrellita que crece" }
 ];
 const DAYS = ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"];
 const DAYS_SHORT = ["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"];
+const DAY_ABBR = ["lun","mar","mié","jue","vie","sáb","dom"];
 const TYPES = [
-  { id:"oracion", label:"Oración", icon:"✝" },
-  { id:"comida", label:"Comida", icon:"◉" },
-  { id:"familia", label:"Familia", icon:"♡" },
-  { id:"escuela", label:"Escuela JP", icon:"✎" },
-  { id:"trabajo", label:"Trabajo", icon:"◇" },
-  { id:"caminata", label:"Caminata", icon:"→" },
-  { id:"hogar", label:"Hogar", icon:"◈" },
-  { id:"sueno", label:"Sueño", icon:"☾" },
-  { id:"iglesia", label:"Iglesia", icon:"†" },
-  { id:"reunion", label:"Reunión", icon:"■" },
-  { id:"otro", label:"Otro", icon:"·" },
+  { id:"oracion", label:"Oración", icon:"✝", xp:15 },
+  { id:"comida", label:"Comida", icon:"◉", xp:20 },
+  { id:"familia", label:"Familia", icon:"♡", xp:25 },
+  { id:"escuela", label:"Escuela JP", icon:"✎", xp:25 },
+  { id:"trabajo", label:"Trabajo", icon:"◇", xp:10 },
+  { id:"caminata", label:"Caminata", icon:"→", xp:15 },
+  { id:"hogar", label:"Hogar", icon:"◈", xp:15 },
+  { id:"sueno", label:"Sueño", icon:"☾", xp:20 },
+  { id:"iglesia", label:"Iglesia", icon:"†", xp:30 },
+  { id:"reunion", label:"Reunión", icon:"■", xp:10 },
+  { id:"otro", label:"Otro", icon:"·", xp:10 }
 ];
-
-// Tips contextuales por tipo
 const TIPS = {
   oracion: { label:"Oración personal",
     whatToDo:"Un pasaje corto, reflexión en silencio, oración por la familia y el día que viene.",
@@ -603,7 +679,7 @@ const TIPS = {
     avoid:"Reuniones improvisadas aquí. Si no es urgente, agéndala." },
   caminata: { label:"Caminata",
     whatToDo:"Salir aunque sean 15 min. Aire fresco, observar, respirar.",
-    why:"El cuerpo necesita moverse. Postparto el cuerpo pide luz solar.",
+    why:"El cuerpo necesita moverse. Posparto el cuerpo pide luz solar.",
     tip:"Si llueve, da vueltas por casa 15 min igual.",
     avoid:"Caminar mirando el celular." },
   hogar: { label:"Tarea del hogar",
@@ -644,91 +720,57 @@ const VERSES = [
   "Jehová es mi pastor, nada me faltará. — Sal 23:1",
 ];
 
-// Rutina semilla inicial (si no existe)
-function seedBlocks() {
-  const base = [
-    // Lunes-Jueves (recorrer y clonar)
-    ["06:00",30,"oracion","Oración personal",["anderson"],"base"],
-    ["06:30",30,"oracion","Oración personal",["damaris"],"base"],
-    ["07:00",45,"comida","Desayuno familiar",["anderson","damaris"],"base"],
-    ["07:45",60,"caminata","Caminata/parque con niños",["damaris"],"base"],
-    ["09:00",60,"escuela","Académica JP · sesión 1",["damaris"],"base"],
-    ["10:00",60,"hogar","Tarea del hogar del día",["damaris","anderson"],"base"],
-    ["11:00",45,"comida","Preparar almuerzo",["anderson","damaris"],"base"],
-    ["11:45",45,"comida","Almuerzo familiar",["anderson","damaris"],"base"],
-    ["12:45",105,"trabajo","Siesta niños + enfoque profundo",["anderson","damaris"],"base"],
-    ["14:45",30,"caminata","Caminata familiar corta",["anderson","damaris"],"base"],
-    ["15:15",45,"escuela","Académica JP · sesión 2",["damaris"],"base"],
-    ["18:00",60,"comida","Preparar cena",["anderson","damaris"],"base"],
-    ["19:00",30,"comida","Cena familiar · inicio rutina JP",["anderson","damaris"],"base"],
-    ["19:30",30,"familia","Baños y pijamas",["anderson","damaris"],"base"],
-    ["20:00",60,"sueno","Rutina de sueño con niños",["anderson","damaris"],"base"],
-    ["21:00",75,"familia","Ventana pareja + cocina lista",["anderson","damaris"],"base"],
-    ["22:15",15,"oracion","Revisión del día + oración",["anderson","damaris"],"base"],
-  ];
-  const blocks = [];
-  let i = 0;
-  // Lun-Jue: la rutina base completa
-  for (const dayName of ["Lunes","Martes","Miércoles","Jueves"]) {
-    for (const b of base) {
-      blocks.push({ id: "b"+(++i), day:dayName, startTime:b[0], duration:b[1], type:b[2], title:b[3], for:b[4], source:b[5], description:"" });
+/* ===== Logros ===== */
+const ACHIEVEMENTS_DEF = [
+  { id:"semana-completa", icon:"🏆", name:"Semana completa", desc:"7 días con al menos una acción",
+    compute: (st) => ({ progress: st.daysActive, target: 7, label: `${st.daysActive} de 7 días` }) },
+  { id:"despertador-fiel", icon:"🌅", name:"Despertador fiel", desc:"oración antes de las 7am",
+    compute: (st) => ({ progress: st.earlyPrayer, target: 7, label: `${st.earlyPrayer} de 7 días` }) },
+  { id:"aula-constante", icon:"📚", name:"Aula constante", desc:"escuela con JP 5 días",
+    compute: (st) => ({ progress: st.schoolCount, target: 5, label: `${st.schoolCount} de 5 sesiones` }) },
+  { id:"guardianes-mesa", icon:"🍽️", name:"Guardianes de la mesa", desc:"3 comidas familiares esta semana",
+    compute: (st) => ({ progress: st.mealCount, target: 3, label: `${st.mealCount} de 3 comidas` }) },
+  { id:"peregrinos-alba", icon:"🕊️", name:"Peregrinos del alba", desc:"2 oraciones esta semana",
+    compute: (st) => ({ progress: st.prayerCount, target: 2, label: `${st.prayerCount} de 2 oraciones` }) },
+  { id:"exploradores", icon:"🌿", name:"Exploradores", desc:"una caminata familiar",
+    compute: (st) => ({ progress: st.walkCount, target: 1, label: `${st.walkCount} de 1 caminata` }) },
+  { id:"iglesia-semanal", icon:"⛪", name:"Templo semanal", desc:"viernes + domingo en iglesia",
+    compute: (st) => ({ progress: st.churchCount, target: 2, label: `${st.churchCount} de 2 servicios` }) },
+  { id:"ventana-pareja", icon:"💛", name:"Semana del amor", desc:"3 ventanas de pareja",
+    compute: (st) => ({ progress: st.coupleCount, target: 3, label: `${st.coupleCount} de 3 noches` }) },
+];
+
+/* ===== Niveles ===== */
+function levelFromXP(xp){
+  // L1: 0-200, L2: 200-500, L3: 500-900, L4: 900-1400, L5: 1400-2000, L6+: +600 each
+  const thresholds = [0, 200, 500, 900, 1400, 2000, 2600, 3200, 3800];
+  for (let i = thresholds.length - 1; i >= 0; i--) {
+    if (xp >= thresholds[i]) {
+      const curr = thresholds[i];
+      const next = thresholds[i+1] || (curr + 600);
+      return { level: i+1, xp, curr, next, progress: (xp-curr)/(next-curr) };
     }
   }
-  // Martes agregar GAC
-  blocks.push({ id:"b"+(++i), day:"Martes", startTime:"09:00", duration:180, type:"reunion", title:"Reunión GAC", for:["anderson"], source:"fixed", description:"Reunión con el equipo GAC" });
-  // Viernes: rutina base hasta la tarde + cena temprana + iglesia
-  for (const b of base.slice(0, 11)) {
-    blocks.push({ id:"b"+(++i), day:"Viernes", startTime:b[0], duration:b[1], type:b[2], title:b[3], for:b[4], source:b[5], description:"" });
-  }
-  blocks.push({ id:"b"+(++i), day:"Viernes", startTime:"17:00", duration:30, type:"comida", title:"Cena temprana antes de iglesia", for:["anderson","damaris"], source:"base", description:"" });
-  blocks.push({ id:"b"+(++i), day:"Viernes", startTime:"17:30", duration:30, type:"familia", title:"Baños niños antes de salir", for:["anderson","damaris"], source:"base", description:"" });
-  blocks.push({ id:"b"+(++i), day:"Viernes", startTime:"18:30", duration:30, type:"iglesia", title:"Salir a iglesia", for:["anderson","damaris"], source:"fixed", description:"" });
-  blocks.push({ id:"b"+(++i), day:"Viernes", startTime:"19:00", duration:120, type:"iglesia", title:"Iglesia 7–9 pm", for:["anderson","damaris"], source:"fixed", description:"" });
-  blocks.push({ id:"b"+(++i), day:"Viernes", startTime:"21:45", duration:45, type:"sueno", title:"Pasar niños a sus camas", for:["anderson","damaris"], source:"base", description:"" });
-  // Sábado
-  const sab = [
-    ["07:30",30,"oracion","Despertar sin alarma + oración",["anderson","damaris"],"base"],
-    ["08:00",45,"comida","Desayuno familiar tranquilo",["anderson","damaris"],"base"],
-    ["09:00",120,"hogar","Aseo profundo del hogar",["anderson","damaris"],"base"],
-    ["11:00",90,"hogar","Mercado o pendientes",["anderson"],"base"],
-    ["12:30",60,"comida","Almuerzo",["anderson","damaris"],"base"],
-    ["13:30",90,"comida","Preparar la olla del domingo",["anderson","damaris"],"base"],
-    ["15:00",180,"familia","Tiempo con familia o paseo",["anderson","damaris"],"base"],
-    ["19:00",45,"comida","Cena liviana + rutina niños",["anderson","damaris"],"base"],
-    ["20:00",60,"sueno","Rutina de sueño con niños",["anderson","damaris"],"base"],
-    ["21:00",90,"familia","Ventana pareja larga",["anderson","damaris"],"base"],
-  ];
-  for (const b of sab) blocks.push({ id:"b"+(++i), day:"Sábado", startTime:b[0], duration:b[1], type:b[2], title:b[3], for:b[4], source:b[5], description:"" });
-  // Domingo
-  const dom = [
-    ["06:00",30,"oracion","Despertar + oración 15 min",["anderson","damaris"],"base"],
-    ["06:30",30,"comida","Desayuno rápido",["anderson","damaris"],"base"],
-    ["07:30",30,"iglesia","Salir a iglesia",["anderson","damaris"],"fixed"],
-    ["08:00",360,"iglesia","Iglesia 8am–2pm",["anderson","damaris"],"fixed"],
-    ["14:45",45,"comida","Almuerzo (olla del sábado)",["anderson","damaris"],"base"],
-    ["15:30",120,"sueno","Siesta larga de todos",["anderson","damaris"],"base"],
-    ["17:30",90,"familia","Tiempo familia tranquilo",["anderson","damaris"],"base"],
-    ["19:00",60,"sueno","Rutina de sueño niños",["anderson","damaris"],"base"],
-    ["21:00",30,"oracion","Revisión semana + planear lunes",["anderson","damaris"],"base"],
-  ];
-  for (const b of dom) blocks.push({ id:"b"+(++i), day:"Domingo", startTime:b[0], duration:b[1], type:b[2], title:b[3], for:b[4], source:b[5], description:"" });
-  return blocks;
+  return { level:1, xp:0, curr:0, next:200, progress:0 };
 }
 
-/* ====== Estado global ====== */
 const state = {
   user: null,
   todayISO: null,
+  todayDayIdx: 0,
   todayDayName: null,
-  blocks: [],         // weekly schedule
-  checks: {},         // {blockId: [memberIds]} para hoy
+  blocks: [],
+  checks: {},            // today's: { blockId: [memberIds] }
+  weekChecks: {},        // whole week: { iso: { blockId: [memberIds] } }
   moments: [],
   _streak: 0,
-  unsubChecks: null,
-  unsubMoments: null,
-  unsubBlocks: null,
+  _familyXP: 0,
+  _lastLevels: {},       // for level-up detection: {memberId: level}
+  _earnedAch: new Set(),
+  unsubChecks: null, unsubMoments: null, unsubBlocks: null,
   weekSelectedDay: null,
   nowTicker: null,
+  camPhoto: null, camFile: null,
 };
 
 const $ = q => document.querySelector(q);
@@ -746,9 +788,8 @@ function dayLabel(){
   const d = new Date();
   return `${DAYS[(d.getDay()+6)%7]} ${d.getDate()} de ${months[d.getMonth()]}`;
 }
-function todayDayName(){
-  return DAYS[(new Date().getDay()+6)%7];
-}
+function todayDayName(){ return DAYS[(new Date().getDay()+6)%7]; }
+function todayDayIdx(){ return (new Date().getDay()+6)%7; }
 function greeting(){
   const h = new Date().getHours();
   if (h<12) return "Buenos días"; if (h<19) return "Buenas tardes"; return "Buenas noches";
@@ -767,21 +808,78 @@ function durationLabel(mins){
   return `${h} h ${m}`;
 }
 function escapeHtml(s){ return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function xpForBlock(b){ const t = TYPES.find(x=>x.id===b.type); return t?.xp || 10; }
 
-/* === Firestore refs === */
+/* ===== Firestore refs ===== */
 const familyRef = () => doc(db,"families",FAMILY_ID);
 const scheduleRef = () => doc(db,"families",FAMILY_ID,"meta","schedule");
 const dayCheckRef = iso => doc(db,"families",FAMILY_ID,"days",iso);
 const momentsCol = () => collection(db,"families",FAMILY_ID,"moments");
 
+/* ===== Seed ===== */
+function seedBlocks() {
+  const base = [
+    ["06:00",30,"oracion","Oración personal",["anderson"],"base"],
+    ["06:30",30,"oracion","Oración personal",["damaris"],"base"],
+    ["07:00",45,"comida","Desayuno familiar",["anderson","damaris"],"base"],
+    ["07:45",60,"caminata","Caminata/parque con niños",["damaris"],"base"],
+    ["09:00",60,"escuela","Académica JP · sesión 1",["damaris"],"base"],
+    ["10:00",60,"hogar","Tarea del hogar del día",["damaris","anderson"],"base"],
+    ["11:00",45,"comida","Preparar almuerzo",["anderson","damaris"],"base"],
+    ["11:45",45,"comida","Almuerzo familiar",["anderson","damaris"],"base"],
+    ["12:45",105,"trabajo","Siesta niños + enfoque profundo",["anderson","damaris"],"base"],
+    ["14:45",30,"caminata","Caminata familiar corta",["anderson","damaris"],"base"],
+    ["15:15",45,"escuela","Académica JP · sesión 2",["damaris"],"base"],
+    ["18:00",60,"comida","Preparar cena",["anderson","damaris"],"base"],
+    ["19:00",30,"comida","Cena familiar · inicio rutina JP",["anderson","damaris"],"base"],
+    ["19:30",30,"familia","Baños y pijamas",["anderson","damaris"],"base"],
+    ["20:00",60,"sueno","Rutina de sueño con niños",["anderson","damaris"],"base"],
+    ["21:00",75,"familia","Ventana pareja + cocina lista",["anderson","damaris"],"base"],
+    ["22:15",15,"oracion","Revisión del día + oración",["anderson","damaris"],"base"],
+  ];
+  const blocks = []; let i = 0;
+  for (const dayName of ["Lunes","Martes","Miércoles","Jueves"]) {
+    for (const b of base) blocks.push({ id:"b"+(++i), day:dayName, startTime:b[0], duration:b[1], type:b[2], title:b[3], for:b[4], source:b[5], description:"" });
+  }
+  blocks.push({ id:"b"+(++i), day:"Martes", startTime:"09:00", duration:180, type:"reunion", title:"Reunión GAC", for:["anderson"], source:"fixed", description:"Reunión con el equipo GAC" });
+  for (const b of base.slice(0,11)) blocks.push({ id:"b"+(++i), day:"Viernes", startTime:b[0], duration:b[1], type:b[2], title:b[3], for:b[4], source:b[5], description:"" });
+  blocks.push({ id:"b"+(++i), day:"Viernes", startTime:"17:00", duration:30, type:"comida", title:"Cena temprana antes de iglesia", for:["anderson","damaris"], source:"base", description:"" });
+  blocks.push({ id:"b"+(++i), day:"Viernes", startTime:"17:30", duration:30, type:"familia", title:"Baños niños antes de salir", for:["anderson","damaris"], source:"base", description:"" });
+  blocks.push({ id:"b"+(++i), day:"Viernes", startTime:"18:30", duration:30, type:"iglesia", title:"Salir a iglesia", for:["anderson","damaris"], source:"fixed", description:"" });
+  blocks.push({ id:"b"+(++i), day:"Viernes", startTime:"19:00", duration:120, type:"iglesia", title:"Iglesia 7–9 pm", for:["anderson","damaris"], source:"fixed", description:"" });
+  blocks.push({ id:"b"+(++i), day:"Viernes", startTime:"21:45", duration:45, type:"sueno", title:"Pasar niños a sus camas", for:["anderson","damaris"], source:"base", description:"" });
+  const sab = [
+    ["07:30",30,"oracion","Despertar sin alarma + oración",["anderson","damaris"],"base"],
+    ["08:00",45,"comida","Desayuno familiar tranquilo",["anderson","damaris"],"base"],
+    ["09:00",120,"hogar","Aseo profundo del hogar",["anderson","damaris"],"base"],
+    ["11:00",90,"hogar","Mercado o pendientes",["anderson"],"base"],
+    ["12:30",60,"comida","Almuerzo",["anderson","damaris"],"base"],
+    ["13:30",90,"comida","Preparar la olla del domingo",["anderson","damaris"],"base"],
+    ["15:00",180,"familia","Tiempo con familia o paseo",["anderson","damaris"],"base"],
+    ["19:00",45,"comida","Cena liviana + rutina niños",["anderson","damaris"],"base"],
+    ["20:00",60,"sueno","Rutina de sueño con niños",["anderson","damaris"],"base"],
+    ["21:00",90,"familia","Ventana pareja larga",["anderson","damaris"],"base"],
+  ];
+  for (const b of sab) blocks.push({ id:"b"+(++i), day:"Sábado", startTime:b[0], duration:b[1], type:b[2], title:b[3], for:b[4], source:b[5], description:"" });
+  const dom = [
+    ["06:00",30,"oracion","Despertar + oración 15 min",["anderson","damaris"],"base"],
+    ["06:30",30,"comida","Desayuno rápido",["anderson","damaris"],"base"],
+    ["07:30",30,"iglesia","Salir a iglesia",["anderson","damaris"],"fixed"],
+    ["08:00",360,"iglesia","Iglesia 8am–2pm",["anderson","damaris"],"fixed"],
+    ["14:45",45,"comida","Almuerzo (olla del sábado)",["anderson","damaris"],"base"],
+    ["15:30",120,"sueno","Siesta larga de todos",["anderson","damaris"],"base"],
+    ["17:30",90,"familia","Tiempo familia tranquilo",["anderson","damaris"],"base"],
+    ["19:00",60,"sueno","Rutina de sueño niños",["anderson","damaris"],"base"],
+    ["21:00",30,"oracion","Revisión semana + planear lunes",["anderson","damaris"],"base"],
+  ];
+  for (const b of dom) blocks.push({ id:"b"+(++i), day:"Domingo", startTime:b[0], duration:b[1], type:b[2], title:b[3], for:b[4], source:b[5], description:"" });
+  return blocks;
+}
+
 async function ensureFamily() {
   const snap = await getDoc(familyRef());
   if (!snap.exists()) {
-    await setDoc(familyRef(), {
-      name: "Vilvel",
-      members: AUTHORIZED_EMAILS,
-      createdAt: serverTimestamp()
-    });
+    await setDoc(familyRef(), { name: "Vilvel", members: AUTHORIZED_EMAILS, createdAt: serverTimestamp() });
   }
   const schSnap = await getDoc(scheduleRef());
   if (!schSnap.exists()) {
@@ -789,7 +887,7 @@ async function ensureFamily() {
   }
 }
 
-/* === Auth === */
+/* ===== Auth ===== */
 $("#btn-google").addEventListener("click", async ()=>{
   $("#gate-error").classList.remove("show");
   try { await signInWithPopup(auth, googleProvider); }
@@ -814,198 +912,184 @@ onAuthStateChanged(auth, async user => {
 async function bootApp(){
   state.todayISO = todayISO();
   state.todayDayName = todayDayName();
+  state.todayDayIdx = todayDayIdx();
   state.weekSelectedDay = state.todayDayName;
 
-  renderHero();
-  renderMembers();
-
-  // Subscribe to schedule
+  // Subscribe schedule
   if (state.unsubBlocks) state.unsubBlocks();
   state.unsubBlocks = onSnapshot(scheduleRef(), snap=>{
     state.blocks = snap.exists() ? (snap.data().blocks || []) : [];
-    renderPath();
-    renderNowCard();
-    renderBadges();
-    renderWeek();
+    renderAll();
   });
 
-  // Checks de hoy
+  // Today's checks
   if (state.unsubChecks) state.unsubChecks();
   state.unsubChecks = onSnapshot(dayCheckRef(state.todayISO), snap=>{
     state.checks = snap.exists() ? (snap.data().marks || {}) : {};
-    renderPath();
-    renderBadges();
-    renderNowCard();
+    state.weekChecks[state.todayISO] = state.checks;
+    renderAll();
   });
+
+  // Load week checks (last 7 days) for XP/achievements
+  loadWeekChecks();
 
   // Momentos
   if (state.unsubMoments) state.unsubMoments();
-  const q = query(momentsCol(), orderBy("date","desc"), limit(10));
+  const q = query(momentsCol(), orderBy("createdAt","desc"), limit(50));
   state.unsubMoments = onSnapshot(q, snap=>{
     state.moments = snap.docs.map(d=>({ id:d.id, ...d.data() }));
-    renderMoments();
+    renderAlbum();
+    renderAlbumFull();
   });
+
+  // Ticker
+  if (state.nowTicker) clearInterval(state.nowTicker);
+  state.nowTicker = setInterval(()=>{ renderMissionList(); updateHouseWindows(); }, 60_000);
 
   computeStreak();
-
-  // Ticker para actualizar card "Ahora" cada minuto
-  if (state.nowTicker) clearInterval(state.nowTicker);
-  state.nowTicker = setInterval(()=>{ renderNowCard(); renderPath(); }, 60_000);
+  renderHero();
 }
 
-/* === Render Hero === */
+async function loadWeekChecks(){
+  const promises = [];
+  for (let i=0; i<7; i++){
+    const d = new Date(); d.setDate(d.getDate() - state.todayDayIdx + i);
+    const iso = todayISO(d);
+    promises.push(getDoc(dayCheckRef(iso)).then(s=>{
+      state.weekChecks[iso] = s.exists() ? (s.data().marks || {}) : {};
+    }));
+  }
+  await Promise.all(promises);
+  renderAll();
+}
+
+/* ===== Render everything ===== */
+function renderAll(){
+  renderHero();
+  renderHouse();
+  renderStreak();
+  renderFamily();
+  renderMissionList();
+  renderAlbum();
+  renderAchievements();
+  renderWeek();
+  renderFamilyXP();
+}
+
+/* ===== Hero ===== */
 function renderHero(){
-  $("#day-date").textContent = dayLabel();
-  const member = MEMBERS.find(m=>m.email === state.user.email);
-  $("#day-greeting").textContent = `${greeting()}, ${member?member.name:"familia"}`;
-  $("#day-verse").textContent = pickVerse();
-}
-function renderMembers(){
-  const c = $("#members-chip");
-  c.innerHTML = MEMBERS.filter(m=>m.adult).map(m=>`<div class="member-dot" style="background:${m.color}" title="${m.name}">${m.short}</div>`).join("");
+  const member = MEMBERS.find(m=>m.email === state.user?.email);
+  $("#hero-greet").textContent = dayLabel();
+  $("#hero-title").textContent = `${greeting()}, ${member?member.name:"familia"}`;
+  $("#hero-verse").textContent = pickVerse();
 }
 
-/* === Blocks helpers === */
-function blocksForDay(dayName){
-  return state.blocks.filter(b=>b.day===dayName).sort((a,b)=>timeToMin(a.startTime)-timeToMin(b.startTime));
+/* ===== The House SVG ===== */
+function renderHouse(){
+  const litDays = computeLitDays();
+  const streak = state._streak;
+  const smokeOp = Math.min(0.9, 0.3 + streak*0.1);
+  const svg = `
+    <svg viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#F6E6D7"/><stop offset="0.6" stop-color="#F4D5CA"/><stop offset="1" stop-color="#E8C4A0"/>
+        </linearGradient>
+        <linearGradient id="winLit" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE89A"/><stop offset="1" stop-color="#D9A94E"/></linearGradient>
+        <linearGradient id="winDark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5D4E7E" stop-opacity="0.35"/><stop offset="1" stop-color="#3A2E1F" stop-opacity="0.45"/></linearGradient>
+        <linearGradient id="roof" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A94429"/><stop offset="1" stop-color="#7A2F1C"/></linearGradient>
+        <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FDF4E6"/><stop offset="1" stop-color="#ECD5BF"/></linearGradient>
+        <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#FFE89A" stop-opacity="0.8"/><stop offset="1" stop-color="#FFE89A" stop-opacity="0"/></radialGradient>
+      </defs>
+      <rect x="0" y="0" width="420" height="320" fill="url(#sky)"/>
+      <g class="sun-rays">
+        <circle cx="340" cy="80" r="38" fill="#FFE89A" opacity="0.5"/>
+      </g>
+      <circle cx="340" cy="80" r="24" fill="#F7E6C1"/>
+      <ellipse cx="60" cy="245" rx="35" ry="22" fill="#6B8E7F" opacity="0.5"/>
+      <ellipse cx="90" cy="248" rx="28" ry="18" fill="#4F6E62" opacity="0.6"/>
+      <path d="M0 240 Q 210 230, 420 245 L 420 320 L 0 320 Z" fill="#6B8E7F"/>
+      <path d="M0 265 Q 210 258, 420 268 L 420 320 L 0 320 Z" fill="#4F6E62"/>
+      <ellipse cx="210" cy="302" rx="18" ry="4" fill="#A08B6F" opacity="0.6"/>
+      <ellipse cx="210" cy="290" rx="14" ry="3" fill="#A08B6F" opacity="0.5"/>
+      <ellipse cx="210" cy="280" rx="11" ry="3" fill="#A08B6F" opacity="0.4"/>
+      <ellipse cx="210" cy="270" rx="130" ry="8" fill="#3A2E1F" opacity="0.12"/>
+      <rect x="270" y="88" width="22" height="35" fill="#A94429"/>
+      <rect x="268" y="86" width="26" height="6" fill="#7A2F1C"/>
+      ${streak>=1?`<circle class="smoke" cx="281" cy="78" r="7" fill="#FFF9F0" opacity="${smokeOp}"/>`:""}
+      ${streak>=3?`<circle class="smoke" style="animation-delay:0.6s" cx="285" cy="65" r="9" fill="#FFF9F0" opacity="${smokeOp*0.8}"/>`:""}
+      ${streak>=5?`<circle class="smoke" style="animation-delay:1.2s" cx="279" cy="48" r="12" fill="#FFF9F0" opacity="${smokeOp*0.6}"/>`:""}
+      ${streak>=7?`<circle class="smoke" style="animation-delay:1.8s" cx="286" cy="30" r="14" fill="#FFF9F0" opacity="${smokeOp*0.4}"/>`:""}
+      <path d="M80 130 L 210 55 L 340 130 Z" fill="url(#roof)"/>
+      <path d="M80 130 L 210 55 L 340 130 Z" fill="none" stroke="#5A1F10" stroke-width="1.5"/>
+      <path d="M100 118 L 320 118" stroke="#5A1F10" stroke-width="1" opacity="0.4"/>
+      <path d="M118 106 L 302 106" stroke="#5A1F10" stroke-width="1" opacity="0.4"/>
+      <rect x="90" y="130" width="240" height="140" fill="url(#wall)"/>
+      <rect x="90" y="130" width="240" height="140" fill="none" stroke="#A08B6F" stroke-width="1.5"/>
+
+      ${renderWindows(litDays)}
+
+      <circle cx="210" cy="100" r="12" fill="${litDays[6]?'url(#winLit)':'url(#winDark)'}"/>
+      <circle cx="210" cy="100" r="12" fill="none" stroke="#5A1F10" stroke-width="1.5"/>
+      <line x1="198" y1="100" x2="222" y2="100" stroke="#5A1F10" stroke-width="1" opacity="0.6"/>
+      <line x1="210" y1="88" x2="210" y2="112" stroke="#5A1F10" stroke-width="1" opacity="0.6"/>
+
+      <rect x="190" y="210" width="40" height="60" rx="20" fill="#7A2F1C"/>
+      <rect x="193" y="213" width="34" height="54" rx="17" fill="#A94429"/>
+      <path d="M210 240 C 206 236, 200 236, 200 242 C 200 246, 210 253, 210 253 C 210 253, 220 246, 220 242 C 220 236, 214 236, 210 240 Z" fill="#FFE89A"/>
+      <circle cx="221" cy="240" r="1.5" fill="#D9A94E"/>
+
+      ${DAY_ABBR.slice(0,6).map((abbr,i)=>`<text x="${117+i*35}" y="200" font-family="Caveat" font-size="12" fill="${litDays[i]?'#C85A3F':'#A08B6F'}" text-anchor="middle" font-weight="${litDays[i]?700:500}">${abbr}</text>`).join("")}
+      <text x="210" y="126" font-family="Caveat" font-size="11" fill="${litDays[6]?'#C85A3F':'#A08B6F'}" text-anchor="middle" font-weight="${litDays[6]?700:500}">dom</text>
+      <rect x="188" y="268" width="44" height="5" fill="#D9A94E" rx="1"/>
+      <text x="210" y="310" font-family="Caveat" font-size="12" fill="#A08B6F" text-anchor="middle">Nuestra casa esta semana</text>
+    </svg>`;
+  $("#house-stage").innerHTML = svg;
 }
-function endTime(b){ return minToTime(timeToMin(b.startTime)+b.duration); }
-function currentNowIndex(blocks){
-  const nowM = new Date().getHours()*60 + new Date().getMinutes();
-  for (let i=0;i<blocks.length;i++){
-    const s = timeToMin(blocks[i].startTime);
-    const e = s + blocks[i].duration;
-    if (nowM >= s && nowM < e) return i;
+
+function renderWindows(litDays){
+  const positions = [117, 152, 187, 222, 257, 292];
+  let html = "";
+  for (let i=0; i<6; i++){
+    const x = positions[i] - 11;
+    const lit = litDays[i];
+    const cx = positions[i];
+    if (lit) {
+      html += `<circle class="window-glow" cx="${cx}" cy="170" r="28" fill="url(#halo)"/>`;
+    }
+    html += `<g>
+      <rect x="${x}" y="155" width="22" height="30" fill="${lit?'url(#winLit)':'url(#winDark)'}" rx="2"/>
+      <line x1="${cx}" y1="155" x2="${cx}" y2="185" stroke="${lit?'#A94429':'#5A1F10'}" stroke-width="1.5" opacity="${lit?1:0.6}"/>
+      <line x1="${x}" y1="170" x2="${x+22}" y2="170" stroke="${lit?'#A94429':'#5A1F10'}" stroke-width="1.5" opacity="${lit?1:0.6}"/>
+      <rect x="${x-2}" y="153" width="26" height="4" fill="#7A2F1C" opacity="${lit?1:0.6}"/>
+      ${i===state.todayDayIdx?`<circle class="window-today-pulse" cx="${cx}" cy="149" r="3" fill="#C85A3F"/>`:""}
+    </g>`;
   }
-  return -1;
+  return html;
 }
-function nextIndex(blocks){
-  const nowM = new Date().getHours()*60 + new Date().getMinutes();
-  for (let i=0;i<blocks.length;i++){
-    if (timeToMin(blocks[i].startTime) > nowM) return i;
+
+function updateHouseWindows(){
+  // light recompute of lit days; re-render if changed
+  renderHouse();
+}
+
+function computeLitDays(){
+  // true for each weekday idx (0=lun .. 6=dom) if that day has at least one check in current week
+  const result = [false,false,false,false,false,false,false];
+  for (let i=0; i<7; i++){
+    const d = new Date(); d.setDate(d.getDate() - state.todayDayIdx + i);
+    const iso = todayISO(d);
+    const marks = state.weekChecks[iso] || {};
+    const anyMark = Object.values(marks).some(a => Array.isArray(a) && a.length>0);
+    if (anyMark) result[i] = true;
   }
-  return -1;
+  return result;
 }
 
-/* === Render Camino (Hoy) === */
-function renderPath(){
-  const items = blocksForDay(state.todayDayName);
-  const nowIdx = currentNowIndex(items);
-  const container = $("#path");
-  if (items.length === 0){
-    container.innerHTML = `<div class="day-empty">no hay actividades para hoy — ve a <strong>Mi semana</strong> para agregar</div>`;
-    return;
-  }
-  const nowM = new Date().getHours()*60 + new Date().getMinutes();
-  container.innerHTML = items.map((r,i)=>{
-    const checks = state.checks[r.id] || [];
-    const allDone = r.for.length > 0 && r.for.every(mid=>checks.includes(mid));
-    const classes = ["stop"];
-    const endM = timeToMin(r.startTime)+r.duration;
-    if (allDone) classes.push("done");
-    if (!allDone && i===nowIdx) classes.push("now");
-    if (!allDone && endM <= nowM) classes.push("missed");
-    const prints = r.for.map(mid=>{
-      const mem = MEMBERS.find(x=>x.id===mid);
-      const marked = checks.includes(mid);
-      return `<button class="footprint ${marked?"done":""}" data-rid="${r.id}" data-mid="${mid}">
-        <span class="footprint-avatar" style="background:${mem.color}">${mem.short}</span>
-        <span>${mem.name}</span>
-      </button>`;
-    }).join("");
-    return `<div class="${classes.join(" ")}" data-type="${r.type}" data-rid="${r.id}">
-      <div class="stop-marker"></div>
-      <div class="stop-head">
-        <span class="stop-time">${r.startTime}<span class="end"> – ${endTime(r)}</span></span>
-        <span class="stop-duration">${durationLabel(r.duration)}</span>
-      </div>
-      <div class="stop-title">${escapeHtml(r.title)}</div>
-      <span class="stop-tag">${TIPS[r.type]?.label || r.type}</span>
-      <div class="stop-footer">
-        <div class="stop-prints">${prints}</div>
-        <button class="btn-info" data-info="${r.id}" aria-label="Detalles">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="8.01"/><line x1="12" y1="12" x2="12" y2="16"/></svg>
-        </button>
-      </div>
-    </div>`;
-  }).join("");
-  container.querySelectorAll(".footprint").forEach(btn=>{
-    btn.addEventListener("click", e=>{ e.stopPropagation(); toggleCheck(btn.dataset.rid, btn.dataset.mid); });
-  });
-  container.querySelectorAll("[data-info]").forEach(btn=>{
-    btn.addEventListener("click", ()=> openInfoSheet(btn.dataset.info));
-  });
-}
-
-function openInfoSheet(bid){
-  const b = state.blocks.find(x=>x.id===bid);
-  if (!b) return;
-  const t = TIPS[b.type] || TIPS.otro;
-  const body = $("#sheet-body");
-  body.innerHTML = `
-    <span class="sheet-type-tag">${t.label || b.type}</span>
-    <h2 class="modal-title">${escapeHtml(b.title)}</h2>
-    <div class="modal-lead">${b.startTime} – ${endTime(b)} · ${durationLabel(b.duration)}</div>
-    ${b.description ? `<div class="sheet-block"><p>${escapeHtml(b.description)}</p></div>` : ""}
-    ${t.whatToDo ? `<div class="sheet-block"><h4>Qué hacer</h4><p>${t.whatToDo}</p></div>` : ""}
-    ${t.why ? `<div class="sheet-block"><h4>Por qué importa</h4><p>${t.why}</p></div>` : ""}
-    ${t.tip ? `<div class="sheet-block"><h4>Tip del día</h4><p>${t.tip}</p></div>` : ""}
-    ${t.avoid ? `<div class="sheet-block"><h4>Qué evitar</h4><p>${t.avoid}</p></div>` : ""}
-  `;
-  $("#modal-sheet").classList.add("show");
-}
-
-async function toggleCheck(rid, mid){
-  const current = state.checks[rid] || [];
-  const next = current.includes(mid) ? current.filter(x=>x!==mid) : [...current, mid];
-  const newChecks = { ...state.checks, [rid]: next };
-  try {
-    await setDoc(dayCheckRef(state.todayISO), {
-      date: state.todayISO,
-      marks: newChecks,
-      updatedBy: state.user.email,
-      updatedAt: serverTimestamp()
-    }, { merge:true });
-  } catch(e){ showToast("No se pudo guardar", "err"); }
-}
-
-/* === Card "Ahora" === */
-function renderNowCard(){
-  const items = blocksForDay(state.todayDayName);
-  const nowIdx = currentNowIndex(items);
-  const nextIdx = nextIndex(items);
-  const card = $("#now-card");
-  const info = card.querySelector(".now-info");
-  if (nowIdx >= 0){
-    const b = items[nowIdx];
-    card.classList.remove("empty");
-    info.innerHTML = `
-      <div class="now-label">Ahora</div>
-      <div class="now-title">${escapeHtml(b.title)}</div>
-      <div class="now-time">hasta las ${endTime(b)} · ${durationLabel(b.duration)}</div>
-    `;
-  } else if (nextIdx >= 0){
-    const b = items[nextIdx];
-    card.classList.add("empty");
-    info.innerHTML = `
-      <div class="now-label">Siguiente</div>
-      <div class="now-title">${escapeHtml(b.title)}</div>
-      <div class="now-time">a las ${b.startTime} · ${durationLabel(b.duration)}</div>
-    `;
-  } else {
-    card.classList.add("empty");
-    info.innerHTML = `
-      <div class="now-label">—</div>
-      <div class="now-title">Día cerrado</div>
-      <div class="now-time">a descansar</div>
-    `;
-  }
-}
-
-/* === Streak === */
+/* ===== Streak ===== */
 async function computeStreak(){
   let streak = 0;
-  for (let i=0;i<14;i++){
+  for (let i=0; i<14; i++){
     const d = new Date(); d.setDate(d.getDate()-i);
     const iso = todayISO(d);
     try {
@@ -1017,142 +1101,392 @@ async function computeStreak(){
     } catch(e){ break; }
   }
   state._streak = streak;
-  $("#streak-count").textContent = streak;
+  renderStreak();
+  renderHouse();
 }
 
-/* === Badges === */
-const BADGES_DEF = [
-  { id:"guardianes", name:"Guardianes de la Mesa", type:"comida", target:3 },
-  { id:"peregrinos", name:"Peregrinos del Alba", type:"oracion", target:2 },
-  { id:"exploradores", name:"Exploradores", type:"caminata", target:1 },
-  { id:"fieles", name:"Lectores Fieles", type:"escuela", target:1 },
-];
-function renderBadges(){
-  const today = blocksForDay(state.todayDayName);
-  const counts = {};
-  for (const t of ["comida","oracion","caminata","escuela"]) counts[t] = 0;
-  today.forEach(r=>{
-    if (counts[r.type] !== undefined && (state.checks[r.id]||[]).length > 0) counts[r.type]++;
-  });
-  $("#badges").innerHTML = BADGES_DEF.map(b=>{
-    const prog = counts[b.type] || 0;
-    const earned = prog >= b.target;
-    return `<div class="badge ${earned?"earned":""}">
-      <div class="badge-name">${b.name}</div>
-      <div class="badge-progress">${earned ? "¡logrado hoy!" : `${prog} de ${b.target}`}</div>
+function renderStreak(){
+  const s = state._streak;
+  const flames = "🔥".repeat(Math.min(s, 7));
+  $("#streak-flames").textContent = flames || "✨";
+  const subs = ["empieza la aventura","un día — ya empezaron","dos días seguidos","tres días ⚡","cuatro días en pie","cinco días firmes","seis días imparables","una semana completa","la racha de la casa"];
+  $("#streak-text").innerHTML = `${s} día${s===1?"":"s"} juntos<small>${subs[Math.min(s,subs.length-1)]}</small>`;
+}
+
+/* ===== Family XP + cards ===== */
+function computeMemberXP(mid){
+  let totalXP = 0, weekXP = 0;
+  for (const b of state.blocks){
+    if (!b.for.includes(mid)) continue;
+    const bXP = xpForBlock(b);
+    // sum over last 7 days
+    for (let i=0; i<7; i++){
+      const d = new Date(); d.setDate(d.getDate() - state.todayDayIdx + i);
+      const iso = todayISO(d);
+      const marks = state.weekChecks[iso] || {};
+      if ((marks[b.id] || []).includes(mid)) {
+        weekXP += bXP;
+      }
+    }
+  }
+  // simple cumulative XP approximation: weekXP + 400 * (last streak sessions)
+  totalXP = Math.round(weekXP * 1.5) + state._streak * 40 + (mid==='anderson' ? 420 : mid==='damaris' ? 650 : mid==='jp' ? 90 : 20);
+  return { weekXP, totalXP };
+}
+
+function nextAchievementFor(mid, achStats){
+  // find first unearned achievement that applies to this member
+  const map = {
+    anderson: ["despertador-fiel","peregrinos-alba","guardianes-mesa","ventana-pareja","iglesia-semanal"],
+    damaris: ["aula-constante","guardianes-mesa","peregrinos-alba","ventana-pareja","despertador-fiel"],
+    jp: ["aula-constante","exploradores","semana-completa"],
+    helena: ["exploradores","semana-completa"],
+  };
+  const ids = map[mid] || [];
+  for (const id of ids){
+    const ach = ACHIEVEMENTS_DEF.find(a=>a.id===id);
+    if (!ach) continue;
+    const r = ach.compute(achStats);
+    if (r.progress < r.target) {
+      const left = r.target - r.progress;
+      return { name: ach.name, left, target: r.target, unit: unitFor(id, left) };
+    }
+  }
+  return { name: "Semana completa", left: 7 - achStats.daysActive, target: 7, unit: "días más" };
+}
+
+function unitFor(id, left){
+  if (id==="despertador-fiel"||id==="semana-completa") return "días más";
+  if (id==="peregrinos-alba") return "oraciones más";
+  if (id==="guardianes-mesa") return "comidas más";
+  if (id==="aula-constante") return "sesiones más";
+  if (id==="exploradores") return "caminata";
+  if (id==="iglesia-semanal") return "servicios";
+  if (id==="ventana-pareja") return "noches más";
+  return "más";
+}
+
+function renderFamily(){
+  const grid = $("#family-grid");
+  const achStats = computeAchievementStats();
+  const prev = state._lastLevels || {};
+  const newLevels = {};
+  grid.innerHTML = MEMBERS.map(m=>{
+    const { totalXP, weekXP } = computeMemberXP(m.id);
+    const lvl = levelFromXP(totalXP);
+    newLevels[m.id] = lvl.level;
+    const leveledUp = prev[m.id] && prev[m.id] < lvl.level;
+    const nxt = nextAchievementFor(m.id, achStats);
+    const nextLabel = m.adult
+      ? `<strong>${nxt.name}</strong> · ${nxt.left} ${nxt.unit}`
+      : (m.id==='jp' ? `Hoy: <strong>+${weekXP} XP</strong> de aprender 📖`
+                      : `Hoy: <strong>${state._streak} días</strong> en casa ✨`);
+    const levelDisplay = m.adult ? `Nvl ${lvl.level}` : (m.id==='helena' ? "6 meses" : `Nvl ${lvl.level}`);
+    const xpLabel = m.adult ? `${totalXP} / ${lvl.next} XP` : (m.id==='helena' ? "creciendo cada día" : `${totalXP} XP acumulados`);
+    const barW = Math.min(1, lvl.progress) * 100;
+    return `<div class="member-card ${m.id} ${leveledUp?'leveled':''}" data-member="${m.id}">
+      <div class="mc-head">
+        <div class="mc-avatar ${m.id}">${m.short}</div>
+        <div class="mc-id">
+          <div class="mc-name">${m.name}</div>
+          <div class="mc-role">${m.role}</div>
+        </div>
+      </div>
+      <div class="mc-level">
+        <span class="mc-level-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/></svg>${levelDisplay}</span>
+        <span class="mc-xp-label">${xpLabel}</span>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill ${m.id}" style="width:${barW}%"></div></div>
+      <div class="mc-next"><span class="mc-next-icon">▸</span><span>${nextLabel}</span></div>
     </div>`;
   }).join("");
-}
 
-/* === Moments === */
-function renderMoments(){
-  const strip = $("#moment-strip");
-  const recent = state.moments.slice(0,3);
-  const head = `<div class="moment-strip-head"><h3>Momentos recientes</h3><button id="btn-see-album">ver álbum →</button></div>`;
-  if (recent.length === 0){
-    strip.innerHTML = head + `<div class="empty-strip">Guarda tu primer momento feliz desde el botón de arriba.</div>`;
-  } else {
-    strip.innerHTML = head + recent.map(m=>`
-      <div class="moment">
-        <div class="moment-mark"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9-9c-1-2.5-1-5 1-7 2-2 5-2 8 1 3-3 6-3 8-1 2 2 2 4.5 1 7-2 4.5-9 9-9 9z"/></svg></div>
-        <div class="moment-body">
-          <div class="moment-date">${momentDateLabel(m.date)}</div>
-          <div class="moment-text">${escapeHtml(m.text)}</div>
-          <div class="moment-author">— ${m.author || "familia"}${m.who && m.who.length ? " · " + m.who.map(mid=>MEMBERS.find(x=>x.id===mid)?.name).filter(Boolean).join(", ") : ""}</div>
-        </div>
-      </div>
-    `).join("");
+  // level up celebrations
+  for (const mid in newLevels){
+    if (prev[mid] && newLevels[mid] > prev[mid]){
+      const m = MEMBERS.find(x=>x.id===mid);
+      setTimeout(()=>celebrate(`¡Nivel ${newLevels[mid]}!`, `${m.name} subió de nivel`, "🎉"), 300);
+    }
   }
-  $("#btn-see-album")?.addEventListener("click", openAlbum);
-}
-function momentDateLabel(iso){
-  if (!iso) return "";
-  const today = todayISO();
-  if (iso===today) return "hoy";
-  const yesterday = todayISO(new Date(Date.now()-86400000));
-  if (iso===yesterday) return "ayer";
-  const d = new Date(iso); return `${d.getDate()}/${d.getMonth()+1}`;
-}
-function openAlbum(){
-  $("#album-full").innerHTML = state.moments.length===0
-    ? `<div class="empty-strip">Aún no hay momentos en el álbum.</div>`
-    : state.moments.map(m=>`
-      <div class="moment">
-        <div class="moment-mark"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9-9c-1-2.5-1-5 1-7 2-2 5-2 8 1 3-3 6-3 8-1 2 2 2 4.5 1 7-2 4.5-9 9-9 9z"/></svg></div>
-        <div class="moment-body">
-          <div class="moment-date">${momentDateLabel(m.date)}</div>
-          <div class="moment-text">${escapeHtml(m.text)}</div>
-          <div class="moment-author">— ${m.author || "familia"}</div>
-        </div>
-      </div>
-    `).join("");
-  $("#modal-album").classList.add("show");
+  state._lastLevels = newLevels;
 }
 
-/* === Happiness === */
-$("#btn-happiness").addEventListener("click", ()=>{
-  $("#happiness-text").value = "";
-  const who = $("#happiness-who");
-  who.innerHTML = MEMBERS.map(m=>`
-    <button class="who-chip" data-mid="${m.id}">
-      <span class="footprint-avatar" style="background:${m.color}">${m.short}</span>
-      <span>${m.name}</span>
-    </button>`).join("");
-  who.querySelectorAll(".who-chip").forEach(c=>c.addEventListener("click", ()=>c.classList.toggle("active")));
-  $("#modal-happiness").classList.add("show");
-  setTimeout(()=>$("#happiness-text").focus(), 200);
-});
-$("#save-happiness").addEventListener("click", async ()=>{
-  const text = $("#happiness-text").value.trim();
-  if (!text){ showToast("Escribe el momento primero","err"); return; }
-  const who = Array.from($$("#happiness-who .who-chip.active")).map(x=>x.dataset.mid);
-  const member = MEMBERS.find(m=>m.email === state.user.email);
+function renderFamilyXP(){
+  let total = 0;
+  for (const m of MEMBERS){ total += computeMemberXP(m.id).weekXP; }
+  state._familyXP = total;
+  $("#hdr-xp-val").textContent = total.toLocaleString();
+}
+
+/* ===== Mission list (3 destacados hoy) ===== */
+function renderMissionList(){
+  const today = state.blocks.filter(b=>b.day===state.todayDayName).sort((a,b)=>timeToMin(a.startTime)-timeToMin(b.startTime));
+  // choose: current/next prioritized + up to 3 of highest XP that are unchecked, else first 3
+  const nowM = new Date().getHours()*60 + new Date().getMinutes();
+  const mission = [];
+  const nowIdx = today.findIndex(b => nowM >= timeToMin(b.startTime) && nowM < timeToMin(b.startTime)+b.duration);
+  const nextIdx = today.findIndex(b => timeToMin(b.startTime) > nowM);
+  if (nowIdx >= 0) mission.push(today[nowIdx]);
+  if (nextIdx >= 0 && !mission.includes(today[nextIdx])) mission.push(today[nextIdx]);
+  // fill with high-XP blocks (not yet done)
+  const sorted = [...today].sort((a,b)=>xpForBlock(b)-xpForBlock(a));
+  for (const b of sorted){
+    if (mission.length >= 3) break;
+    if (mission.includes(b)) continue;
+    mission.push(b);
+  }
+  while (mission.length < 3 && mission.length < today.length) mission.push(today[mission.length]);
+
+  const possible = mission.reduce((s,b)=>s+xpForBlock(b),0);
+  $("#mission-sub").textContent = `+${possible} XP posibles`;
+  const list = $("#mission-list");
+  if (mission.length === 0){
+    list.innerHTML = `<div style="padding:20px;text-align:center;color:var(--sepia-faint);font-family:'Caveat',cursive;font-size:16px">no hay actividades para hoy — ve a <strong>Mi semana</strong> para agregar</div>`;
+    return;
+  }
+  list.innerHTML = mission.map(b=>{
+    const checks = state.checks[b.id] || [];
+    const allDone = b.for.length>0 && b.for.every(mid=>checks.includes(mid));
+    const endM = timeToMin(b.startTime)+b.duration;
+    const isNow = nowM >= timeToMin(b.startTime) && nowM < endM;
+    const classes = ["mission"];
+    if (allDone) classes.push("done");
+    else if (isNow) classes.push("now");
+    const tip = (TIPS[b.type]?.whatToDo || "").split(".")[0];
+    return `<div class="${classes.join(" ")}" data-block="${b.id}">
+      <div class="mission-check"></div>
+      <div class="mission-body">
+        <div class="mission-time">${b.startTime} · ${durationLabel(b.duration)}</div>
+        <div class="mission-name">${escapeHtml(b.title)}</div>
+        <div class="mission-tag">"${escapeHtml(tip.toLowerCase() || TIPS[b.type]?.label || b.type)}"</div>
+      </div>
+      <div class="mission-reward">+${xpForBlock(b)} XP</div>
+    </div>`;
+  }).join("");
+  list.querySelectorAll("[data-block]").forEach(el=>{
+    el.addEventListener("click", (e)=>{
+      const bid = el.dataset.block;
+      const b = state.blocks.find(x=>x.id===bid);
+      if (!b) return;
+      // tap on check: toggle for current user if adult; else open info
+      const member = MEMBERS.find(m=>m.email===state.user.email);
+      if (member && b.for.includes(member.id)){
+        toggleCheck(b.id, member.id, el);
+      } else {
+        openInfoSheet(bid);
+      }
+    });
+  });
+}
+
+/* ===== Toggle check ===== */
+async function toggleCheck(rid, mid, elAnchor){
+  const current = state.checks[rid] || [];
+  const was = current.includes(mid);
+  const next = was ? current.filter(x=>x!==mid) : [...current, mid];
+  const newChecks = { ...state.checks, [rid]: next };
   try {
-    await addDoc(momentsCol(), { text, who, author:member?.name || "familia", date:state.todayISO, createdAt:serverTimestamp() });
-    $("#modal-happiness").classList.remove("show");
-    showToast("Guardado en el álbum ✨","ok");
-  } catch(e){ showToast("No se pudo guardar","err"); }
-});
+    await setDoc(dayCheckRef(state.todayISO), {
+      date: state.todayISO, marks: newChecks,
+      updatedBy: state.user.email, updatedAt: serverTimestamp()
+    }, { merge: true });
+    if (!was && elAnchor){
+      // reward feedback
+      const rect = elAnchor.getBoundingClientRect();
+      const b = state.blocks.find(x=>x.id===rid);
+      const xp = xpForBlock(b);
+      floatXP(rect.left + rect.width/2, rect.top, xp);
+      launchConfetti(14);
+      try { navigator.vibrate?.(40); } catch(e){}
+    }
+  } catch(e){ showToast("No se pudo guardar","err"); console.warn(e); }
+}
 
-/* === Modales close === */
-document.addEventListener("click", e=>{
-  if (e.target.matches("[data-close]") || e.target.matches(".modal")){
-    document.querySelectorAll(".modal.show").forEach(m=>m.classList.remove("show"));
+/* ===== Info sheet ===== */
+function openInfoSheet(bid){
+  const b = state.blocks.find(x=>x.id===bid);
+  if (!b) return;
+  const t = TIPS[b.type] || TIPS.otro;
+  const body = $("#sheet-body");
+  const endT = minToTime(timeToMin(b.startTime)+b.duration);
+  body.innerHTML = `
+    <span class="sheet-type-tag">${t.label || b.type}</span>
+    <h2 class="modal-title">${escapeHtml(b.title)}</h2>
+    <div class="modal-lead">${b.startTime} – ${endT} · ${durationLabel(b.duration)} · <strong style="color:var(--gold-deep)">+${xpForBlock(b)} XP</strong></div>
+    ${b.description ? `<div class="sheet-block"><p>${escapeHtml(b.description)}</p></div>` : ""}
+    ${t.whatToDo ? `<div class="sheet-block"><h4>Qué hacer</h4><p>${t.whatToDo}</p></div>` : ""}
+    ${t.why ? `<div class="sheet-block"><h4>Por qué importa</h4><p>${t.why}</p></div>` : ""}
+    ${t.tip ? `<div class="sheet-block"><h4>Tip del día</h4><p>${t.tip}</p></div>` : ""}
+    ${t.avoid ? `<div class="sheet-block"><h4>Qué evitar</h4><p>${t.avoid}</p></div>` : ""}
+  `;
+  $("#modal-sheet").classList.add("show");
+}
+
+/* ===== Album strip ===== */
+function renderAlbum(){
+  const strip = $("#album-strip");
+  const recent = state.moments.slice(0, 6);
+  const addBtn = `<div class="album-add" id="album-add-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+    <div class="album-add-text">capturar un<br>momento</div>
+  </div>`;
+  if (recent.length === 0){
+    strip.innerHTML = addBtn + `<div class="album-empty">guarden su primera foto desde el botón "+"</div>`;
+  } else {
+    strip.innerHTML = recent.map(m => renderPolaroid(m)).join("") + addBtn;
   }
-});
+  $("#album-add-btn")?.addEventListener("click", openCamera);
+  strip.querySelectorAll(".album-item").forEach(it=>{
+    it.addEventListener("click", ()=>{
+      const mid = it.dataset.mid;
+      openPhotoViewer(mid);
+    });
+  });
+}
 
-/* === WEEK PAGE === */
+function renderPolaroid(m){
+  const dayAbbr = m.date ? dayAbbrFromISO(m.date) : "";
+  const reactions = m.reactions || {};
+  const totalReacts = Object.values(reactions).reduce((s,arr)=>s+(arr?.length||0),0);
+  const topReact = Object.keys(reactions).find(k=>reactions[k]?.length>0) || "💛";
+  const img = m.photoURL
+    ? `<img src="${m.photoURL}" alt="momento">`
+    : `<div style="font-size:30px">${m.emoji||"💛"}</div>`;
+  return `<div class="album-item" data-mid="${m.id}">
+    <div class="album-polaroid">
+      <div class="album-img" style="background:linear-gradient(135deg,var(--peach),var(--brick-pale))">
+        ${img}
+        <div class="album-day-tag">${dayAbbr.toUpperCase()}</div>
+      </div>
+      <div class="album-caption">${escapeHtml(m.caption || m.text || "")}</div>
+    </div>
+    ${totalReacts>0?`<div class="album-reactions">${topReact} ${totalReacts}</div>`:""}
+  </div>`;
+}
+
+function dayAbbrFromISO(iso){
+  if (!iso) return "";
+  const d = new Date(iso + "T12:00:00");
+  return DAY_ABBR[(d.getDay()+6)%7];
+}
+
+function renderAlbumFull(){
+  const full = $("#album-full");
+  if (state.moments.length === 0){
+    full.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--sepia-faint);font-family:'Caveat',cursive;font-size:16px;font-style:italic">Álbum vacío — captura momentos desde el botón de cámara.</div>`;
+    return;
+  }
+  full.innerHTML = state.moments.map(m => renderPolaroid(m)).join("");
+  full.querySelectorAll(".album-item").forEach(it=>{
+    it.addEventListener("click", ()=>openPhotoViewer(it.dataset.mid));
+  });
+}
+
+/* ===== Achievements ===== */
+function computeAchievementStats(){
+  const stats = { daysActive:0, earlyPrayer:0, schoolCount:0, mealCount:0, prayerCount:0, walkCount:0, churchCount:0, coupleCount:0 };
+  for (let i=0; i<7; i++){
+    const d = new Date(); d.setDate(d.getDate() - state.todayDayIdx + i);
+    const iso = todayISO(d);
+    const marks = state.weekChecks[iso] || {};
+    const anyMark = Object.values(marks).some(a=>Array.isArray(a) && a.length>0);
+    if (anyMark) stats.daysActive++;
+    // walk blocks of this day
+    const dayName = DAYS[i];
+    const dayBlocks = state.blocks.filter(b=>b.day===dayName);
+    for (const b of dayBlocks){
+      const checked = marks[b.id] || [];
+      if (checked.length === 0) continue;
+      if (b.type === "oracion") {
+        stats.prayerCount++;
+        if (timeToMin(b.startTime) < 7*60) stats.earlyPrayer++;
+      }
+      if (b.type === "escuela") stats.schoolCount++;
+      if (b.type === "comida" && b.for.length >= 2) stats.mealCount++;
+      if (b.type === "caminata") stats.walkCount++;
+      if (b.type === "iglesia") stats.churchCount++;
+      if (b.type === "familia" && b.title.toLowerCase().includes("pareja")) stats.coupleCount++;
+    }
+  }
+  return stats;
+}
+
+function renderAchievements(){
+  const stats = computeAchievementStats();
+  // Pick 3: closest to being earned among unlocked ones
+  const scored = ACHIEVEMENTS_DEF.map(a => {
+    const r = a.compute(stats);
+    return { ...a, progress: r.progress, target: r.target, label: r.label, pctLeft: r.target - r.progress };
+  });
+  // sort by: earned first, then closest to target, then rest
+  scored.sort((a,b)=>{
+    const aDone = a.progress>=a.target ? 0 : 1;
+    const bDone = b.progress>=b.target ? 0 : 1;
+    if (aDone !== bDone) return bDone - aDone;
+    return a.pctLeft - b.pctLeft;
+  });
+  const top3 = scored.slice(0,3);
+  const list = $("#achievements-list");
+  list.innerHTML = top3.map(a=>{
+    const earned = a.progress >= a.target;
+    const near = !earned && (a.progress / a.target) >= 0.6;
+    return `<div class="achievement ${earned?'earned':''} ${near?'near':''}">
+      <div class="ach-icon">${a.icon}</div>
+      <div class="ach-body">
+        <div class="ach-name">${a.name}</div>
+        <div class="ach-desc">${a.desc}</div>
+        <div class="ach-bar"><div class="ach-bar-fill" style="width:${Math.min(100, (a.progress/a.target)*100)}%"></div></div>
+        <div class="ach-progress">${a.label}${earned?' · ¡logrado!':''}</div>
+      </div>
+    </div>`;
+  }).join("");
+
+  // Celebrate newly earned
+  for (const a of scored){
+    if (a.progress >= a.target){
+      if (!state._earnedAch.has(a.id)) {
+        if (state._earnedAch.size > 0) {
+          // only celebrate if session already had some, to avoid celebrating pre-existing on first load
+          setTimeout(()=>celebrate("¡Logro desbloqueado!", a.name, a.icon), 400);
+        }
+        state._earnedAch.add(a.id);
+      }
+    }
+  }
+}
+
+/* ===== WEEK PAGE ===== */
 function renderWeek(){
-  // chips
   const chips = $("#week-chips");
   const today = state.todayDayName;
   chips.innerHTML = DAYS.map((d,i)=>`
-    <button class="day-chip ${d===state.weekSelectedDay?"active":""} ${d===today?"today":""}" data-day="${d}">
+    <button class="day-chip ${d===state.weekSelectedDay?'active':''} ${d===today?'today':''}" data-day="${d}">
       <div class="day-chip-name">${DAYS_SHORT[i]}</div>
       <div class="day-chip-num">${i+1}</div>
     </button>`).join("");
   chips.querySelectorAll("[data-day]").forEach(b=>{
     b.addEventListener("click", ()=>{ state.weekSelectedDay = b.dataset.day; renderWeek(); });
   });
-  // list
-  const items = blocksForDay(state.weekSelectedDay);
+  const items = state.blocks.filter(b=>b.day===state.weekSelectedDay).sort((a,b)=>timeToMin(a.startTime)-timeToMin(b.startTime));
   const list = $("#week-list");
   if (items.length === 0){
-    list.innerHTML = `<div class="day-empty">Sin actividades para ${state.weekSelectedDay} — agrega una abajo</div>`;
+    list.innerHTML = `<div style="text-align:center;padding:30px;color:var(--sepia-faint);font-family:'Caveat',cursive;font-size:16px">Sin actividades para ${state.weekSelectedDay} — agrega una abajo</div>`;
   } else {
     list.innerHTML = items.map(b=>{
       const prints = b.for.map(mid=>{
         const mem = MEMBERS.find(x=>x.id===mid);
         return `<div class="footprint-avatar" style="background:${mem.color}">${mem.short}</div>`;
       }).join("");
+      const endT = minToTime(timeToMin(b.startTime)+b.duration);
       return `<div class="week-block" data-edit="${b.id}">
-        <div class="week-block-time">${b.startTime} – ${endTime(b)}<span class="duration">${durationLabel(b.duration)}</span></div>
+        <div class="week-block-time">${b.startTime} – ${endT}<span class="duration">${durationLabel(b.duration)}</span></div>
         <div class="week-block-body">
           <div class="week-block-title">${escapeHtml(b.title)}</div>
           <div class="week-block-meta">
             <span class="week-block-type">${TIPS[b.type]?.label || b.type}</span>
             <div class="week-block-fors">${prints}</div>
             <span class="src-badge ${b.source==='base'?'base':''}">${b.source==='fixed'?'Fijo':'Base'}</span>
+            <span style="font-size:10.5px;color:var(--gold-deep);font-weight:700">+${xpForBlock(b)} XP</span>
           </div>
         </div>
       </div>`;
@@ -1165,9 +1499,8 @@ function renderWeek(){
 
 $("#btn-add-block").addEventListener("click", ()=>openEditor(null));
 
-/* === Block editor === */
+/* ===== Editor ===== */
 let editorBlockId = null;
-
 function openEditor(bid){
   editorBlockId = bid;
   const existing = bid ? state.blocks.find(b=>b.id===bid) : null;
@@ -1177,33 +1510,17 @@ function openEditor(bid){
   $("#ed-duration").value = existing?.duration || 30;
   $("#ed-title").value = existing?.title || "";
   $("#ed-desc").value = existing?.description || "";
-  // Type chips
-  const typeContainer = $("#ed-type");
-  const selectedType = existing?.type || "otro";
-  typeContainer.innerHTML = TYPES.map(t=>`
-    <button class="chip-sel ${t.id===selectedType?'active':''}" data-type="${t.id}">
-      <span style="color:var(--brick);font-size:15px">${t.icon}</span>${t.label}
-    </button>`).join("");
-  typeContainer.querySelectorAll("[data-type]").forEach(c=>{
-    c.addEventListener("click", ()=>{
-      typeContainer.querySelectorAll(".chip-sel").forEach(x=>x.classList.remove("active"));
-      c.classList.add("active");
-    });
-  });
-  // For chips
-  const forContainer = $("#ed-for");
-  const selectedFor = existing?.for || ["anderson","damaris"];
-  forContainer.innerHTML = MEMBERS.map(m=>`
-    <button class="chip-sel ${selectedFor.includes(m.id)?'active':''}" data-mid="${m.id}">
-      <span class="footprint-avatar" style="background:${m.color}">${m.short}</span>${m.name}
-    </button>`).join("");
-  forContainer.querySelectorAll("[data-mid]").forEach(c=>{
-    c.addEventListener("click", ()=>c.classList.toggle("active"));
-  });
+  const typeC = $("#ed-type");
+  const sel = existing?.type || "otro";
+  typeC.innerHTML = TYPES.map(t=>`<button class="chip-sel ${t.id===sel?'active':''}" data-type="${t.id}"><span style="color:var(--brick);font-size:15px">${t.icon}</span>${t.label}</button>`).join("");
+  typeC.querySelectorAll("[data-type]").forEach(c=>c.addEventListener("click", ()=>{ typeC.querySelectorAll(".chip-sel").forEach(x=>x.classList.remove("active")); c.classList.add("active"); }));
+  const forC = $("#ed-for");
+  const selFor = existing?.for || ["anderson","damaris"];
+  forC.innerHTML = MEMBERS.map(m=>`<button class="chip-sel ${selFor.includes(m.id)?'active':''}" data-mid="${m.id}"><span class="footprint-avatar" style="background:${m.color}">${m.short}</span>${m.name}</button>`).join("");
+  forC.querySelectorAll("[data-mid]").forEach(c=>c.addEventListener("click", ()=>c.classList.toggle("active")));
   $("#ed-delete").style.display = bid ? "" : "none";
   $("#modal-block-editor").classList.add("show");
 }
-
 $("#ed-cancel").addEventListener("click", ()=>$("#modal-block-editor").classList.remove("show"));
 
 $("#ed-save").addEventListener("click", async ()=>{
@@ -1218,15 +1535,14 @@ $("#ed-save").addEventListener("click", async ()=>{
     day: existing?.day || state.weekSelectedDay,
     startTime: $("#ed-start").value,
     duration: parseInt($("#ed-duration").value),
-    type,
-    title,
+    type, title,
     description: $("#ed-desc").value.trim(),
     for: forArr,
     source: existing?.source || (type==="reunion"||type==="iglesia" ? "fixed" : "base")
   };
-  let newBlocks;
-  if (editorBlockId) newBlocks = state.blocks.map(b=>b.id===editorBlockId?block:b);
-  else newBlocks = [...state.blocks, block];
+  let newBlocks = editorBlockId
+    ? state.blocks.map(b=>b.id===editorBlockId?block:b)
+    : [...state.blocks, block];
   try {
     await setDoc(scheduleRef(), { blocks: newBlocks, updatedAt: serverTimestamp() });
     $("#modal-block-editor").classList.remove("show");
@@ -1244,14 +1560,177 @@ $("#ed-delete").addEventListener("click", async ()=>{
   } catch(e){ showToast("No se pudo eliminar","err"); }
 });
 
-/* === Tab Nav === */
+/* ===== Camera modal ===== */
+function openCamera(){
+  // reset
+  state.camPhoto = null;
+  $("#cam-preview").innerHTML = `<div class="cam-preview-empty">toca "elegir foto" abajo para empezar</div>`;
+  const sel = $("#cam-block");
+  const today = state.blocks.filter(b=>b.day===state.todayDayName).sort((a,b)=>timeToMin(a.startTime)-timeToMin(b.startTime));
+  sel.innerHTML = `<option value="">— sin actividad específica —</option>` + today.map(b=>`<option value="${b.id}">${b.startTime} · ${escapeHtml(b.title)}</option>`).join("");
+  $("#cam-caption").value = "";
+  $("#cam-save").disabled = true;
+  $("#modal-camera").classList.add("show");
+}
+
+$("#fab").addEventListener("click", openCamera);
+
+$("#cam-choose").addEventListener("click", ()=>$("#cam-input").click());
+$("#cam-input").addEventListener("change", async (e)=>{
+  const file = e.target.files[0];
+  if (!file) return;
+  try {
+    const dataURL = await processImage(file, 900, 0.78);
+    state.camPhoto = dataURL;
+    $("#cam-preview").innerHTML = `<img src="${dataURL}" alt="preview">`;
+    $("#cam-save").disabled = false;
+  } catch(err){ showToast("No se pudo procesar la foto","err"); }
+});
+
+async function processImage(file, maxW=900, quality=0.78){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        const scale = Math.min(1, maxW / img.width);
+        const w = Math.round(img.width * scale);
+        const h = Math.round(img.height * scale);
+        const canvas = document.createElement("canvas");
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+$("#cam-cancel").addEventListener("click", ()=>$("#modal-camera").classList.remove("show"));
+$("#cam-save").addEventListener("click", async ()=>{
+  if (!state.camPhoto){ showToast("Primero elige una foto","err"); return; }
+  const caption = $("#cam-caption").value.trim();
+  const blockId = $("#cam-block").value || null;
+  const block = blockId ? state.blocks.find(b=>b.id===blockId) : null;
+  const member = MEMBERS.find(m=>m.email===state.user.email);
+  try {
+    await addDoc(momentsCol(), {
+      photoURL: state.camPhoto,
+      caption,
+      blockId: blockId || null,
+      blockTitle: block?.title || null,
+      author: member?.name || "familia",
+      authorId: member?.id || null,
+      date: state.todayISO,
+      reactions: {},
+      createdAt: serverTimestamp()
+    });
+    $("#modal-camera").classList.remove("show");
+    showToast("Guardado en el álbum ✨", "ok");
+    launchConfetti(20);
+  } catch(e){ console.warn(e); showToast("No se pudo guardar","err"); }
+});
+
+/* ===== Photo viewer ===== */
+let currentPhotoId = null;
+function openPhotoViewer(mid){
+  const m = state.moments.find(x=>x.id===mid);
+  if (!m) return;
+  currentPhotoId = mid;
+  $("#pv-img").src = m.photoURL || "";
+  const dateLabel = m.date ? m.date : "";
+  $("#pv-info").innerHTML = `<div style="font-family:'Fraunces',serif;font-size:16px">${escapeHtml(m.caption||"")}</div><div style="opacity:.7;font-size:14px;margin-top:4px">${escapeHtml(m.author||"familia")} · ${dateLabel}</div>`;
+  const reactions = m.reactions || {};
+  const emojis = ["💛","🙏","⭐","🎉","😊"];
+  $("#pv-actions").innerHTML = emojis.map(e=>{
+    const count = (reactions[e]||[]).length;
+    return `<button class="pv-react" data-e="${e}">${e} ${count||""}</button>`;
+  }).join("");
+  $("#pv-actions").querySelectorAll(".pv-react").forEach(btn=>{
+    btn.addEventListener("click", ()=>reactPhoto(mid, btn.dataset.e));
+  });
+  $("#photo-viewer").classList.add("show");
+}
+
+async function reactPhoto(mid, emoji){
+  const member = MEMBERS.find(m=>m.email===state.user.email);
+  const m = state.moments.find(x=>x.id===mid);
+  if (!m || !member) return;
+  const reactions = m.reactions || {};
+  const arr = reactions[emoji] || [];
+  const was = arr.includes(member.id);
+  const next = was ? arr.filter(x=>x!==member.id) : [...arr, member.id];
+  try {
+    await updateDoc(doc(db,"families",FAMILY_ID,"moments",mid), { [`reactions.${emoji}`]: next });
+    if (!was) { try { navigator.vibrate?.(30); } catch(e){} }
+    // re-render viewer
+    const updated = { ...m, reactions: { ...reactions, [emoji]: next } };
+    const idx = state.moments.findIndex(x=>x.id===mid);
+    state.moments[idx] = updated;
+    openPhotoViewer(mid);
+  } catch(e){ showToast("No se pudo reaccionar","err"); }
+}
+
+document.addEventListener("click", e=>{
+  if (e.target.matches("[data-pv-close]") || e.target===$("#photo-viewer")){
+    $("#photo-viewer").classList.remove("show");
+  }
+  if (e.target.matches("[data-close]") || e.target.matches(".modal")){
+    document.querySelectorAll(".modal.show").forEach(m=>m.classList.remove("show"));
+  }
+  if (e.target.matches("[data-close-celebrate]") || e.target.matches(".celebrate")){
+    $("#celebrate").classList.remove("show");
+  }
+});
+
+/* ===== Celebrate & effects ===== */
+function celebrate(title, sub, icon="🎉"){
+  $("#celebrate-icon").textContent = icon;
+  $("#celebrate-title").textContent = title;
+  $("#celebrate-sub").textContent = sub;
+  $("#celebrate").classList.add("show");
+  launchConfetti(40);
+  try { navigator.vibrate?.([60,30,60]); } catch(e){}
+}
+
+function launchConfetti(count=20){
+  const stage = $("#confetti-stage");
+  const colors = ["#C85A3F","#D9A94E","#6B8E7F","#B23A48","#5D4E7E","#FFE89A"];
+  for (let i=0; i<count; i++){
+    const el = document.createElement("div");
+    el.className = "confetti";
+    const left = 10 + Math.random()*80;
+    el.style.left = left+"%";
+    el.style.background = colors[Math.floor(Math.random()*colors.length)];
+    el.style.animationDelay = (Math.random()*0.3)+"s";
+    el.style.animationDuration = (1.6 + Math.random()*1.2)+"s";
+    const rot = Math.random()*360;
+    el.style.transform = `rotate(${rot}deg)`;
+    el.style.borderRadius = Math.random()>0.5 ? "50%" : "2px";
+    stage.appendChild(el);
+    setTimeout(()=>el.remove(), 2500);
+  }
+}
+
+function floatXP(x, y, amount){
+  const el = document.createElement("div");
+  el.className = "xp-float";
+  el.textContent = `+${amount} XP`;
+  el.style.left = (x-30)+"px";
+  el.style.top = (y-10)+"px";
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(), 1400);
+}
+
+/* ===== Tabnav ===== */
 $$(".tabnav button").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     const page = btn.dataset.page;
-    if (page === "asistente"){
-      openChat();
-      return;
-    }
+    if (page === "asistente"){ openChat(); return; }
     $$(".tabnav button").forEach(b=>b.classList.remove("active"));
     btn.classList.add("active");
     $$(".page").forEach(p=>p.classList.remove("show"));
@@ -1260,14 +1739,13 @@ $$(".tabnav button").forEach(btn=>{
   });
 });
 
-/* === Chat / Asistente === */
+/* ===== Chat ===== */
 const chatHistory = [];
 function openChat(){
   renderChat();
   $("#modal-chat").classList.add("show");
   setTimeout(()=>$("#chat-input").focus(), 200);
 }
-$("#fab").addEventListener("click", openChat);
 function renderChat(){
   const list = $("#chat-list");
   if (chatHistory.length === 0){
@@ -1295,9 +1773,9 @@ async function sendChat(){
 }
 async function askAI(prompt){
   const member = MEMBERS.find(m=>m.email === state.user.email);
-  const today = blocksForDay(state.todayDayName);
+  const today = state.blocks.filter(b=>b.day===state.todayDayName);
   const done = today.filter(r=>(state.checks[r.id]||[]).length>0).length;
-  const context = `Eres asistente familiar de los Vilvel (Bogotá, cristiana, homeschool). Hoy es ${dayLabel()}. ${member?.name||"El usuario"} está en la app. Lleva ${done}/${today.length} bloques marcados. Mamá postparto con lactancia; bebé con cólicos; JP 3 años homeschool. Responde cálido, práctico, cristiano. Max 4 frases.`;
+  const context = `Eres asistente familiar de los Vilvel (Bogotá, cristiana, homeschool). Hoy es ${dayLabel()}. ${member?.name||"El usuario"} está en la app. Llevan ${done}/${today.length} bloques marcados. Racha ${state._streak} días. XP familiar semana: ${state._familyXP}. Mamá posparto con lactancia; bebé con cólicos; JP 3 años homeschool. Responde cálido, práctico, cristiano. Max 4 frases.`;
   try {
     const r = await fetch("/api/chat", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ prompt, context })});
     if (r.ok){ const d = await r.json(); if (d.text) return d.text; }
@@ -1311,10 +1789,11 @@ function heuristicReply(prompt, member){
   if (p.includes("colico")||p.includes("helena")||p.includes("bebe")) return "Para cólicos: baño tibio antes de cena, masaje suave en abdomen con aceite, posición boca abajo sobre el antebrazo. A los 4 meses mejora notablemente.";
   if (p.includes("jp")||p.includes("jose")||p.includes("pablo")) return "A los 3 años: 20–25 min máximo por sesión académica. Prueba tabla de 5 letras con objetos reales ('M de manzana'). La observación de naturaleza también cuenta.";
   if (p.includes("semana")||p.includes("como voy")||p.includes("rutina")) return `${member?.name||"Vas"} bien. Lo importante no es el porcentaje sino constancia en 3: oración matinal, mesa familiar, rutina de sueño. Lo demás es flexible.`;
+  if (p.includes("logro")||p.includes("xp")||p.includes("nivel")) return "Los logros son hitos de la familia, no competencia. Celebra cada avance aunque sea pequeño. Dios ve el corazón, no la racha.";
   return "Cuéntame más — pregúntame sobre menú, rutina, los niños, oración, o lo que necesites hoy.";
 }
 
-window.hm = { auth, db, state, signOut:()=>signOut(auth) };
+window.hm = { auth, db, state, signOut:()=>signOut(auth), celebrate, launchConfetti };
 </script>
 </body>
 </html>
