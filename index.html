@@ -344,6 +344,7 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:
 }
 </style>
 <link rel="stylesheet" href="/assets/adventure.css">
+<link rel="stylesheet" href="/assets/home-world.css">
 </head>
 <body>
 
@@ -405,7 +406,7 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:
       <div class="adventure-layout">
         <section class="world-card" aria-label="Nuestro hogar esta semana">
           <div class="world-top"><span class="eyebrow">El mundo de los Vilvel</span><span id="world-season">Bogotá</span></div>
-          <h2>Aquí crecemos juntos.</h2><p>Cada día compartido enciende una ventana de nuestra casa.</p>
+          <h2>Aquí crecemos juntos.</h2><p>Su casa, sus rincones y las pequeñas aventuras de cada día. Toca un espacio para explorarlo.</p>
           <div class="house-stage" id="house-stage"></div>
           <div class="world-bottom"><strong>Un hogar, un equipo</strong><span id="world-count">Pequeños pasos, grandes recuerdos</span></div>
         </section>
@@ -620,6 +621,7 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:
 
 <script type="module">
 import { mountAdventure } from "./assets/adventure.js";
+import { mountHomeWorld } from "./assets/home-world.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, addDoc, query, orderBy, limit, serverTimestamp, deleteDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
@@ -973,6 +975,7 @@ async function loadWeekChecks(){
   renderAll();
 }
 
+const renderHouse = mountHomeWorld({getState:()=>state,openActivity:openInfoSheet});
 const renderAdventure = mountAdventure({getState:()=>state,openActivity:openInfoSheet,openSchedule:()=>document.querySelector('[data-page="semana"]').click()});
 
 /* ===== Render everything ===== */
@@ -998,7 +1001,7 @@ function renderHero(){
 }
 
 /* ===== The House SVG ===== */
-function renderHouse(){
+function renderLegacyHouse(){
   const litDays = computeLitDays();
   const streak = state._streak;
   const smokeOp = Math.min(0.9, 0.3 + streak*0.1);

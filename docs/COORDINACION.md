@@ -15,3 +15,8 @@ Para reducir conflictos, acordar archivos antes de trabajar simultáneamente. La
 
 ## Limitaciones existentes que merecen otra entrega
 El contador nuevo es diario; los XP y logros conservan la semántica original. Los registros de actividades simultáneos deben auditarse por concurrencia en Firestore. El frontend autoriza correos, pero las reglas de seguridad reales deben verificarse en Firebase. No se modificaron permisos. Unificar el manejo de fechas de toda la app en America/Bogota antes de admitir familias que viajen: el reloj del nuevo panel usa Bogotá, mientras que el calendario original usa la zona del dispositivo.
+
+## Casa virtual (20 de octubre)
+`assets/home-world.js` y `assets/home-world.css` implementan el mapa esquemático de dos pisos a partir de los dibujos suministrados. No se copiaron fotos ni planos originales al repositorio. `mountHomeWorld({getState,openActivity})` devuelve el render que ahora usa `renderHouse`. Las actividades se sugieren por tipo; no se modifica su ubicación en Firestore. Los estilos de personajes se guardan en localStorage; las posiciones son una maqueta temporal, no presencia real ni sincronizada. El altillo no se incluye porque los planos entregados cubren dos pisos. No se implementó reconstrucción automática ni carga de imágenes.
+
+Verificado en navegador con fixture sin Firebase: cambio de piso, selección de Helena/oficina, editor de color y movimiento de Ander hacia el espacio seleccionado. Sintaxis de módulos y diff verificados. No se realizaron escrituras a datos familiares para probar esta entrega.
