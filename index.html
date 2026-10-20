@@ -622,6 +622,8 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:
 
 <script type="module">
 import { mountAdventure } from "./assets/adventure.js";
+import { mountFamilyVoice } from "./assets/family-voice.js";
+import { validPresence, ROOM_NAMES, MEMBER_NAMES } from "./assets/presence-model.js";
 import { mountHomeWorld } from "./assets/home-world.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
@@ -769,6 +771,7 @@ function levelFromXP(xp){
 
 const state = {
   user: null,
+  remotePresence: {}, localPresence: {}, sharePresence: false, presenceStatus: "local", unsubPresence: null,
   todayISO: null,
   todayDayIdx: 0,
   todayDayName: null,
@@ -910,16 +913,21 @@ function showGateError(msg){ const el=$("#gate-error"); el.textContent=msg; el.c
 
 onAuthStateChanged(auth, async user => {
   $("#boot").classList.add("hide");
-  if (!user){ $("#gate").style.display="flex"; $("#app").classList.remove("show"); return; }
+  if (!user){ state.user=null; state.unsubPresence?.(); state.unsubChecks?.(); state.unsubBlocks?.(); state.unsubMoments?.(); clearInterval(state.nowTicker); state.remotePresence={}; state.localPresence={}; state.sharePresence=false; window.dispatchEvent(new Event("house:signed-out")); $("#gate").style.display="flex"; $("#app").classList.remove("show"); return; }
   if (!AUTHORIZED_EMAILS.includes(user.email)) {
     showGateError(`${user.email} no está autorizado.`);
     await signOut(auth); return;
   }
   state.user = user;
+  try {state.sharePresence=localStorage.getItem("house-sharing-"+user.uid)==="true";}catch{}
+  subscribePresence();
   $("#gate").style.display="none";
   $("#app").classList.add("show");
   try { await ensureFamily(); } catch(e){ console.warn("ensureFamily err:",e); }
   await bootApp();
+  renderHouse.selectMember(worldState().memberId);
+  const linkedRoom=new URLSearchParams(location.search).get("room");
+  if(Object.hasOwn(ROOM_NAMES,linkedRoom))renderHouse.viewRoom(linkedRoom);
 });
 
 async function bootApp(){
@@ -976,7 +984,28 @@ async function loadWeekChecks(){
   renderAll();
 }
 
-const renderHouse = mountHomeWorld({getState:()=>state,openActivity:openInfoSheet,completeActivity:completeGameActivity});
+function worldState(){return {...state,memberId:MEMBERS.find(m=>m.email===state.user?.email)?.id};}
+function subscribePresence(){
+ state.unsubPresence?.();state.presenceStatus='loading';
+ state.unsubPresence=onSnapshot(familyRef(),{includeMetadataChanges:true},snap=>{
+  state.remotePresence=validPresence(snap.data()?.presence);
+  if(!snap.metadata.hasPendingWrites)for(const [id,p] of Object.entries(state.localPresence)){
+   if(state.remotePresence[id]?.clientMutationId===p.clientMutationId)delete state.localPresence[id];
+  }
+  state.presenceStatus=snap.metadata.hasPendingWrites?'syncing':snap.metadata.fromCache?'cache':'synced';renderHouse();
+ },()=>{state.presenceStatus='error';renderHouse();});
+}
+async function moveFamilyMember(id,room,x,y,source='manual'){
+ if(!state.user||!Object.hasOwn(MEMBER_NAMES,id)||!Object.hasOwn(ROOM_NAMES,room))return;
+ const record=validPresence({[id]:{room,x,y,source,updatedAt:Date.now(),clientMutationId:crypto.randomUUID(),localOnly:!state.sharePresence,pending:state.sharePresence}})[id];
+ if(!record)return;state.localPresence[id]=record;renderHouse();
+ if(!state.sharePresence)return;
+ try{await setDoc(familyRef(),{presence:{[id]:{room:record.room,x:record.x,y:record.y,source:record.source,updatedAt:serverTimestamp(),clientMutationId:record.clientMutationId}}},{merge:true});if(state.localPresence[id]?.clientMutationId===record.clientMutationId)delete state.localPresence[id];renderHouse();}
+ catch{if(state.localPresence[id]?.clientMutationId===record.clientMutationId)state.localPresence[id]={...record,localOnly:true,pending:false};state.presenceStatus='error';renderHouse();showToast('Movimiento conservado aquí. No se pudo compartir.','err');}
+}
+async function setSharing(enabled){state.sharePresence=enabled;try{localStorage.setItem('house-sharing-'+state.user.uid,String(enabled));}catch{}showToast(enabled?'Los próximos movimientos se compartirán.':'Los próximos movimientos quedan en este celular.');}
+const renderHouse = mountHomeWorld({getState:worldState,openActivity:openInfoSheet,completeActivity:completeGameActivity,onMove:moveFamilyMember,onSharing:setSharing});
+mountFamilyVoice({root:document.getElementById('family-voice'),getState:worldState,completeActivity:completeGameActivity,onLocation:room=>{moveFamilyMember(worldState().memberId,room,50,82,'voice');renderHouse.selectMember(worldState().memberId);}});
 const renderAdventure = mountAdventure({getState:()=>state,openActivity:openInfoSheet,openSchedule:()=>document.querySelector('[data-page="semana"]').click()});
 
 /* ===== Render everything ===== */
@@ -1334,7 +1363,9 @@ async function completeGameActivity(bid){
       tx.set(ref,{date,marks:{...marks,[bid]:[...current,member.id]},updatedBy:state.user.email,updatedAt:serverTimestamp()},{merge:true});
       return true;
     });
-    if(added)launchConfetti(18);
+    state.checks[bid]=[...new Set([...(state.checks[bid]||[]),member.id])];
+    if(added){launchConfetti(18);window.dispatchEvent(new CustomEvent('house:activity-complete',{detail:{id:bid,title:b.title,date}}));}
+    renderAll();
     return {ok:true,message:added?"Tu participación quedó guardada en la agenda familiar.":"Tu participación ya estaba registrada. No se duplicaron puntos."};
   } catch {return {ok:false,message:"No se pudo guardar. Revisa la conexión e inténtalo otra vez."};}
 }

@@ -1,3 +1,4 @@
+import { avatarLocation, presenceLabel, MEMBER_NAMES, ROOM_NAMES } from './presence-model.js';
 import { mountRoomGame } from './room-game.js';
 // Hand-drawn plans translated into a schematic, not a measured floor plan.
 const rooms=[
@@ -25,35 +26,51 @@ function furniture(r){
  default:return '';
  }
 }
-export function mountHomeWorld({getState,openActivity,completeActivity}){
+export function mountHomeWorld({getState,openActivity,completeActivity,onMove,onSharing}){
  const root=document.getElementById('house-stage');root.classList.add('home-world');
- let floor=1,selected='living',member='anderson';let prefs={};
+ let floor=1,selected='living',member=getState().memberId||'anderson',prefs={};
  try{prefs=JSON.parse(localStorage.getItem('house-mapp-avatar-style-v1')||'{}');}catch{}
  const styles={};people.forEach(p=>{const s=prefs?.[p.id];styles[p.id]={color:colors.includes(s?.color)?s.color:p.color,hair:['short','long','curl'].includes(s?.hair)?s.hair:'short',mode:s?.mode==='drawn'?'drawn':'3d'};});
- const locations=Object.fromEntries(people.map(p=>[p.id,p.room]));
- root.innerHTML=`<div class="floor-switch" aria-label="Pisos"><button type="button" data-floor="1">Primer piso</button><button type="button" data-floor="2">Segundo piso</button></div><div class="room-shortcuts"></div><div class="room-game"></div><details class="plan-overview"><summary>Ver plano y distribución de este piso</summary><div class="home-plan"></div></details><div class="room-detail" aria-live="polite"></div><details class="avatar-settings"><summary>Nuestros personajes</summary><p>Personaliza los personajes animados. Apariencia ilustrativa; el estilo se guarda en este dispositivo.</p><label>Integrante <select id="world-member">${people.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select></label><label>Estilo <select id="world-mode"><option value="3d">Personaje 3D</option><option value="drawn">Dibujado editable</option></select></label><label>Ropa (dibujado) <select id="world-color">${colors.map((c,i)=>`<option value="${c}">${['Azul','Rosa','Mostaza','Lavanda','Verde','Terracota'][i]}</option>`).join('')}</select></label><label>Cabello (dibujado) <select id="world-hair"><option value="short">Corto</option><option value="long">Largo</option><option value="curl">Rizado</option></select></label><button type="button" class="place-avatar">Situar personaje aquí</button><p>Ubicación de juego, solo durante esta visita. No indica dónde está realmente la familia.</p><p role="status" class="avatar-feedback"></p></details><p class="plan-caption">Basado en sus planos · proporciones aproximadas · muebles ilustrativos</p>`;
- const roomGame=mountRoomGame({root:root.querySelector('.room-game'),getStyles:()=>styles,getState,completeActivity,selectRoom:id=>{selected=id;floor=rooms.find(r=>r.id===id).floor;render();}});
+ root.innerHTML=`<div class="home-live-layout"><div class="live-scene-column"><div class="floor-switch" aria-label="Pisos"><button type="button" data-floor="1">Primer piso</button><button type="button" data-floor="2">Segundo piso</button></div><p class="move-instruction"></p><div class="room-shortcuts"></div><div class="room-game"></div><div class="room-detail"></div></div><aside class="presence-map" aria-label="Plano y presencia familiar"><h3>¿Dónde estamos?</h3><p class="presence-status" role="status"></p><div class="live-plans"></div><div class="presence-roster"></div><details class="connection-controls"><summary>Celulares y sincronización</summary><p class="presence-legend">Ubicaciones indicadas en la app. El plano no detecta la posición física.</p><button type="button" class="sharing-toggle"></button><button type="button" class="room-checkin">Estoy en esta habitación</button><button type="button" class="copy-home-link">Conectar otro celular</button><p class="connection-feedback" role="status"></p></details></aside></div><section id="family-voice" aria-label="Asistente de voz familiar"></section><details class="avatar-settings"><summary>Personalizar personajes</summary><p>Apariencia ilustrativa. El estilo se guarda en este dispositivo.</p><label>Integrante <select id="world-member">${people.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select></label><label>Estilo <select id="world-mode"><option value="3d">Personaje 3D</option><option value="drawn">Dibujado editable</option></select></label><label>Ropa (dibujado) <select id="world-color">${colors.map((c,i)=>`<option value="${c}">${['Azul','Rosa','Mostaza','Lavanda','Verde','Terracota'][i]}</option>`).join('')}</select></label><label>Cabello (dibujado) <select id="world-hair"><option value="short">Corto</option><option value="long">Largo</option><option value="curl">Rizado</option></select></label><p role="status" class="avatar-feedback"></p></details>`;
+ const feedback=root.querySelector('.connection-feedback');
+ const roomGame=mountRoomGame({root:root.querySelector('.room-game'),getStyles:()=>styles,getState,completeActivity,onMove,getActiveMember:()=>member,onSelectMember:chooseMember,selectRoom:id=>navigate(id,true)});
  const selector=root.querySelector('#world-member'),color=root.querySelector('#world-color'),hair=root.querySelector('#world-hair'),mode=root.querySelector('#world-mode');
- function controls(){color.value=styles[member].color;hair.value=styles[member].hair;mode.value=styles[member].mode;}
- selector.onchange=()=>{member=selector.value;controls();};
- function save(){styles[member]={color:color.value,hair:hair.value,mode:mode.value};try{localStorage.setItem('house-mapp-avatar-style-v1',JSON.stringify(styles));root.querySelector('.avatar-feedback').textContent='Estilo guardado en este dispositivo.';}catch{root.querySelector('.avatar-feedback').textContent='El estilo se conservará solo durante esta visita.';}render();}
+ function controls(){selector.value=member;color.value=styles[member].color;hair.value=styles[member].hair;mode.value=styles[member].mode;}
+ function chooseMember(id){member=id;const loc=avatarLocation(getState(),id);selected=loc.room;floor=rooms.find(r=>r.id===selected).floor;controls();render();}
+ function navigate(id,move=false){const target=rooms.find(r=>r.id===id);if(!target)return;selected=id;floor=target.floor;if(move)onMove(member,id,50,82);render();}
+ selector.onchange=()=>chooseMember(selector.value);
+ function save(){styles[member]={color:color.value,hair:hair.value,mode:mode.value};try{localStorage.setItem('house-mapp-avatar-style-v1',JSON.stringify(styles));root.querySelector('.avatar-feedback').textContent='Estilo guardado.';}catch{root.querySelector('.avatar-feedback').textContent='Estilo conservado durante esta visita.';}render();}
  color.onchange=save;hair.onchange=save;mode.onchange=save;
- root.querySelector('.place-avatar').onclick=()=>{locations[member]=selected;render();root.querySelector('.avatar-feedback').textContent=`${people.find(p=>p.id===member).name} está en ${rooms.find(r=>r.id===selected).name} en la maqueta.`;};
+ root.querySelector('.sharing-toggle').onclick=async()=>{await onSharing(!getState().sharePresence);render();};
+ root.querySelector('.room-checkin').onclick=()=>{const id=getState().memberId;if(!id)return;member=id;onMove(id,selected,50,82,'room-link');render();};
+ root.querySelector('.copy-home-link').onclick=async()=>{const url=location.origin+'/?room='+selected;try{await navigator.clipboard.writeText(url);feedback.textContent='Enlace copiado. Ábrelo en el otro iPhone, entra con su cuenta de Google y activa compartir movimientos.';}catch{feedback.textContent='Abre '+url+' en el otro iPhone, entra con su cuenta y activa compartir movimientos.';}};
  root.querySelectorAll('[data-floor]').forEach(b=>b.onclick=()=>{floor=Number(b.dataset.floor);selected=rooms.find(r=>r.floor===floor).id;render();});
- function render(){
- root.querySelectorAll('[data-floor]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.floor)===floor)));
- const visible=rooms.filter(r=>r.floor===floor);
- root.querySelector('.room-shortcuts').innerHTML=visible.map(r=>`<button type="button" data-room="${r.id}" aria-pressed="${selected===r.id}">${r.name}</button>`).join('');
- const svg=`<svg viewBox="0 0 560 755" role="group" aria-label="Mapa del ${floor===1?'primer':'segundo'} piso"><defs><pattern id="wood-world" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M0 23h24" stroke="#876d47" opacity=".10"/></pattern></defs><path d="M140 255H540V375H220V410H140Z" fill="#f0e7d7"/><g aria-hidden="true"><rect x="300" y="270" width="230" height="90" rx="4" fill="#d4c4ae"/>${Array.from({length:10},(_,i)=>`<path d="M${310+i*22} 276v78" stroke="#8c7c64"/>`).join('')}<text x="415" y="321" text-anchor="middle" fill="#443d31" font-size="14">Escaleras</text></g>${visible.map(r=>`<g role="button" tabindex="0" aria-label="${r.name}" aria-pressed="${selected===r.id}" data-room="${r.id}" class="map-room"><rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" rx="5" fill="${r.tone}" stroke="${selected===r.id?'#3a795e':'#9a8971'}" stroke-width="${selected===r.id?5:2}"/><rect x="${r.x+3}" y="${r.y+3}" width="${r.w-6}" height="${r.h-6}" fill="url(#wood-world)"/><text x="${r.x+12}" y="${r.y+26}" fill="#344838" font-size="15" font-weight="600">${r.name}</text><g aria-hidden="true">${furniture(r)}</g></g>`).join('')}${people.filter(p=>visible.some(r=>r.id===locations[p.id])).map(p=>{const r=rooms.find(r=>r.id===locations[p.id]);const same=people.filter(q=>locations[q.id]===r.id);const x=r.x+r.w-30-same.indexOf(p)*45,y=r.y+r.h-47,s=styles[p.id];return `<g class="world-person" aria-label="Personaje ${p.name}"><ellipse cx="${x}" cy="${y+23}" rx="17" ry="6" fill="#344838" opacity=".15"/><path d="M${x-12} ${y+18}v-9a12 12 0 0 1 24 0v9" fill="${s.color}"/><circle cx="${x}" cy="${y-10}" r="11" fill="#e4b58f"/><path d="M${x-11} ${y-12}q0 -19 22 0${s.hair==='long'?`v17h-5v-18h-12v18h-5z`:'z'}" fill="#614737"/>${s.hair==='curl'?`<circle cx="${x-7}" cy="${y-19}" r="5" fill="#614737"/><circle cx="${x+2}" cy="${y-21}" r="6" fill="#614737"/>`:''}<text x="${x}" y="${y+39}" text-anchor="middle" fill="#283e31" font-size="11" font-weight="700">${p.name}</text></g>`;}).join('')}</svg>`;
- root.querySelector('.home-plan').innerHTML=svg;
- root.querySelectorAll('[data-room]').forEach(el=>{const choose=()=>{selected=el.dataset.room;render();root.querySelector(`[data-room="${selected}"]`).focus();};el.onclick=choose;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose();}};});
- const room=rooms.find(r=>r.id===selected),state=getState();
- const activities=state.blocks.filter(b=>b.day===state.todayDayName&&room.types.includes(b.type)).slice(0,3);
- const detail=root.querySelector('.room-detail');detail.replaceChildren();const title=document.createElement('h3');title.textContent=room.name;const desc=document.createElement('p');desc.textContent=room.detail;detail.append(title,desc);
- const label=document.createElement('p');label.className='room-task-label';label.textContent=activities.length?'Actividades de hoy que podrían vivirse aquí':'Un espacio para estar juntos, a su ritmo.';detail.append(label);
- roomGame.update(room);
- activities.forEach(b=>{const btn=document.createElement('button');btn.type='button';btn.textContent=`${b.startTime} · ${b.title} →`;btn.onclick=()=>roomGame.play(b);detail.append(btn);});
+ function mapSVG(level,state){
+  const visible=rooms.filter(r=>r.floor===level);
+  return `<svg viewBox="0 0 560 755" role="group" aria-label="Plano del piso ${level}"><path d="M140 255H540V375H220V410H140Z" fill="#e5ddce"/><rect x="300" y="270" width="230" height="90" fill="#c3b79f"/>${visible.map(r=>`<g role="button" tabindex="0" aria-label="Enviar ${MEMBER_NAMES[member]} a ${r.name}" data-room="${r.id}" class="map-room"><rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" rx="5" fill="${r.tone}" stroke="${selected===r.id?'#3a795e':'#9a8971'}" stroke-width="${selected===r.id?6:2}"/><text x="${r.x+10}" y="${r.y+30}" fill="#344838" font-size="22" font-weight="600">${r.name}</text><g aria-hidden="true">${furniture(r)}</g></g>`).join('')}${people.filter(p=>visible.some(r=>r.id===avatarLocation(state,p.id).room)).map(p=>{
+   const loc=avatarLocation(state,p.id),r=rooms.find(r=>r.id===loc.room);const x=r.x+r.w*loc.x/100,y=r.y+r.h*(.4+(loc.y-68)/21*.45);
+   return `<g class="world-person" data-map-person="${p.id}" transform="translate(${x} ${y})" aria-label="${p.name} en ${r.name}"><circle r="24" fill="${p.color}" stroke="${p.id===member?'#233f31':'white'}" stroke-width="4"/><text text-anchor="middle" y="7" font-size="19" font-weight="700" fill="white">${p.id==='anderson'?'A':p.id==='damaris'?'D':p.id==='jp'?'JP':'H'}</text></g>`;
+  }).join('')}</svg>`;
  }
- render.play=block=>roomGame.play(block);
- controls();return render;
+ function render(){
+  const state=getState();root.querySelectorAll('[data-floor]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.floor)===floor)));
+  root.querySelector('.move-instruction').textContent=`${MEMBER_NAMES[member]} seleccionado · toca su próximo destino. Los demás permanecen en su habitación.`;
+  root.querySelector('.room-shortcuts').innerHTML=rooms.filter(r=>r.floor===floor).map(r=>`<button type="button" data-room="${r.id}" aria-pressed="${selected===r.id}">${r.name}</button>`).join('');
+  root.querySelector('.live-plans').innerHTML=[1,2].map(level=>`<div class="live-floor"><strong>Piso ${level}</strong>${mapSVG(level,state)}</div>`).join('');
+  root.querySelectorAll('[data-room]').forEach(el=>{el.onclick=()=>navigate(el.dataset.room,true);if(el.tagName.toLowerCase()==='g')el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();navigate(el.dataset.room,true);}};});
+  const roster=root.querySelector('.presence-roster');roster.replaceChildren();people.forEach(p=>{const loc=avatarLocation(state,p.id);const b=document.createElement('button');b.type='button';b.className='presence-person';b.setAttribute('aria-pressed',String(member===p.id));const strong=document.createElement('strong');strong.textContent=`${p.name} · ${ROOM_NAMES[loc.room]}`;const small=document.createElement('small');small.textContent=presenceLabel(loc);b.append(strong,small);b.onclick=()=>chooseMember(p.id);roster.append(b);});
+  const labels={syncing:'Enviando movimientos…',loading:'Conectando el plano familiar…',synced:'Plano familiar actualizado',cache:'Sin conexión confirmada · última información disponible',error:'No se pudo sincronizar el plano'};
+  root.querySelector('.presence-status').textContent=labels[state.presenceStatus]||'Modo local';
+  root.querySelector('.sharing-toggle').textContent=state.sharePresence?'Pausar compartir movimientos':'Compartir movimientos de este celular';
+  root.querySelector('.sharing-toggle').setAttribute('aria-pressed',String(!!state.sharePresence));
+  const room=rooms.find(r=>r.id===selected),detail=root.querySelector('.room-detail');detail.replaceChildren();const title=document.createElement('h3');title.textContent=room.name;const desc=document.createElement('p');desc.textContent=room.detail;detail.append(title,desc);
+  const label=document.createElement('p');label.textContent='Actividades de hoy para este espacio';detail.append(label);
+  const activities=state.blocks.filter(b=>b.day===state.todayDayName&&room.types.includes(b.type));
+  if(!activities.length)label.textContent='Sin actividades asociadas hoy. Puedes practicar un juego.';
+  activities.forEach(b=>{const btn=document.createElement('button');btn.type='button';btn.textContent=`${b.startTime} · ${b.title} →`;btn.onclick=()=>roomGame.play(b);detail.append(btn);});
+  roomGame.update(room);
+ }
+ render.play=block=>roomGame.play(block);render.selectMember=chooseMember;render.viewRoom=id=>navigate(id,false);
+ controls();const linkedRoom=new URLSearchParams(location.search).get('room');if(Object.hasOwn(ROOM_NAMES,linkedRoom)){selected=linkedRoom;floor=rooms.find(r=>r.id===selected).floor;feedback.textContent='Confirma «Estoy en esta habitación» si este es tu lugar actual.';}
+ return render;
 }

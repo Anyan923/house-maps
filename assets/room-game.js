@@ -1,29 +1,39 @@
+import { avatarLocation } from './presence-model.js';
 const cast=[['anderson','Ander'],['damaris','Dama'],['jp','JP'],['helena','Helena']];
 const sceneFor={living:0,kitchen:1,patio:2,parents:3,jp:4,helena:5,guest:3,bath1:1,bath2:1};
 const activityRoom={comida:'kitchen',escuela:'patio',hogar:'patio',familia:'living',oracion:'living',iglesia:'living',sueno:'parents',trabajo:'helena',reunion:'helena',caminata:'patio',otro:'living'};
 const palettes=['#447c89','#b56879','#d7a23c','#a38bb9'];
 function avatar(id,style={}){
  if(style.mode!=='drawn'){
-  const col=cast.findIndex(p=>p[0]===id),x=[55,330,590,800][col],width=[270,240,220,290][col];
-  return `<svg viewBox="0 0 100 180" aria-hidden="true" class="sprite-character">${[[0,500,'sprite-idle'],[500,460,'sprite-step-a'],[960,442,'sprite-step-b']].map(([y,h,cls])=>`<svg class="${cls}" x="0" y="0" width="100" height="180" viewBox="${x} ${y} ${width} ${h}" preserveAspectRatio="xMidYMax meet"><image href="/assets/family-characters.png" width="1122" height="1402"/></svg>`).join('')}</svg>`;
+  const bounds={anderson:[[78,0,235,499],[72,510,245,447],[64,970,255,430]],damaris:[[343,25,205,472],[345,535,213,420],[342,982,220,418]],jp:[[610,217,178,282],[610,682,190,277],[610,1086,193,314]],helena:[[820,212,257,288],[817,684,260,277],[817,1095,260,305]]}[id];
+  return `<svg viewBox="0 0 100 180" aria-hidden="true" class="sprite-character">${bounds.map(([x,y,w,h],i)=>`<svg class="${['sprite-idle','sprite-step-a','sprite-step-b'][i]}" x="0" y="0" width="100" height="180" viewBox="${x} ${y} ${w} ${h}" preserveAspectRatio="xMidYMax meet" style="overflow:hidden"><image href="/assets/family-characters.png" width="1122" height="1402"/></svg>`).join('')}</svg>`;
  }
 
  const child=id==='jp',baby=id==='helena',color=style.color||palettes[cast.findIndex(p=>p[0]===id)],hair=style.hair||'short';
  return `<svg viewBox="0 0 100 145" aria-hidden="true"><ellipse cx="50" cy="137" rx="30" ry="6" fill="#1e3029" opacity=".2"/><g class="character-body">${baby?`<ellipse cx="50" cy="100" rx="25" ry="34" fill="${color}"/><path d="M30 90q20 25 40 0M32 110q18 14 36 0" stroke="#fff7" fill="none" stroke-width="4"/>`:`<g class="leg leg-left"><path d="M40 101l-2 28" stroke="#405665" stroke-width="13" stroke-linecap="round"/><path d="M37 131h-9" stroke="#493a32" stroke-width="10" stroke-linecap="round"/></g><g class="leg leg-right"><path d="M60 101l2 28" stroke="#405665" stroke-width="13" stroke-linecap="round"/><path d="M63 131h9" stroke="#493a32" stroke-width="10" stroke-linecap="round"/></g><path d="M29 72l-7 27M71 72l7 27" stroke="#d5a17e" stroke-width="10" stroke-linecap="round"/><path d="M27 76q0-19 23-19t23 19v32H27Z" fill="${color}"/><path d="M46 66h8v25h-8" fill="#fff" opacity=".15"/>`}${hair==='long'?'<path d="M23 34q0-30 27-30t27 30v45H23Z" fill="#513b30"/>':''}<ellipse cx="50" cy="38" rx="${child||baby?25:23}" ry="28" fill="#e4b28b"/><ellipse cx="26" cy="39" rx="5" ry="7" fill="#dba581"/><ellipse cx="74" cy="39" rx="5" ry="7" fill="#dba581"/><path d="M26 32Q20 4 49 5Q80 3 74 30L66 20Q45 29 32 19Z" fill="#513b30"/>${hair==='curl'?'<path d="M27 19q-8-16 8-15q5-12 16-4q14-8 17 6q16 1 6 16" fill="#513b30"/>':''}<ellipse cx="41" cy="38" rx="3" ry="4" fill="#302f2b"/><ellipse cx="59" cy="38" rx="3" ry="4" fill="#302f2b"/><circle cx="42" cy="37" r="1" fill="white"/><circle cx="60" cy="37" r="1" fill="white"/><path d="M44 53q6 5 12 0" stroke="#a45e4c" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="34" cy="48" rx="5" ry="3" fill="#d98f77" opacity=".5"/><ellipse cx="66" cy="48" rx="5" ry="3" fill="#d98f77" opacity=".5"/></g></svg>`;
 }
 function button(text,fn,cls=''){const b=document.createElement('button');b.type='button';b.textContent=text;b.className=cls;b.onclick=fn;return b;}
-export function mountRoomGame({root,getStyles,getState,selectRoom,completeActivity}){
- let room=null,active='anderson',game=null,selectedObject=null,session=0,flipTimer=null;
- const positions=Object.fromEntries(cast.map(([id],i)=>[id,{x:25+i*17,y:80}]));
- root.innerHTML=`<div class="scene-top"><div><span class="eyebrow">Dentro de nuestra casa</span><h3 class="scene-title"></h3></div><span class="scene-tag">Escenario ilustrado</span></div><div class="room-scene" tabindex="0" role="group" aria-label="Escenario interactivo. Toca el suelo para mover el personaje; también puedes usar las flechas."><div class="scene-art"></div><div class="scene-light"></div><div class="scene-cast"></div><div class="scene-spark" aria-hidden="true">✦</div></div><div class="cast-picker" aria-label="Personaje activo"></div><p class="scene-help">Exploran juntos este espacio. Elige un personaje y toca el suelo para caminar. En teclado, usa las flechas. Helena se desplaza en su cunita de juego.</p><div class="game-panel" aria-live="polite"></div><p class="game-status" role="status"></p>`;
+export function mountRoomGame({root,getStyles,getState,selectRoom,completeActivity,onMove,onSelectMember,getActiveMember}){
+ let room=null,active=getActiveMember(),game=null,selectedObject=null,session=0,flipTimer=null;
+ const positions=Object.fromEntries(cast.map(([id])=>[id,avatarLocation(getState(),id)]));
+ const motionTimers=new Map();
+ root.innerHTML=`<div class="scene-top"><div><span class="eyebrow">Dentro de nuestra casa</span><h3 class="scene-title"></h3></div><span class="scene-tag">Escenario ilustrado</span></div><div class="room-scene" tabindex="0" role="group" aria-label="Escenario interactivo. Toca el suelo para mover el personaje; también puedes usar las flechas."><div class="scene-art"></div><div class="scene-light"></div><div class="scene-cast"></div><div class="scene-spark" aria-hidden="true">✦</div></div><div class="cast-picker" aria-label="Personaje activo"></div><p class="scene-help">Elige un personaje y luego su destino en el plano. Solo se mueve ese personaje. Toca el suelo para caminar dentro de su habitación. En teclado, usa las flechas. Helena se desplaza en su cunita de juego.</p><div class="game-panel" aria-live="polite"></div><p class="game-status" role="status"></p>`;
  const stage=root.querySelector('.room-scene'),layer=root.querySelector('.scene-cast'),panel=root.querySelector('.game-panel'),status=root.querySelector('.game-status');
  cast.forEach(([id,name])=>{
  const el=document.createElement('div');el.className='scene-person '+(id==='jp'?'is-child':id==='helena'?'is-baby':'');el.dataset.actor=id;el.innerHTML=`${avatar(id,getStyles()[id])}<span>${name}</span>`;layer.append(el);
- root.querySelector('.cast-picker').append(button(name,()=>{active=id;paintSelection();},'cast-choice'));
+ root.querySelector('.cast-picker').append(button(name,()=>{active=id;onSelectMember(id);paintSelection();},'cast-choice'));
  el.addEventListener('transitionend',()=>el.classList.remove('walking'));
  });
  function paintSelection(){root.querySelectorAll('.cast-choice').forEach((b,i)=>b.setAttribute('aria-pressed',String(cast[i][0]===active)));layer.querySelectorAll('[data-actor]').forEach(el=>el.classList.toggle('is-active',el.dataset.actor===active));}
- function move(x,y){positions[active]={x:Math.max(12,Math.min(88,x)),y:Math.max(68,Math.min(89,y))};const el=layer.querySelector(`[data-actor="${active}"]`);el.classList.add('walking');position(el);}
+ function move(x,y){
+  const id=active;if(!room)return;
+  const previous=avatarLocation(getState(),id);
+  if(previous.room!==room.id){status.textContent='Elige un destino en el plano para traer al personaje seleccionado.';return;}
+  positions[id]={...previous,x:Math.max(12,Math.min(88,x)),y:Math.max(68,Math.min(89,y))};
+  const el=layer.querySelector(`[data-actor="${id}"]`);el.classList.add('walking');position(el);
+  clearTimeout(motionTimers.get(id));motionTimers.set(id,setTimeout(()=>el.classList.remove('walking'),1300));
+  onMove(id,room.id,positions[id].x,positions[id].y);
+ }
  function position(el){const p=positions[el.dataset.actor];el.style.left=p.x+'%';el.style.top=p.y+'%';}
  stage.onclick=e=>{const rect=stage.getBoundingClientRect();move((e.clientX-rect.left)/rect.width*100,(e.clientY-rect.top)/rect.height*100);};
  stage.onkeydown=e=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))return;e.preventDefault();const p=positions[active];move(p.x+(e.key==='ArrowLeft'?-7:e.key==='ArrowRight'?7:0),p.y+(e.key==='ArrowUp'?-5:e.key==='ArrowDown'?5:0));};
@@ -57,6 +67,11 @@ export function mountRoomGame({root,getStyles,getState,selectRoom,completeActivi
  }
  panel.append(exit);panel.scrollIntoView({block:'nearest',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
  }
- function update(next){const changed=room?.id!==next.id;if(changed&&game&&game.room!==next.id){stop();status.textContent='Cambiaste de espacio. El juego anterior se cerró sin registrar cambios.';}room=next;root.querySelector('.scene-title').textContent=room.name;const index=sceneFor[room.id]??0;const art=root.querySelector('.scene-art');art.style.backgroundPosition=`${(index%3)*50}% ${Math.floor(index/3)*100}%`;root.querySelector('.scene-tag').textContent=room.id.startsWith('bath')?'Vista interior de referencia':'Inspirado en sus fotos';if(room.id.startsWith('bath')){art.style.backgroundImage='none';art.classList.add('bath-scene');}else{art.style.backgroundImage='';art.classList.remove('bath-scene');}layer.querySelectorAll('[data-actor]').forEach(el=>{const id=el.dataset.actor;const previous=el.querySelector('svg');previous.outerHTML=avatar(id,getStyles()[id]);position(el);});if(changed&&!game)idle();paintSelection();}
+ function update(next){const changed=room?.id!==next.id;if(changed&&game&&game.room!==next.id){stop();status.textContent='Cambiaste de espacio. El juego anterior se cerró sin registrar cambios.';}room=next;root.querySelector('.scene-title').textContent=room.name;const index=sceneFor[room.id]??0;const art=root.querySelector('.scene-art');art.style.backgroundPosition=`${(index%3)*50}% ${Math.floor(index/3)*100}%`;root.querySelector('.scene-tag').textContent=room.id.startsWith('bath')?'Vista interior de referencia':'Inspirado en sus fotos';if(room.id.startsWith('bath')){art.style.backgroundImage='none';art.classList.add('bath-scene');}else{art.style.backgroundImage='';art.classList.remove('bath-scene');}active=getActiveMember();layer.querySelectorAll('[data-actor]').forEach(el=>{
+ const id=el.dataset.actor,p=avatarLocation(getState(),id),before=positions[id];el.hidden=p.room!==room.id;
+ const styleKey=JSON.stringify(getStyles()[id]);if(el.dataset.styleKey!==styleKey){el.querySelector('svg').outerHTML=avatar(id,getStyles()[id]);el.dataset.styleKey=styleKey;}
+ if(!el.hidden&&(before.room!==p.room||before.x!==p.x||before.y!==p.y)){el.classList.add('walking');clearTimeout(motionTimers.get(id));motionTimers.set(id,setTimeout(()=>el.classList.remove('walking'),1300));}
+ positions[id]=p;position(el);
+ });if(changed&&!game)idle();paintSelection();}
  paintSelection();return {update,play};
 }
