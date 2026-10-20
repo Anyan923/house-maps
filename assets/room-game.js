@@ -7,7 +7,7 @@ const palettes=['#447c89','#b56879','#d7a23c','#a38bb9'];
 function avatar(id,style={}){
  if(style.mode!=='drawn'){
   const bounds={anderson:[[0,0,285,500],[0,500,290,455],[0,955,290,447]],damaris:[[300,0,270,500],[300,500,270,455],[300,955,270,447]],jp:[[595,100,235,400],[595,560,235,395],[595,990,235,412]],helena:[[850,150,272,350],[850,610,272,345],[850,1030,272,372]]}[id];
-  return `<svg viewBox="0 0 100 180" aria-hidden="true" class="sprite-character">${bounds.map(([x,y,w,h],i)=>`<svg class="${['sprite-idle','sprite-step-a','sprite-step-b'][i]}" x="0" y="0" width="100" height="180" viewBox="${x} ${y} ${w} ${h}" preserveAspectRatio="xMidYMax meet" style="overflow:hidden"><image href="/assets/family-vilvel-v2.png" width="1122" height="1402"/></svg>`).join('')}</svg>`;
+  return `<svg viewBox="0 0 100 180" aria-hidden="true" class="sprite-character">${bounds.map(([x,y,w,h],i)=>`<svg class="${['sprite-idle','sprite-step-a','sprite-step-b'][i]}" x="0" y="0" width="100" height="180" viewBox="${x} ${y} ${w} ${h}" preserveAspectRatio="xMidYMax meet" style="overflow:hidden"><image href="/assets/family-vilvel-casual.png" width="1122" height="1402"/></svg>`).join('')}</svg>`;
  }
 
  const child=id==='jp',baby=id==='helena',color=style.color||palettes[cast.findIndex(p=>p[0]===id)],hair=style.hair||'short';
