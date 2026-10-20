@@ -40,3 +40,12 @@ Preguntar semanalmente si la agenda redujo fricción, si ambos adultos pudieron 
 
 ## Validación de esta entrega
 Sintaxis de módulos verificada. Acceso inicial y tablero revisados en navegador con un fixture local aislado de Firebase. Selección de momentos comprobada. El fixture no se publica. La escritura autenticada, sincronización entre dispositivos y carga real de fotos requieren una sesión autorizada y no se probaron en esta entrega.
+
+## Revisión: habitaciones reconocibles y juego (20 de octubre)
+La entrada principal al hogar ahora es una escena interior ilustrada, con acceso al plano de distribución plegado. Se generaron seis escenas a partir de las fotos de referencia: sala con molduras azules y piso de piedra, cocina blanca, patio de piedra con fuente y mesa, dormitorio principal, dormitorio infantil y oficina con cuna. Los muebles añadidos son propuestas, no un inventario real. El baño mantiene una representación neutra y huéspedes reutiliza un ambiente de dormitorio; no se afirma una reconstrucción fotogramétrica.
+
+Los personajes tienen volumen y tres poses (reposo y caminata), con desplazamiento por clic o teclado en el área de suelo. Helena se representa en una cunita con ruedas. Los rostros son ilustrativos: todavía no se recibieron referencias personales para hacer retratos. Puede elegirse entre personajes renderizados y el estilo dibujado editable. El grupo explora cada escena junto; no representa presencia física real.
+
+Juegos implementados: parejas de memoria para familia/aprendizaje; selección y colocación de objetos para comida/orden; secuencias interactivas específicas para descanso, oración, iglesia, caminata, trabajo, reunión y actividades generales. Descanso oscurece la escena. Las animaciones respetan movimiento reducido. El modo práctica no escribe datos. Para registrar una actividad real, el adulto debe confirmar que se realizó; se registra únicamente su participación si está asignado. Una transacción evita duplicar el registro por reintentos y conserva las marcas de los demás participantes.
+
+La capa de juego vive en `assets/room-game.js` y `assets/room-game.css`. Los escenarios son `assets/home-interiors.jpg`; los personajes, `assets/family-characters.png`. Los originales privados no se publican. Las actividades se abren desde el botón Jugar en las misiones, desde el detalle de agenda o desde la habitación. Los estilos se conservan localmente; el movimiento de personajes no se sincroniza.

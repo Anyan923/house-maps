@@ -345,6 +345,7 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:
 </style>
 <link rel="stylesheet" href="/assets/adventure.css">
 <link rel="stylesheet" href="/assets/home-world.css">
+<link rel="stylesheet" href="/assets/room-game.css">
 </head>
 <body>
 
@@ -624,7 +625,7 @@ import { mountAdventure } from "./assets/adventure.js";
 import { mountHomeWorld } from "./assets/home-world.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, addDoc, query, orderBy, limit, serverTimestamp, deleteDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, addDoc, query, orderBy, limit, serverTimestamp, deleteDoc, updateDoc, arrayUnion, runTransaction } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDzPPkoqkE4xECYP0D-fAYGaJBvQMy8jLg",
@@ -975,7 +976,7 @@ async function loadWeekChecks(){
   renderAll();
 }
 
-const renderHouse = mountHomeWorld({getState:()=>state,openActivity:openInfoSheet});
+const renderHouse = mountHomeWorld({getState:()=>state,openActivity:openInfoSheet,completeActivity:completeGameActivity});
 const renderAdventure = mountAdventure({getState:()=>state,openActivity:openInfoSheet,openSchedule:()=>document.querySelector('[data-page="semana"]').click()});
 
 /* ===== Render everything ===== */
@@ -1276,7 +1277,7 @@ function renderMissionList(){
         <div class="mission-name">${escapeHtml(b.title)}</div>
         <div class="mission-tag">"${escapeHtml(tip.toLowerCase() || TIPS[b.type]?.label || b.type)}"</div>
       </div>
-      <div class="mission-reward">+${xpForBlock(b)} XP</div>
+      <div class="mission-reward">+${xpForBlock(b)} XP<button type="button" class="mission-play">Jugar →</button></div>
     </div>`;
   }).join("");
   list.querySelectorAll("[data-block]").forEach(el=>{
@@ -1284,6 +1285,7 @@ function renderMissionList(){
       const bid = el.dataset.block;
       const b = state.blocks.find(x=>x.id===bid);
       if (!b) return;
+      if(e.target.closest('.mission-play')){renderHouse.play(b);return;}
       // tap on check: toggle for current user if adult; else open info
       const member = MEMBERS.find(m=>m.email===state.user.email);
       if (member && b.for.includes(member.id)){
@@ -1318,6 +1320,25 @@ async function toggleCheck(rid, mid, elAnchor){
   } catch(e){ showToast("No se pudo guardar","err"); console.warn(e); }
 }
 
+async function completeGameActivity(bid){
+  const b=state.blocks.find(x=>x.id===bid);
+  const member=MEMBERS.find(m=>m.email===state.user?.email);
+  if(!b || !member || !b.for.includes(member.id)) return {ok:false,message:"Esta actividad no está asignada a tu perfil. Puedes registrarla desde la agenda con el participante correspondiente."};
+  const date=state.todayISO;
+  if(todayISO()!==date || b.day!==state.todayDayName) return {ok:false,message:"El día cambió. Abre de nuevo la actividad de hoy."};
+  try {
+    const added=await runTransaction(db,async tx=>{
+      const ref=dayCheckRef(date),snap=await tx.get(ref),marks=snap.exists()?(snap.data().marks||{}):{};
+      const current=marks[bid]||[];
+      if(current.includes(member.id))return false;
+      tx.set(ref,{date,marks:{...marks,[bid]:[...current,member.id]},updatedBy:state.user.email,updatedAt:serverTimestamp()},{merge:true});
+      return true;
+    });
+    if(added)launchConfetti(18);
+    return {ok:true,message:added?"Tu participación quedó guardada en la agenda familiar.":"Tu participación ya estaba registrada. No se duplicaron puntos."};
+  } catch {return {ok:false,message:"No se pudo guardar. Revisa la conexión e inténtalo otra vez."};}
+}
+
 /* ===== Info sheet ===== */
 function openInfoSheet(bid){
   const b = state.blocks.find(x=>x.id===bid);
@@ -1335,6 +1356,10 @@ function openInfoSheet(bid){
     ${t.tip ? `<div class="sheet-block"><h4>Tip del día</h4><p>${t.tip}</p></div>` : ""}
     ${t.avoid ? `<div class="sheet-block"><h4>Qué evitar</h4><p>${t.avoid}</p></div>` : ""}
   `;
+  const playButton=document.createElement('button');
+  playButton.type='button';playButton.className='adventure-action';playButton.textContent='Jugar esta actividad en casa →';
+  playButton.onclick=()=>{ $("#modal-sheet").classList.remove("show");document.querySelector('[data-page="hogar"]').click();renderHouse.play(b); };
+  body.append(playButton);
   $("#modal-sheet").classList.add("show");
 }
 
