@@ -5,8 +5,8 @@ const activityRoom={comida:'kitchen',escuela:'patio',hogar:'patio',familia:'livi
 const palettes=['#447c89','#b56879','#d7a23c','#a38bb9'];
 function avatar(id,style={}){
  if(style.mode!=='drawn'){
-  const bounds={anderson:[[78,0,235,499],[72,510,245,447],[64,970,255,430]],damaris:[[343,25,205,472],[345,535,213,420],[342,982,220,418]],jp:[[610,217,178,282],[610,682,190,277],[610,1086,193,314]],helena:[[820,212,257,288],[817,684,260,277],[817,1095,260,305]]}[id];
-  return `<svg viewBox="0 0 100 180" aria-hidden="true" class="sprite-character">${bounds.map(([x,y,w,h],i)=>`<svg class="${['sprite-idle','sprite-step-a','sprite-step-b'][i]}" x="0" y="0" width="100" height="180" viewBox="${x} ${y} ${w} ${h}" preserveAspectRatio="xMidYMax meet" style="overflow:hidden"><image href="/assets/family-characters.png" width="1122" height="1402"/></svg>`).join('')}</svg>`;
+  const bounds={anderson:[[0,0,285,500],[0,500,290,455],[0,955,290,447]],damaris:[[300,0,270,500],[300,500,270,455],[300,955,270,447]],jp:[[595,100,235,400],[595,560,235,395],[595,990,235,412]],helena:[[850,150,272,350],[850,610,272,345],[850,1030,272,372]]}[id];
+  return `<svg viewBox="0 0 100 180" aria-hidden="true" class="sprite-character">${bounds.map(([x,y,w,h],i)=>`<svg class="${['sprite-idle','sprite-step-a','sprite-step-b'][i]}" x="0" y="0" width="100" height="180" viewBox="${x} ${y} ${w} ${h}" preserveAspectRatio="xMidYMax meet" style="overflow:hidden"><image href="/assets/family-vilvel-v2.png" width="1122" height="1402"/></svg>`).join('')}</svg>`;
  }
 
  const child=id==='jp',baby=id==='helena',color=style.color||palettes[cast.findIndex(p=>p[0]===id)],hair=style.hair||'short';
