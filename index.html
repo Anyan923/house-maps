@@ -407,7 +407,7 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:
       <div class="adventure-layout">
         <section class="world-card" aria-label="Nuestro hogar esta semana">
           <div class="world-top"><span class="eyebrow">El mundo de los Vilvel</span><span id="world-season">Bogotá</span></div>
-          <h2>Aquí crecemos juntos.</h2><p>Su casa, sus rincones y las pequeñas aventuras de cada día. Toca un espacio para explorarlo.</p>
+          <h2>Pequeñas aventuras. Momentos reales.</h2><p>Explora, ensaya y hazlo en casa. Cada aventura virtual prepara un momento para vivir juntos.</p>
           <div class="house-stage" id="house-stage"></div>
           <div class="world-bottom"><strong>Un hogar, un equipo</strong><span id="world-count">Pequeños pasos, grandes recuerdos</span></div>
         </section>
@@ -1006,7 +1006,7 @@ async function moveFamilyMember(id,room,x,y,source='manual'){
 async function setSharing(enabled){state.sharePresence=enabled;try{localStorage.setItem('house-sharing-'+state.user.uid,String(enabled));}catch{}showToast(enabled?'Los próximos movimientos se compartirán.':'Los próximos movimientos quedan en este celular.');}
 const renderHouse = mountHomeWorld({getState:worldState,openActivity:openInfoSheet,completeActivity:completeGameActivity,onMove:moveFamilyMember,onSharing:setSharing});
 mountFamilyVoice({root:document.getElementById('family-voice'),getState:worldState,completeActivity:completeGameActivity,onLocation:room=>{moveFamilyMember(worldState().memberId,room,50,82,'voice');renderHouse.selectMember(worldState().memberId);}});
-const renderAdventure = mountAdventure({getState:()=>state,openActivity:openInfoSheet,openSchedule:()=>document.querySelector('[data-page="semana"]').click()});
+const renderAdventure = mountAdventure({getState:()=>state,openActivity:id=>renderHouse.play(state.blocks.find(b=>b.id===id)),openSchedule:()=>document.querySelector('[data-page="semana"]').click()});
 
 /* ===== Render everything ===== */
 function renderAll(){

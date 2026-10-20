@@ -1,0 +1,47 @@
+// Original House Mapp activity engine: virtual rehearsal -> real-world steps -> confirmation.
+export const journeys={
+ comida:{title:'Una mesa que reúne',objects:['Plato','Vaso','Servilleta'],icons:['🍽️','🥛','▱'],why:['El plato marca el lugar de cada persona.','Coloca el vaso donde pueda alcanzarse sin golpearlo.','La servilleta ayuda a cuidar la mesa.'],real:['Preparen juntos los lugares que van a usar.','Inviten a quienes compartirán la comida.','Compartan la comida y escuchen algo del día de cada uno.']},
+ hogar:{title:'Cada cosa encuentra su casa',objects:['Libro','Juguete','Ropa'],icons:['📚','🧸','👕'],why:['Los libros vuelven a la biblioteca.','Los juguetes descansan en su canasta.','La ropa va al lugar acordado para guardar o lavar.'],real:['Elijan un rincón pequeño para ordenar.','Lleven cada objeto a su lugar; JP puede ayudar con objetos livianos.','Miren juntos el espacio y reconozcan el esfuerzo.']},
+ escuela:{title:'Exploradores del patio',objects:['Hoja','Color','Forma'],icons:['🌿','🟡','🔺'],why:['Observa los bordes y las líneas de una hoja.','Compara dos objetos: ¿tienen el mismo color?','Busca algo redondo y algo con esquinas.'],real:['Vayan al patio con un adulto y elijan algo para observar.','Encuentren un color y una forma en objetos reales.','JP cuenta o dibuja lo que encontró; Helena puede acompañar con un adulto.']},
+ familia:{title:'Un cuento entre todos',objects:['Personaje','Lugar','Final'],icons:['🧸','🏡','⭐'],why:['Elige quién protagoniza la historia.','Imagina dónde sucede.','Decidan juntos cómo termina.'],real:['Reúnanse en la sala y elijan un cuento o inventen uno.','Cada persona agrega una idea a su ritmo.','Compartan qué parte les gustó más.']},
+ sueno:{title:'La casa baja el ritmo',objects:['Juguetes','Luz','Cuento'],icons:['🧸','💡','📖'],why:['Guardar unos pocos objetos prepara el espacio.','Una luz tranquila anuncia el cambio de ritmo.','Un cuento compartido puede cerrar el día.'],real:['Preparen el espacio de descanso según su rutina familiar.','Bajen el ritmo y acomoden la iluminación.','Compartan el cuento o el momento tranquilo que eligieron.']},
+ oracion:{title:'Un momento de gratitud',objects:['Gratitud','Persona','Oración'],icons:['☀️','💛','🙏'],why:['Recuerda algo bueno que viviste hoy.','Piensa en alguien a quien quieras acompañar.','Compartan sus palabras con Dios.'],real:['Reúnanse en un lugar tranquilo.','Cada uno comparte una gratitud o escucha.','Oren juntos a su ritmo.']},
+ trabajo:{title:'Un paso con propósito',objects:['Prioridad','Espacio','Pausa'],icons:['🎯','📝','🌿'],why:['Elige un resultado concreto.','Prepara solo lo que necesitas.','Acuerda un momento para volver a conectar.'],real:['Definan la prioridad de esta actividad.','Preparen el espacio y realicen el trabajo acordado.','Cierren el bloque y compartan cómo les fue.']}
+};
+export function journeyFor(type){return journeys[type]||{title:'Un momento con intención',objects:['Preparar','Compartir','Recordar'],icons:['🎯','💛','⭐'],why:['Definan qué quieren lograr.','Acuerden cómo participará cada persona.','Elijan algo que quieran recordar.'],real:['Lean el objetivo de la actividad en la agenda.','Realicen juntos lo que acordaron, a su ritmo.','Conversen sobre lo que lograron.']};}
+export function mountRealAdventure({panel,stage,block,type,getState,onFinish,onExit,onStep,onNext}){
+ const journey=journeyFor(type),state=getState(),owner=state.memberId||state.user?.uid||'local';
+ const key=`house-journey-v1:${owner}:${state.todayISO}:${block?.id||'practice-'+type}`;
+ let phase='explore',inspected=[],placed=[],checked=[],reflection='',busy=false,disposed=false;
+ try{const saved=JSON.parse(localStorage.getItem(key)||'null');if(saved&&saved.type===type&&saved.title===(block?.title||journey.title)){phase=['explore','rehearse','real','reflect'].includes(saved.phase)?saved.phase:'explore';inspected=(saved.inspected||[]).filter(i=>[0,1,2].includes(i));placed=(saved.placed||[]).filter(i=>[0,1,2].includes(i));checked=(saved.checked||[]).filter(i=>[0,1,2].includes(i));reflection=String(saved.reflection||'').slice(0,300);}}catch{}
+ function save(){try{localStorage.setItem(key,JSON.stringify({type,title:block?.title||journey.title,phase,inspected,placed,checked,reflection}));}catch{}}
+ function el(tag,text,cls){const e=document.createElement(tag);if(text)e.textContent=text;if(cls)e.className=cls;return e;}
+ function action(text,fn){const b=el('button',text);b.type='button';b.onclick=fn;return b;}
+ function go(p){phase=p;save();render();}
+ function render(){
+ panel.replaceChildren();panel.classList.add('guided-adventure');
+ const steps=['Explorar','Ensayar','Hacer en casa','Recordar'],current=['explore','rehearse','real','reflect'].indexOf(phase);
+ const progress=el('ol',null,'journey-progress');steps.forEach((s,i)=>{const item=el('li',s);item.setAttribute('aria-current',i===current?'step':'false');progress.append(item);});panel.append(progress,el('h4',block?.title||journey.title),el('p',block?.description||journey.title));
+ panel.append(el('p',block?'Conectado con tu agenda · el logro se registra al final.':'Exploración libre · sin XP ni cambios en la agenda.','journey-context'));
+ if(phase==='explore'||phase==='rehearse'){
+  panel.append(el('p',phase==='explore'?'Toca cada objeto y descubre para qué sirve.':'Prepara la escena: coloca los objetos en el orden que exploraste.'));
+  const model=el('div',null,'journey-diorama');model.setAttribute('aria-label','Mesa virtual interactiva');const surface=el('div',null,'journey-surface');model.append(surface);
+  journey.objects.forEach((name,i)=>{const b=action('',()=>{if(phase==='explore'){if(!inspected.includes(i))inspected.push(i);info.textContent=journey.why[i];b.setAttribute('aria-pressed','true');save();next.disabled=inspected.length<3;}else{if(placed.includes(i))return;if(i!==placed.length){info.textContent=`Primero coloca ${journey.objects[placed.length]}.`;return;}placed.push(i);b.classList.add('is-placed');b.setAttribute('aria-pressed','true');info.textContent=journey.why[i];onStep(i);save();next.disabled=placed.length<3;}});b.className='journey-object';b.style.setProperty('--slot',i);b.append(el('span',journey.icons[i],'journey-icon'),el('span',name));b.setAttribute('aria-label',(phase==='explore'?'Explorar ':'Colocar ')+name);b.setAttribute('aria-pressed',String((phase==='explore'?inspected:placed).includes(i)));if(phase==='rehearse'&&placed.includes(i))b.classList.add('is-placed');surface.append(b);});panel.append(model);
+  const info=el('p','Puedes explorar sin prisa.','journey-explanation');info.setAttribute('role','status');panel.append(info);
+  const next=action(phase==='explore'?'Ensayar en la casa virtual →':'Ahora vamos a hacerlo en casa →',()=>go(phase==='explore'?'rehearse':'real'));next.disabled=(phase==='explore'?inspected:placed).length<3;panel.append(next);
+ }else if(phase==='real'){
+  panel.append(el('div','Ahora la aventura sucede fuera de la pantalla.','real-world-callout'),el('p','Puedes bloquear el celular y volver después. Marca cada paso cuando lo hayan realizado. Tu avance se conserva en este dispositivo.'));
+  journey.real.forEach((text,i)=>{const label=el('label',null,'real-confirm');const c=document.createElement('input');c.type='checkbox';c.checked=checked.includes(i);c.onchange=()=>{checked=c.checked?[...new Set([...checked,i])]:checked.filter(x=>x!==i);save();next.disabled=checked.length!==3;};label.append(c,el('span',text));panel.append(label);});
+  const next=action('Lo hicimos · recordar el momento →',()=>go('reflect'));next.disabled=checked.length!==3;panel.append(next);
+ }else{
+  panel.append(el('p','¿Qué les gustó o qué descubrieron? Una frase es suficiente. Es opcional y queda solo en este dispositivo.'));
+  const label=el('label','Nuestro recuerdo','journey-reflection-label'),input=document.createElement('textarea');input.maxLength=300;input.value=reflection;input.rows=3;input.oninput=()=>{reflection=input.value;save();};label.append(input);panel.append(label);
+  const consent=el('label',null,'real-confirm'),check=document.createElement('input');check.type='checkbox';consent.append(check,el('span','Confirmo que realizamos la actividad real.'));panel.append(consent);
+  const feedback=el('p');feedback.setAttribute('role','status');
+  const done=action(block?'Guardar mi logro real':'Finalizar exploración',async()=>{if(busy||!check.checked)return;busy=true;done.disabled=true;const result=await onFinish();if(disposed)return;busy=false;if(result?.ok){try{localStorage.removeItem(key);}catch{}panel.replaceChildren(el('h4','¡Un momento vivido juntos!'),el('p',result.message||'Exploración terminada.'));const s=getState();const next=(s.blocks||[]).filter(b=>b.id!==block?.id&&b.day===s.todayDayName&&b.for?.includes(s.memberId)&&!(s.checks?.[b.id]||[]).includes(s.memberId)).sort((a,b)=>a.startTime.localeCompare(b.startTime))[0];if(next&&onNext)panel.append(action('Siguiente aventura: '+next.title,()=>onNext(next)));panel.append(action('Volver a nuestra casa',onExit));stage.classList.add('celebrating');}else{feedback.textContent=result?.message||'No se pudo guardar. Intenta nuevamente.';done.disabled=false;}});done.disabled=true;check.onchange=()=>done.disabled=busy||!check.checked;panel.append(done,feedback);
+ }
+ if(current>0)panel.append(action('← Volver al paso anterior',()=>go(['explore','rehearse','real','reflect'][current-1])));
+ panel.append(action('Guardar avance y salir',()=>{save();onExit();}));
+ }
+ render();return ()=>{disposed=true;panel.classList.remove('guided-adventure');};
+}

@@ -20,7 +20,7 @@ export function mountAdventure({ getState, openActivity, openSchedule }) {
     root.querySelector('.next-label').textContent=next?`${next.startTime} · ${next.duration} MIN · EN FAMILIA`:'ESPACIO PARA RESPIRAR';
     root.querySelector('.next-title').textContent=next?next.title:choices.length?'Este capítulo está completo.':'Un momento sin planes.';
     root.querySelector('.next-copy').textContent=next?(next.description||'Compartan este momento a su ritmo. Pueden ver los detalles antes de empezar.'):'Pueden cerrar la app y disfrutar juntos. Su casa los espera cuando vuelvan.';
-    const action=root.querySelector('.adventure-action');action.textContent=next?'Explorar esta actividad →':'Organizar nuestro día →';action.onclick=()=>next?openActivity(next.id):openSchedule();
+    const action=root.querySelector('.adventure-action');action.textContent=next?'Vivir esta aventura →':'Organizar nuestro día →';action.onclick=()=>next?openActivity(next.id):openSchedule();
     root.querySelector('.day-progress span').textContent=`${count} de ${today.length} actividades compartidas completadas`;
     root.querySelector('progress').value=today.length?count/today.length*100:0;
     document.getElementById('house-stage').dataset.phase=current.id;
