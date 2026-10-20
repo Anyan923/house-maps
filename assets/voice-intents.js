@@ -24,6 +24,6 @@ export function interpret(text,state,activeId=null,choiceIds=[]){
  if(choices.length){const ord=['primera','segunda','tercera','cuarta','quinta'];let index=ord.findIndex(w=>n.includes(w));if(/^\d+$/.test(n))index=Number(n)-1;if(index>=0&&choices[index])return {kind:'complete',block:choices[index]};const found=activityMatches(text,choices);if(found.length===1)return {kind:'complete',block:found[0]};}
  if(/\b(termine|terminamos|acabamos|acabe|complete|completamos|ya hice|ya hicimos|listo|ya esta|hemos terminado|he terminado)\b/.test(n)){
  const found=activityMatches(text,list);if(found.length===1)return {kind:'complete',block:found[0]};if(!found.length&&/^(listo|ya esta|termine|ya termine|terminamos)$/.test(n)){const active=list.find(b=>b.id===activeId);if(active)return {kind:'complete',block:active};}return {kind:'choose',blocks:found.length?found:list};}
- if(/empecemos|comencemos|vamos a empezar|iniciemos/.test(n)){const found=activityMatches(text,list);return {kind:'start',block:found.length===1?found[0]:nextActivity(state)};}
+ if(/empecemos|comencemos|vamos a empezar|iniciemos/.test(n)){const found=activityMatches(text,list);return {kind:'start',block:found.length===1?found[0]:(list.find(b=>b.for.length>1)||nextActivity(state))};}
  return {kind:'chat'};
 }

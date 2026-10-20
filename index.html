@@ -405,16 +405,16 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:
       </div>
 
       <div class="adventure-layout">
-        <details class="world-explorer"><summary>Explorar nuestra casa y los avatares</summary><section class="world-card" aria-label="Nuestro hogar esta semana">
+        <details class="world-explorer"><summary>Ver plano, posiciones indicadas y personalización</summary><section class="world-card" aria-label="Nuestro hogar esta semana">
           <div class="world-top"><span class="eyebrow">El mundo de los Vilvel</span><span id="world-season">Bogotá</span></div>
-          <h2>Su casa, un mundo compartido.</h2><p>Explora, ensaya y hazlo en casa. Cada aventura virtual prepara un momento para vivir juntos.</p>
+          <h2>Su casa, un mundo compartido.</h2><p>Consulta las posiciones que cada persona ha indicado y personaliza los avatares.</p>
           <div class="house-stage" id="house-stage"></div>
           <div class="world-bottom"><strong>Un hogar, un equipo</strong><span id="world-count">Pequeños pasos, grandes recuerdos</span></div>
         </section>
         </details><section class="day-panel" id="day-adventure" aria-label="La aventura del día"></section>
       </div>
 
-      <div class="streak-banner" id="streak-banner">
+      <details class="home-archive"><summary>Recuerdos y detalle de los avances</summary><div class="streak-banner" id="streak-banner">
         <span class="streak-flames" id="streak-flames">🔥</span>
         <div class="streak-text" id="streak-text">0 días
           <small>empieza la aventura</small>
@@ -424,7 +424,7 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:
       <div class="section-title"><span>Nuestra familia</span></div>
       <div class="family-grid" id="family-grid"></div>
 
-      <div class="section-title"><span>Misión de hoy</span></div>
+
       <div class="mission-card" id="mission-card">
         <div class="mission-head">
           <div class="mission-title">3 pasos del día</div>
@@ -437,7 +437,7 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:
       <div class="album-strip" id="album-strip"></div>
 
       <div class="section-title"><span>Logros cerca</span></div>
-      <div id="achievements-list"></div><div class="offline-note"><strong>Lo mejor del día pasa fuera de la pantalla.</strong>Un abrazo, un cuento, una oración. Vuelvan cuando tengan algo que guardar.</div>
+      <div id="achievements-list"></div><div class="offline-note"><strong>Lo mejor del día pasa fuera de la pantalla.</strong>Un abrazo, un cuento, una oración. Vuelvan cuando tengan algo que guardar.</div></details>
 
     </section>
 
@@ -771,7 +771,7 @@ function levelFromXP(xp){
 
 const state = {
   user: null,
-  familyMessages: [], remotePresence: {}, localPresence: {}, sharePresence: false, presenceStatus: "local", unsubPresence: null,
+  familyMoment: null, familyMessages: [], remotePresence: {}, localPresence: {}, sharePresence: false, presenceStatus: "local", unsubPresence: null,
   todayISO: null,
   todayDayIdx: 0,
   todayDayName: null,
@@ -914,7 +914,7 @@ function showGateError(msg){ const el=$("#gate-error"); el.textContent=msg; el.c
 
 onAuthStateChanged(auth, async user => {
   $("#boot").classList.add("hide");
-  if (!user){ state.user=null; state.unsubPresence?.(); state.unsubChecks?.(); state.unsubBlocks?.(); state.unsubMoments?.(); clearInterval(state.nowTicker); state.remotePresence={}; state.localPresence={}; state.familyMessages=[]; state.sharePresence=false; window.dispatchEvent(new Event("house:signed-out")); $("#gate").style.display="flex"; $("#app").classList.remove("show"); return; }
+  if (!user){ state.user=null; state.unsubPresence?.(); state.unsubChecks?.(); state.unsubBlocks?.(); state.unsubMoments?.(); clearInterval(state.nowTicker); state.remotePresence={}; state.localPresence={}; state.familyMessages=[]; state.familyMoment=null; state.sharePresence=false; window.dispatchEvent(new Event("house:signed-out")); $("#gate").style.display="flex"; $("#app").classList.remove("show"); return; }
   if (!AUTHORIZED_EMAILS.includes(user.email)) {
     showGateError(`${user.email} no está autorizado.`);
     await signOut(auth); return;
@@ -992,6 +992,8 @@ function subscribePresence(){
  state.unsubPresence?.();state.presenceStatus='loading';
  state.unsubPresence=onSnapshot(familyRef(),{includeMetadataChanges:true},snap=>{
   state.remotePresence=validPresence(snap.data()?.presence);
+  const moment=snap.data()?.familyMoment;
+  state.familyMoment=moment&&typeof moment.blockId==='string'&&typeof moment.date==='string'&&Object.hasOwn(MEMBER_NAMES,moment.startedBy)&&Number.isFinite(moment.startedAt)?moment:null;
   state.familyMessages=(Array.isArray(snap.data()?.familyMessages)?snap.data().familyMessages:[]).filter(m=>m&&typeof m.id==='string'&&['anderson','damaris'].includes(m.from)&&['anderson','damaris','family'].includes(m.to)&&typeof m.text==='string').slice(-30).map(m=>({...m,text:m.text.slice(0,500)}));
   if(!snap.metadata.hasPendingWrites)for(const [id,p] of Object.entries(state.localPresence)){
    if(state.remotePresence[id]?.clientMutationId===p.clientMutationId)delete state.localPresence[id];
@@ -1009,7 +1011,7 @@ async function moveFamilyMember(id,room,x,y,source='manual'){
 }
 async function setSharing(enabled){state.sharePresence=enabled;try{localStorage.setItem('house-sharing-'+state.user.uid,String(enabled));}catch{}showToast(enabled?'Los próximos movimientos se compartirán.':'Los próximos movimientos quedan en este celular.');}
 const renderHouse = mountHomeWorld({getState:worldState,openActivity:openInfoSheet,completeActivity:completeGameActivity,onMove:moveFamilyMember,onSharing:setSharing});
-mountFamilyVoice({root:document.getElementById('family-voice'),getState:worldState,completeActivity:completeGameActivity,undoActivity:undoVoiceActivity,sendMessage:sendFamilyMessage,onLocation:room=>{moveFamilyMember(worldState().memberId,room,50,82,'voice');renderHouse.selectMember(worldState().memberId);}});
+mountFamilyVoice({root:document.getElementById('family-voice'),getState:worldState,completeActivity:completeGameActivity,undoActivity:undoVoiceActivity,sendMessage:sendFamilyMessage,onStart:startFamilyMoment,onLocation:room=>{moveFamilyMember(worldState().memberId,room,50,82,'voice');renderHouse.selectMember(worldState().memberId);}});
 document.querySelector('.adventure-layout').before(document.getElementById('family-voice'));
 const renderAdventure = mountAdventure({getState:()=>state,openActivity:id=>renderHouse.play(state.blocks.find(b=>b.id===id)),openSchedule:()=>document.querySelector('[data-page="semana"]').click()});
 
@@ -1382,6 +1384,13 @@ async function undoVoiceActivity(bid){
  try{await runTransaction(db,async tx=>{const ref=dayCheckRef(date),snap=await tx.get(ref),marks=snap.data()?.marks||{};tx.set(ref,{date,marks:{...marks,[bid]:(marks[bid]||[]).filter(id=>id!==member)},updatedBy:state.user.email,updatedAt:serverTimestamp()},{merge:true});});
  state.checks[bid]=(state.checks[bid]||[]).filter(id=>id!==member);renderAll();return {ok:true,message:'Deshice tu último registro. La actividad vuelve a estar pendiente para ti.'};
  }catch{return {ok:false,message:'No pude deshacer el registro. Revisa la conexión.'};}
+}
+async function startFamilyMoment(block){
+ const memberId=worldState().memberId;
+ if(!state.user||block.day!==state.todayDayName||!block.for.includes(memberId))return {ok:false,message:'Este momento no está asignado a ti para hoy.'};
+ const familyMoment={blockId:block.id,date:state.todayISO,startedBy:memberId,startedAt:Date.now()};
+ try{await setDoc(familyRef(),{familyMoment},{merge:true});state.familyMoment=familyMoment;window.dispatchEvent(new Event('house:state-updated'));return {ok:true};}
+ catch{return {ok:false,message:'No pude compartir el inicio. Revisa la conexión e inténtalo de nuevo.'};}
 }
 async function sendFamilyMessage(message){
  const from=worldState().memberId;
