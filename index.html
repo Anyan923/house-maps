@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="theme-color" content="#C85A3F">
 <title>House Mapp · La Aventura Vilvel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -78,6 +78,50 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:
 /* ===== HOUSE SVG ===== */
 .house-stage{position:relative;width:100%;max-width:420px;margin:14px auto 0;aspect-ratio:4/3}
 .house-stage svg{width:100%;height:100%;display:block}
+
+/* ===== VOICE ORB ===== */
+.voice-orb-wrap{position:absolute;left:50%;top:88%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:4px;z-index:10;pointer-events:none}
+.voice-orb{position:relative;width:52px;height:52px;border-radius:50%;cursor:pointer;pointer-events:auto;display:flex;align-items:center;justify-content:center;transition:all .3s}
+.orb-core{position:absolute;inset:14px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#FFE89A,#D9A94E);box-shadow:0 2px 8px rgba(0,0,0,.3),inset 0 -2px 4px rgba(0,0,0,.15);transition:all .4s}
+.orb-mic{position:absolute;width:16px;height:16px;color:#3A2E1F;opacity:0;transition:opacity .3s;z-index:2}
+.orb-ring{position:absolute;inset:0;border-radius:50%;border:2px solid rgba(255,232,154,.5);opacity:0;transition:all .4s}
+.orb-ring.r2{inset:-6px;border-color:rgba(255,232,154,.4)}
+.orb-ring.r3{inset:-12px;border-color:rgba(255,232,154,.25)}
+
+.voice-orb.idle .orb-core{background:radial-gradient(circle at 30% 30%,rgba(255,249,240,.5),rgba(160,139,111,.6));box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.voice-orb.listening-wake .orb-core{background:radial-gradient(circle at 30% 30%,#B5D5E6,#4A7A8C);box-shadow:0 2px 10px rgba(74,122,140,.6),inset 0 -2px 4px rgba(0,0,0,.2);animation:orbPulseSoft 2.4s ease-in-out infinite}
+.voice-orb.listening-wake .orb-ring{opacity:1;animation:ringWave 2.4s ease-out infinite}
+.voice-orb.listening-wake .orb-ring.r2{animation-delay:.4s}
+.voice-orb.listening-wake .orb-ring.r3{animation-delay:.8s}
+.voice-orb.listening-cmd .orb-core{background:radial-gradient(circle at 30% 30%,#A8E0F0,#4A7A8C);box-shadow:0 2px 16px rgba(74,122,140,1),inset 0 -2px 4px rgba(0,0,0,.2);animation:orbPulseFast .9s ease-in-out infinite}
+.voice-orb.listening-cmd .orb-ring{opacity:1;animation:ringWaveFast 1.2s ease-out infinite}
+.voice-orb.listening-cmd .orb-ring.r2{animation-delay:.3s}
+.voice-orb.listening-cmd .orb-ring.r3{animation-delay:.6s}
+.voice-orb.listening-cmd .orb-mic{opacity:.9}
+.voice-orb.speaking .orb-core{background:radial-gradient(circle at 30% 30%,#FFF2B8,#C85A3F);box-shadow:0 2px 16px rgba(217,169,78,.9),inset 0 -2px 4px rgba(0,0,0,.2);animation:orbSpeak .6s ease-in-out infinite alternate}
+.voice-orb.speaking .orb-ring{opacity:1;animation:ringWaveFast .8s ease-out infinite}
+.voice-orb.speaking .orb-ring.r2{animation-delay:.2s}
+.voice-orb.speaking .orb-ring.r3{animation-delay:.4s}
+.voice-orb.muted .orb-core{background:radial-gradient(circle at 30% 30%,rgba(107,89,66,.4),rgba(58,46,31,.5));box-shadow:none}
+.voice-orb.muted .orb-mic{opacity:.4;color:#A08B6F}
+
+@keyframes orbPulseSoft{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes orbPulseFast{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+@keyframes orbSpeak{0%{transform:scale(1)}100%{transform:scale(1.1)}}
+@keyframes ringWave{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.8);opacity:0}}
+@keyframes ringWaveFast{0%{transform:scale(1);opacity:.8}100%{transform:scale(2.2);opacity:0}}
+
+.voice-status{pointer-events:none;text-align:center}
+.voice-status-label{font-family:'Caveat',cursive;font-size:14px;color:var(--sepia-soft);line-height:1;padding:3px 10px;background:rgba(255,249,240,.85);backdrop-filter:blur(4px);border-radius:999px;white-space:nowrap}
+.voice-orb.listening-cmd + .voice-status .voice-status-label,
+.voice-orb.listening-wake + .voice-status .voice-status-label{color:var(--anderson)}
+.voice-orb.speaking + .voice-status .voice-status-label{color:var(--brick-deep)}
+.voice-orb.muted + .voice-status .voice-status-label{color:var(--sepia-faint)}
+
+.voice-caption{max-width:420px;margin:12px auto 0;padding:12px 18px;background:linear-gradient(135deg,var(--paper) 0%,var(--paper-tint) 100%);border:1px solid var(--rule);border-radius:14px;font-family:'Fraunces',serif;font-size:14px;color:var(--sepia);line-height:1.5;opacity:0;transform:translateY(-6px);transition:all .4s;min-height:0;max-height:0;overflow:hidden;box-shadow:var(--shadow-sm)}
+.voice-caption.show{opacity:1;transform:translateY(0);min-height:28px;max-height:300px;padding:12px 18px}
+.voice-caption::before{content:'"';font-family:'Fraunces',serif;color:var(--gold);font-size:28px;line-height:0;vertical-align:-10px;margin-right:4px}
+.voice-caption::after{content:'"';font-family:'Fraunces',serif;color:var(--gold);font-size:28px;line-height:0;vertical-align:-10px;margin-left:4px}
 .window-glow{animation:winglow 2.6s ease-in-out infinite}
 @keyframes winglow{0%,100%{opacity:.65}50%{opacity:1}}
 .window-today-pulse{animation:todaypulse 1.8s ease-in-out infinite}
@@ -343,9 +387,6 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:
   .family-grid{grid-template-columns:1fr}
 }
 </style>
-<link rel="stylesheet" href="/assets/adventure.css">
-<link rel="stylesheet" href="/assets/home-world.css">
-<link rel="stylesheet" href="/assets/room-game.css">
 </head>
 <body>
 
@@ -365,13 +406,13 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:
     </div>
     <h1 class="gate-title">House Mapp</h1>
     <div class="gate-sub">La aventura de los Vilvel</div>
-    <p class="gate-copy">La aventura más bonita sucede en casa. Organicen su día, compartan pequeñas misiones y guarden lo que importa.</p>
+    <p class="gate-copy">Un ritmo claro para los días que caminamos juntos. Entra con tu cuenta de Google.</p>
     <div class="gate-error" id="gate-error"></div>
     <button class="google-btn" id="btn-google">
       <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.5-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.6l6.2 5.2c-.4.4 6.6-4.8 6.6-14.8 0-1.3-.1-2.6-.4-3.9z"/></svg>
       Entrar con Google
     </button>
-    <p class="gate-foot">Solo correos autorizados pueden entrar.<br>Acceso reservado a su familia.</p>
+    <p class="gate-foot">Solo correos autorizados pueden entrar.<br>Tus datos viven solo entre ustedes.</p>
   </div>
 </div>
 
@@ -404,17 +445,24 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:
         <p class="hero-verse" id="hero-verse">—</p>
       </div>
 
-      <div class="adventure-layout">
-        <details class="world-explorer"><summary>Ver plano, posiciones indicadas y personalización</summary><section class="world-card" aria-label="Nuestro hogar esta semana">
-          <div class="world-top"><span class="eyebrow">El mundo de los Vilvel</span><span id="world-season">Bogotá</span></div>
-          <h2>Su casa, un mundo compartido.</h2><p>Consulta las posiciones que cada persona ha indicado y personaliza los avatares.</p>
-          <div class="house-stage" id="house-stage"></div>
-          <div class="world-bottom"><strong>Un hogar, un equipo</strong><span id="world-count">Pequeños pasos, grandes recuerdos</span></div>
-        </section>
-        </details><section class="day-panel" id="day-adventure" aria-label="La aventura del día"></section>
+      <div class="house-stage" id="house-stage">
+        <div class="voice-orb-wrap">
+          <div class="voice-orb idle" id="voice-orb" title="Toca para activar/silenciar">
+            <div class="orb-ring"></div>
+            <div class="orb-ring r2"></div>
+            <div class="orb-ring r3"></div>
+            <div class="orb-core"></div>
+            <svg class="orb-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
+          </div>
+          <div class="voice-status">
+            <div class="voice-status-label" id="voice-status-label">esperando</div>
+          </div>
+        </div>
       </div>
 
-      <details class="home-archive"><summary>Recuerdos y detalle de los avances</summary><div class="streak-banner" id="streak-banner">
+      <div class="voice-caption" id="voice-caption"></div>
+
+      <div class="streak-banner" id="streak-banner">
         <span class="streak-flames" id="streak-flames">🔥</span>
         <div class="streak-text" id="streak-text">0 días
           <small>empieza la aventura</small>
@@ -424,7 +472,7 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:
       <div class="section-title"><span>Nuestra familia</span></div>
       <div class="family-grid" id="family-grid"></div>
 
-
+      <div class="section-title"><span>Misión de hoy</span></div>
       <div class="mission-card" id="mission-card">
         <div class="mission-head">
           <div class="mission-title">3 pasos del día</div>
@@ -437,7 +485,7 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:
       <div class="album-strip" id="album-strip"></div>
 
       <div class="section-title"><span>Logros cerca</span></div>
-      <div id="achievements-list"></div><div class="offline-note"><strong>Lo mejor del día pasa fuera de la pantalla.</strong>Un abrazo, un cuento, una oración. Vuelvan cuando tengan algo que guardar.</div></details>
+      <div id="achievements-list"></div>
 
     </section>
 
@@ -621,13 +669,9 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:
 <div class="confetti-stage" id="confetti-stage"></div>
 
 <script type="module">
-import { mountAdventure } from "./assets/adventure.js";
-import { mountFamilyVoice } from "./assets/family-voice.js";
-import { validPresence, ROOM_NAMES, MEMBER_NAMES } from "./assets/presence-model.js";
-import { mountHomeWorld } from "./assets/home-world.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, addDoc, query, orderBy, limit, serverTimestamp, deleteDoc, updateDoc, arrayUnion, runTransaction } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, addDoc, query, orderBy, limit, serverTimestamp, deleteDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDzPPkoqkE4xECYP0D-fAYGaJBvQMy8jLg",
@@ -771,12 +815,10 @@ function levelFromXP(xp){
 
 const state = {
   user: null,
-  familyMoment: null, familyMessages: [], remotePresence: {}, localPresence: {}, sharePresence: false, presenceStatus: "local", unsubPresence: null,
   todayISO: null,
   todayDayIdx: 0,
   todayDayName: null,
   blocks: [],
-  checksReady: false,
   checks: {},            // today's: { blockId: [memberIds] }
   weekChecks: {},        // whole week: { iso: { blockId: [memberIds] } }
   moments: [],
@@ -914,21 +956,16 @@ function showGateError(msg){ const el=$("#gate-error"); el.textContent=msg; el.c
 
 onAuthStateChanged(auth, async user => {
   $("#boot").classList.add("hide");
-  if (!user){ state.user=null; state.unsubPresence?.(); state.unsubChecks?.(); state.unsubBlocks?.(); state.unsubMoments?.(); clearInterval(state.nowTicker); state.remotePresence={}; state.localPresence={}; state.familyMessages=[]; state.familyMoment=null; state.sharePresence=false; window.dispatchEvent(new Event("house:signed-out")); $("#gate").style.display="flex"; $("#app").classList.remove("show"); return; }
+  if (!user){ $("#gate").style.display="flex"; $("#app").classList.remove("show"); return; }
   if (!AUTHORIZED_EMAILS.includes(user.email)) {
     showGateError(`${user.email} no está autorizado.`);
     await signOut(auth); return;
   }
   state.user = user;
-  try {state.sharePresence=localStorage.getItem("house-sharing-"+user.uid)==="true";}catch{}
-  subscribePresence();
   $("#gate").style.display="none";
   $("#app").classList.add("show");
   try { await ensureFamily(); } catch(e){ console.warn("ensureFamily err:",e); }
   await bootApp();
-  renderHouse.selectMember(worldState().memberId);
-  const linkedRoom=new URLSearchParams(location.search).get("room");
-  if(Object.hasOwn(ROOM_NAMES,linkedRoom))renderHouse.viewRoom(linkedRoom);
 });
 
 async function bootApp(){
@@ -945,10 +982,8 @@ async function bootApp(){
   });
 
   // Today's checks
-  state.checksReady=false;
   if (state.unsubChecks) state.unsubChecks();
   state.unsubChecks = onSnapshot(dayCheckRef(state.todayISO), snap=>{
-    state.checksReady=true;
     state.checks = snap.exists() ? (snap.data().marks || {}) : {};
     state.weekChecks[state.todayISO] = state.checks;
     renderAll();
@@ -968,10 +1003,12 @@ async function bootApp(){
 
   // Ticker
   if (state.nowTicker) clearInterval(state.nowTicker);
-  state.nowTicker = setInterval(()=>{ if (todayISO() !== state.todayISO) { bootApp(); return; } renderMissionList(); updateHouseWindows(); renderAdventure(); }, 60_000);
+  state.nowTicker = setInterval(()=>{ renderMissionList(); updateHouseWindows(); }, 60_000);
 
   computeStreak();
   renderHero();
+  // Boot voice assistant after everything is ready
+  setTimeout(()=>initVoice(), 800);
 }
 
 async function loadWeekChecks(){
@@ -987,39 +1024,10 @@ async function loadWeekChecks(){
   renderAll();
 }
 
-function worldState(){return {...state,memberId:MEMBERS.find(m=>m.email===state.user?.email)?.id};}
-function subscribePresence(){
- state.unsubPresence?.();state.presenceStatus='loading';
- state.unsubPresence=onSnapshot(familyRef(),{includeMetadataChanges:true},snap=>{
-  state.remotePresence=validPresence(snap.data()?.presence);
-  const moment=snap.data()?.familyMoment;
-  state.familyMoment=moment&&typeof moment.blockId==='string'&&typeof moment.date==='string'&&Object.hasOwn(MEMBER_NAMES,moment.startedBy)&&Number.isFinite(moment.startedAt)?moment:null;
-  state.familyMessages=(Array.isArray(snap.data()?.familyMessages)?snap.data().familyMessages:[]).filter(m=>m&&typeof m.id==='string'&&['anderson','damaris'].includes(m.from)&&['anderson','damaris','family'].includes(m.to)&&typeof m.text==='string').slice(-30).map(m=>({...m,text:m.text.slice(0,500)}));
-  if(!snap.metadata.hasPendingWrites)for(const [id,p] of Object.entries(state.localPresence)){
-   if(state.remotePresence[id]?.clientMutationId===p.clientMutationId)delete state.localPresence[id];
-  }
-  state.presenceStatus=snap.metadata.hasPendingWrites?'syncing':snap.metadata.fromCache?'cache':'synced';renderHouse();window.dispatchEvent(new Event('house:state-updated'));
- },()=>{state.presenceStatus='error';renderHouse();window.dispatchEvent(new Event('house:state-updated'));});
-}
-async function moveFamilyMember(id,room,x,y,source='manual'){
- if(!state.user||!Object.hasOwn(MEMBER_NAMES,id)||!Object.hasOwn(ROOM_NAMES,room))return;
- const record=validPresence({[id]:{room,x,y,source,updatedAt:Date.now(),clientMutationId:crypto.randomUUID(),localOnly:!state.sharePresence,pending:state.sharePresence}})[id];
- if(!record)return;state.localPresence[id]=record;renderHouse();
- if(!state.sharePresence)return;
- try{await setDoc(familyRef(),{presence:{[id]:{room:record.room,x:record.x,y:record.y,source:record.source,updatedAt:serverTimestamp(),clientMutationId:record.clientMutationId}}},{merge:true});if(state.localPresence[id]?.clientMutationId===record.clientMutationId)delete state.localPresence[id];renderHouse();}
- catch{if(state.localPresence[id]?.clientMutationId===record.clientMutationId)state.localPresence[id]={...record,localOnly:true,pending:false};state.presenceStatus='error';renderHouse();showToast('Movimiento conservado aquí. No se pudo compartir.','err');}
-}
-async function setSharing(enabled){state.sharePresence=enabled;try{localStorage.setItem('house-sharing-'+state.user.uid,String(enabled));}catch{}showToast(enabled?'Los próximos movimientos se compartirán.':'Los próximos movimientos quedan en este celular.');}
-const renderHouse = mountHomeWorld({getState:worldState,openActivity:openInfoSheet,completeActivity:completeGameActivity,onMove:moveFamilyMember,onSharing:setSharing});
-mountFamilyVoice({root:document.getElementById('family-voice'),getState:worldState,completeActivity:completeGameActivity,undoActivity:undoVoiceActivity,sendMessage:sendFamilyMessage,onStart:startFamilyMoment,onLocation:room=>{moveFamilyMember(worldState().memberId,room,50,82,'voice');renderHouse.selectMember(worldState().memberId);}});
-document.querySelector('.adventure-layout').before(document.getElementById('family-voice'));
-const renderAdventure = mountAdventure({getState:()=>state,openActivity:id=>renderHouse.play(state.blocks.find(b=>b.id===id)),openSchedule:()=>document.querySelector('[data-page="semana"]').click()});
-
 /* ===== Render everything ===== */
 function renderAll(){
   renderHero();
   renderHouse();
-  window.dispatchEvent(new Event("house:state-updated"));
   renderStreak();
   renderFamily();
   renderMissionList();
@@ -1027,7 +1035,6 @@ function renderAll(){
   renderAchievements();
   renderWeek();
   renderFamilyXP();
-  renderAdventure();
 }
 
 /* ===== Hero ===== */
@@ -1039,7 +1046,7 @@ function renderHero(){
 }
 
 /* ===== The House SVG ===== */
-function renderLegacyHouse(){
+function renderHouse(){
   const litDays = computeLitDays();
   const streak = state._streak;
   const smokeOp = Math.min(0.9, 0.3 + streak*0.1);
@@ -1314,7 +1321,7 @@ function renderMissionList(){
         <div class="mission-name">${escapeHtml(b.title)}</div>
         <div class="mission-tag">"${escapeHtml(tip.toLowerCase() || TIPS[b.type]?.label || b.type)}"</div>
       </div>
-      <div class="mission-reward">+${xpForBlock(b)} XP<button type="button" class="mission-play">Jugar →</button></div>
+      <div class="mission-reward">+${xpForBlock(b)} XP</div>
     </div>`;
   }).join("");
   list.querySelectorAll("[data-block]").forEach(el=>{
@@ -1322,7 +1329,6 @@ function renderMissionList(){
       const bid = el.dataset.block;
       const b = state.blocks.find(x=>x.id===bid);
       if (!b) return;
-      if(e.target.closest('.mission-play')){renderHouse.play(b);return;}
       // tap on check: toggle for current user if adult; else open info
       const member = MEMBERS.find(m=>m.email===state.user.email);
       if (member && b.for.includes(member.id)){
@@ -1357,49 +1363,6 @@ async function toggleCheck(rid, mid, elAnchor){
   } catch(e){ showToast("No se pudo guardar","err"); console.warn(e); }
 }
 
-async function completeGameActivity(bid){
-  const b=state.blocks.find(x=>x.id===bid);
-  const member=MEMBERS.find(m=>m.email===state.user?.email);
-  if(!b || !member || !b.for.includes(member.id)) return {ok:false,message:"Esta actividad no está asignada a tu perfil. Puedes registrarla desde la agenda con el participante correspondiente."};
-  const date=state.todayISO;
-  if(todayISO()!==date || b.day!==state.todayDayName) return {ok:false,message:"El día cambió. Abre de nuevo la actividad de hoy."};
-  try {
-    const added=await runTransaction(db,async tx=>{
-      const ref=dayCheckRef(date),snap=await tx.get(ref),marks=snap.exists()?(snap.data().marks||{}):{};
-      const current=marks[bid]||[];
-      if(current.includes(member.id))return false;
-      tx.set(ref,{date,marks:{...marks,[bid]:[...current,member.id]},updatedBy:state.user.email,updatedAt:serverTimestamp()},{merge:true});
-      return true;
-    });
-    state.checks[bid]=[...new Set([...(state.checks[bid]||[]),member.id])];
-    if(added){launchConfetti(18);window.dispatchEvent(new CustomEvent('house:activity-complete',{detail:{id:bid,title:b.title,date}}));}
-    renderAll();
-    return {ok:true,added,message:added?"Tu participación quedó guardada en la agenda familiar.":"Tu participación ya estaba registrada. No se duplicaron puntos."};
-  } catch {return {ok:false,message:"No se pudo guardar. Revisa la conexión e inténtalo otra vez."};}
-}
-
-async function undoVoiceActivity(bid){
- const member=worldState().memberId,date=state.todayISO;
- if(!member||todayISO()!==date)return {ok:false,message:'No puedo modificar un día diferente.'};
- try{await runTransaction(db,async tx=>{const ref=dayCheckRef(date),snap=await tx.get(ref),marks=snap.data()?.marks||{};tx.set(ref,{date,marks:{...marks,[bid]:(marks[bid]||[]).filter(id=>id!==member)},updatedBy:state.user.email,updatedAt:serverTimestamp()},{merge:true});});
- state.checks[bid]=(state.checks[bid]||[]).filter(id=>id!==member);renderAll();return {ok:true,message:'Deshice tu último registro. La actividad vuelve a estar pendiente para ti.'};
- }catch{return {ok:false,message:'No pude deshacer el registro. Revisa la conexión.'};}
-}
-async function startFamilyMoment(block){
- const memberId=worldState().memberId;
- if(!state.user||block.day!==state.todayDayName||!block.for.includes(memberId))return {ok:false,message:'Este momento no está asignado a ti para hoy.'};
- const familyMoment={blockId:block.id,date:state.todayISO,startedBy:memberId,startedAt:Date.now()};
- try{await setDoc(familyRef(),{familyMoment},{merge:true});state.familyMoment=familyMoment;window.dispatchEvent(new Event('house:state-updated'));return {ok:true};}
- catch{return {ok:false,message:'No pude compartir el inicio. Revisa la conexión e inténtalo de nuevo.'};}
-}
-async function sendFamilyMessage(message){
- const from=worldState().memberId;
- if(!from||!['anderson','damaris','family'].includes(message.to)||typeof message.text!=='string'||!message.text.trim())return {ok:false,message:'No pude identificar el destinatario o el mensaje.'};
- const item={id:crypto.randomUUID(),from,to:message.to,text:message.text.trim().slice(0,500),createdAt:Date.now()};
- try{await runTransaction(db,async tx=>{const snap=await tx.get(familyRef()),old=Array.isArray(snap.data()?.familyMessages)?snap.data().familyMessages:[];tx.set(familyRef(),{familyMessages:[...old.slice(-29),item]},{merge:true});});return {ok:true};}
- catch{return {ok:false,message:'El mensaje no se envió. Revisa la conexión y vuelve a dictarlo.'};}
-}
-
 /* ===== Info sheet ===== */
 function openInfoSheet(bid){
   const b = state.blocks.find(x=>x.id===bid);
@@ -1417,10 +1380,6 @@ function openInfoSheet(bid){
     ${t.tip ? `<div class="sheet-block"><h4>Tip del día</h4><p>${t.tip}</p></div>` : ""}
     ${t.avoid ? `<div class="sheet-block"><h4>Qué evitar</h4><p>${t.avoid}</p></div>` : ""}
   `;
-  const playButton=document.createElement('button');
-  playButton.type='button';playButton.className='adventure-action';playButton.textContent='Jugar esta actividad en casa →';
-  playButton.onclick=()=>{ $("#modal-sheet").classList.remove("show");document.querySelector('[data-page="hogar"]').click();renderHouse.play(b); };
-  body.append(playButton);
   $("#modal-sheet").classList.add("show");
 }
 
@@ -1895,7 +1854,410 @@ function heuristicReply(prompt, member){
   return "Cuéntame más — pregúntame sobre menú, rutina, los niños, oración, o lo que necesites hoy.";
 }
 
-window.hm = { auth, db, state, signOut:()=>signOut(auth), celebrate, launchConfetti };
+/* ========================================================
+   VOICE ASSISTANT "Casa" — Web Speech API
+   ======================================================== */
+const VOICE = {
+  recognition: null,
+  voiceRef: null,
+  state: "idle",      // idle | listening_wake | listening_command | speaking | muted
+  wakeWords: ["ok casa","hola casa","oye casa","okay casa","ok la casa","hola la casa"],
+  commandTimer: null,
+  enabled: true,      // user can turn off
+  initialized: false,
+  conversationActive: false,  // true after wake word, until response complete
+  lastHeard: "",
+  restartGuard: 0,
+};
+
+function voiceSupported(){
+  return 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window;
+}
+
+function ttsSupported(){
+  return 'speechSynthesis' in window;
+}
+
+function pickVoice(){
+  if (!ttsSupported()) return null;
+  const voices = speechSynthesis.getVoices();
+  if (voices.length === 0) return null;
+  // Prefer female Spanish voices
+  const prefs = [
+    v => v.lang.startsWith("es") && /mónica|monica|paulina|helena|elvira|lucia|luciana|google.*español|female/i.test(v.name),
+    v => v.lang.startsWith("es-ES") || v.lang.startsWith("es-US") || v.lang.startsWith("es-MX") || v.lang.startsWith("es-CO"),
+    v => v.lang.startsWith("es"),
+    v => true
+  ];
+  for (const p of prefs){
+    const match = voices.find(p);
+    if (match) return match;
+  }
+  return voices[0];
+}
+
+function setVoiceState(s){
+  VOICE.state = s;
+  updateOrb();
+}
+
+function updateOrb(){
+  const orb = $("#voice-orb");
+  if (!orb) return;
+  orb.classList.remove("listening-wake","listening-cmd","speaking","muted","idle");
+  const banner = $("#voice-banner");
+  const label = $("#voice-status-label");
+  if (!VOICE.enabled || VOICE.state === "muted"){
+    orb.classList.add("muted");
+    if (label) label.textContent = "silencio";
+    return;
+  }
+  if (VOICE.state === "speaking"){ orb.classList.add("speaking"); if (label) label.textContent = "hablando"; return; }
+  if (VOICE.state === "listening_command"){ orb.classList.add("listening-cmd"); if (label) label.textContent = "te escucho"; return; }
+  if (VOICE.state === "listening_wake"){ orb.classList.add("listening-wake"); if (label) label.textContent = "di: ok casa"; return; }
+  orb.classList.add("idle");
+  if (label) label.textContent = "esperando";
+}
+
+function speak(text, opts={}){
+  if (!ttsSupported() || !VOICE.enabled) {
+    showVoiceCaption(text);
+    return Promise.resolve();
+  }
+  return new Promise(resolve=>{
+    try {
+      speechSynthesis.cancel();
+    } catch(e){}
+    const u = new SpeechSynthesisUtterance(text);
+    const v = pickVoice();
+    if (v) u.voice = v;
+    u.lang = v?.lang || "es-ES";
+    u.rate = opts.rate || 1.0;
+    u.pitch = opts.pitch || 1.05;
+    u.volume = 1;
+    const prevState = VOICE.state;
+    setVoiceState("speaking");
+    showVoiceCaption(text);
+    u.onend = () => {
+      setVoiceState(VOICE.enabled ? "listening_wake" : "muted");
+      resolve();
+    };
+    u.onerror = () => {
+      setVoiceState(VOICE.enabled ? "listening_wake" : "muted");
+      resolve();
+    };
+    try {
+      speechSynthesis.speak(u);
+    } catch(e){ resolve(); }
+  });
+}
+
+function showVoiceCaption(text){
+  const c = $("#voice-caption");
+  if (!c) return;
+  c.textContent = text;
+  c.classList.add("show");
+  clearTimeout(VOICE._captionTimer);
+  VOICE._captionTimer = setTimeout(()=>c.classList.remove("show"), 6000);
+}
+
+function initVoice(){
+  if (VOICE.initialized) return;
+  VOICE.initialized = true;
+
+  // Prime voices (needed in some browsers)
+  if (ttsSupported()){
+    speechSynthesis.getVoices();
+    if (speechSynthesis.onvoiceschanged !== undefined){
+      speechSynthesis.onvoiceschanged = () => { VOICE.voiceRef = pickVoice(); };
+    }
+    VOICE.voiceRef = pickVoice();
+  }
+
+  if (!voiceSupported()){
+    // Browser does not support speech recognition — show message once
+    showVoiceCaption("Este navegador no soporta voz. Para probarla, abre House Mapp en Chrome o Safari.");
+    setVoiceState("muted");
+    VOICE.enabled = false;
+    return;
+  }
+
+  // Request mic permission by trying to start recognition — browser will prompt
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const rec = new SR();
+  rec.lang = "es-CO";
+  rec.continuous = true;
+  rec.interimResults = true;
+  rec.maxAlternatives = 1;
+
+  rec.onresult = (ev) => {
+    for (let i = ev.resultIndex; i < ev.results.length; i++){
+      const r = ev.results[i];
+      const transcript = r[0].transcript.toLowerCase().trim();
+      VOICE.lastHeard = transcript;
+      if (!r.isFinal) continue;
+
+      // Check mute keywords always
+      if (/pausa|silencio|c[aá]llate|duerme|descansa/.test(transcript)){
+        handleCommand("mute");
+        continue;
+      }
+
+      // In wake listening mode: look for wake word
+      if (VOICE.state === "listening_wake" || VOICE.state === "idle"){
+        const hasWake = VOICE.wakeWords.some(w => transcript.includes(w));
+        if (hasWake){
+          // Extract command after wake word if any
+          let rest = transcript;
+          for (const w of VOICE.wakeWords){
+            if (rest.includes(w)){ rest = rest.split(w).slice(1).join(w).trim(); break; }
+          }
+          if (rest && rest.length > 2){
+            // Wake + command in same breath
+            handleCommand(rest);
+          } else {
+            // Just wake word → acknowledge, listen for command
+            setVoiceState("listening_command");
+            speak("sí, dime").then(()=>{
+              // Give user window to speak
+              VOICE.conversationActive = true;
+              clearTimeout(VOICE.commandTimer);
+              VOICE.commandTimer = setTimeout(()=>{
+                VOICE.conversationActive = false;
+                setVoiceState("listening_wake");
+              }, 7000);
+            });
+          }
+          continue;
+        }
+      }
+
+      // In command listening mode: process whatever they said
+      if (VOICE.state === "listening_command" && VOICE.conversationActive){
+        VOICE.conversationActive = false;
+        clearTimeout(VOICE.commandTimer);
+        handleCommand(transcript);
+        continue;
+      }
+    }
+  };
+
+  rec.onerror = (e) => {
+    // "no-speech" and "aborted" are normal, don't log
+    if (e.error === "not-allowed" || e.error === "service-not-allowed"){
+      showVoiceCaption("Necesito permiso de micrófono. Toca el candado de la URL y permite el micrófono.");
+      VOICE.enabled = false;
+      setVoiceState("muted");
+      return;
+    }
+  };
+
+  rec.onend = () => {
+    // Auto-restart in continuous mode unless muted
+    if (!VOICE.enabled) { setVoiceState("muted"); return; }
+    // Avoid tight restart loops
+    const now = Date.now();
+    if (now - VOICE.restartGuard < 500){
+      setTimeout(()=>{ try { rec.start(); } catch(e){} }, 500);
+    } else {
+      try { rec.start(); } catch(e){}
+    }
+    VOICE.restartGuard = now;
+  };
+
+  VOICE.recognition = rec;
+
+  try {
+    rec.start();
+    setVoiceState("listening_wake");
+  } catch(e){
+    showVoiceCaption("No pude iniciar el asistente. Toca el orbe para reintentar.");
+    setVoiceState("muted");
+  }
+
+  // Welcome greeting
+  setTimeout(()=>greetUser(), 1200);
+}
+
+function greetUser(){
+  if (!VOICE.enabled) return;
+  const member = MEMBERS.find(m => m.email === state.user.email);
+  const h = new Date().getHours();
+  const timeGreet = h < 12 ? "Buenos días" : h < 19 ? "Buenas tardes" : "Buenas noches";
+  const today = state.blocks.filter(b => b.day === state.todayDayName);
+  const done = today.filter(r => (state.checks[r.id] || []).length > 0).length;
+  const nowM = new Date().getHours() * 60 + new Date().getMinutes();
+  const next = today
+    .filter(b => timeToMin(b.startTime) > nowM)
+    .sort((a,b) => timeToMin(a.startTime) - timeToMin(b.startTime))[0];
+  let txt = `${timeGreet}, ${member?.name || "familia"}. `;
+  if (state._streak > 1) txt += `Van ${state._streak} días seguidos en la casa. `;
+  if (done > 0) txt += `Hoy llevan ${done} de ${today.length} misiones. `;
+  if (next){
+    txt += `Lo próximo es ${next.title.toLowerCase()} a las ${speakTime(next.startTime)}. `;
+  }
+  txt += `Cuando necesites algo, dime: ok casa.`;
+  speak(txt);
+}
+
+function speakTime(hhmm){
+  const [h,m] = hhmm.split(":").map(Number);
+  const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
+  const period = h < 12 ? "de la mañana" : h < 19 ? "de la tarde" : "de la noche";
+  if (m === 0) return `${h12} ${period}`;
+  if (m === 15) return `${h12} y cuarto ${period}`;
+  if (m === 30) return `${h12} y media ${period}`;
+  if (m === 45) return `${h12 === 12 ? 1 : h12 + 1} menos cuarto ${period}`;
+  return `${h12} y ${m} ${period}`;
+}
+
+/* ========= Intent handling ========= */
+async function handleCommand(cmd){
+  const c = cmd.toLowerCase().trim();
+  const member = MEMBERS.find(m => m.email === state.user.email);
+
+  // MUTE
+  if (c === "mute" || /pausa|silencio|c[aá]llate|duerme|descansa/.test(c)){
+    VOICE.enabled = false;
+    try { speechSynthesis.cancel(); } catch(e){}
+    try { VOICE.recognition.stop(); } catch(e){}
+    setVoiceState("muted");
+    showVoiceCaption("Casa en silencio. Toca el orbe para reactivar.");
+    return;
+  }
+
+  // STATUS
+  if (/c[oó]mo (vamos|voy|va)|resumen|c[oó]mo estamos|c[oó]mo va el d[ií]a/.test(c)){
+    const today = state.blocks.filter(b => b.day === state.todayDayName);
+    const done = today.filter(r => (state.checks[r.id] || []).length > 0).length;
+    await speak(`Van ${done} de ${today.length} misiones. Racha de ${state._streak} día${state._streak === 1 ? "" : "s"}.`);
+    setVoiceState("listening_wake");
+    return;
+  }
+
+  // NEXT
+  if (/qu[eé] sigue|qu[eé] viene|siguiente|pr[oó]ximo|pr[oó]xima/.test(c)){
+    const today = state.blocks.filter(b => b.day === state.todayDayName)
+      .sort((a,b) => timeToMin(a.startTime) - timeToMin(b.startTime));
+    const nowM = new Date().getHours() * 60 + new Date().getMinutes();
+    const next = today.find(b => timeToMin(b.startTime) > nowM);
+    if (next){
+      await speak(`Lo próximo es ${next.title.toLowerCase()} a las ${speakTime(next.startTime)}. Dura ${durationLabel(next.duration)}.`);
+    } else {
+      await speak("Ya no hay más misiones por hoy. A descansar.");
+    }
+    setVoiceState("listening_wake");
+    return;
+  }
+
+  // MARK — intent matching
+  const typeKeywords = {
+    oracion: ["oracion","oración","orar","oramos","rezamos","devocional","biblia","leimos","leímos"],
+    comida: ["desayuno","desayunamos","almuerzo","almorzamos","cena","cenamos","comimos","comida"],
+    familia: ["tiempo familiar","con los niños","jugamos","en familia","tiempo familia"],
+    escuela: ["escuela","clase","jp aprendió","leimos letras","letras","matemáticas","aprendimos"],
+    trabajo: ["trabajo","trabajé","trabajamos","oficina","reunión"],
+    caminata: ["caminamos","caminata","paseo","salimos","parque"],
+    hogar: ["aseo","limpieza","cocinamos","organicé","organicamos","mercado"],
+    sueno: ["dormir","dormimos","siesta","acostamos","rutina sueño"],
+    iglesia: ["iglesia","culto","servicio","templo"],
+    reunion: ["reunión","reunion","meeting","gac"],
+  };
+
+  const hasConfirm = /\b(ya|sí|si|hicimos|cumplimos|terminamos|acabamos|complet|logr|lo hice|lo hicimos|est[áa] listo|list[oa])\b/.test(c);
+  let matchedType = null;
+  for (const [type, kws] of Object.entries(typeKeywords)){
+    if (kws.some(k => c.includes(k))){ matchedType = type; break; }
+  }
+
+  if (matchedType && (hasConfirm || c.length < 40)){
+    // Find today's blocks of that type where current user is included
+    const today = state.blocks.filter(b => b.day === state.todayDayName && b.type === matchedType)
+      .sort((a,b) => timeToMin(a.startTime) - timeToMin(b.startTime));
+    const nowM = new Date().getHours() * 60 + new Date().getMinutes();
+    // Prefer closest to now (not yet marked by this user)
+    const candidate = today
+      .filter(b => member && b.for.includes(member.id))
+      .filter(b => !(state.checks[b.id] || []).includes(member.id))
+      .sort((a,b) => Math.abs(timeToMin(a.startTime) - nowM) - Math.abs(timeToMin(b.startTime) - nowM))[0];
+
+    if (candidate){
+      await markBlockForUser(candidate.id, member.id);
+      const xp = xpForBlock(candidate);
+      await speak(`${candidate.title.toLowerCase()}, cumplida. Más ${xp} experiencia.`);
+      launchConfetti(14);
+      setVoiceState("listening_wake");
+      return;
+    } else {
+      // Already marked or no block of that type for this user today
+      await speak(`No veo ${matchedType} pendiente para ti hoy. ¿Quieres marcar otra cosa?`);
+      setVoiceState("listening_wake");
+      return;
+    }
+  }
+
+  // NO — undo last or just acknowledge
+  if (/^no\b|no la hicimos|no lo hicimos|no la hice|no cumplimos/.test(c)){
+    await speak("Entendido. Lo dejamos sin marcar. Mañana es otro día.");
+    setVoiceState("listening_wake");
+    return;
+  }
+
+  // THANKS
+  if (/gracias|chao|adios|hasta luego|bye/.test(c)){
+    await speak("Aquí estoy cuando me necesites. Dime: ok casa.");
+    setVoiceState("listening_wake");
+    return;
+  }
+
+  // FALLBACK — IA proxy (only call if enabled in future)
+  // For now, heuristic
+  const reply = heuristicReply(c, member);
+  await speak(reply);
+  setVoiceState("listening_wake");
+}
+
+async function markBlockForUser(blockId, memberId){
+  const current = state.checks[blockId] || [];
+  if (current.includes(memberId)) return;
+  const next = [...current, memberId];
+  const newChecks = { ...state.checks, [blockId]: next };
+  try {
+    await setDoc(dayCheckRef(state.todayISO), {
+      date: state.todayISO,
+      marks: newChecks,
+      updatedBy: state.user.email,
+      updatedAt: serverTimestamp()
+    }, { merge: true });
+    try { navigator.vibrate?.([30,20,30]); } catch(e){}
+  } catch(e){ console.warn("mark failed", e); }
+}
+
+/* Toggle button */
+function toggleVoice(){
+  if (VOICE.enabled){
+    VOICE.enabled = false;
+    try { speechSynthesis.cancel(); } catch(e){}
+    try { VOICE.recognition.stop(); } catch(e){}
+    setVoiceState("muted");
+    showVoiceCaption("Casa en silencio.");
+  } else {
+    VOICE.enabled = true;
+    setVoiceState("listening_wake");
+    try { VOICE.recognition.start(); } catch(e){}
+    speak("Aquí estoy.");
+  }
+}
+
+// Wire orb click
+document.addEventListener("click", (e) => {
+  if (e.target.closest("#voice-orb") || e.target.closest("#voice-toggle")){
+    e.preventDefault();
+    toggleVoice();
+  }
+});
+
+window.hm = { auth, db, state, signOut:()=>signOut(auth), celebrate, launchConfetti, VOICE, speak, greetUser };
 </script>
 </body>
 </html>
