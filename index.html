@@ -371,7 +371,7 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:
       <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.5-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.6l6.2 5.2c-.4.4 6.6-4.8 6.6-14.8 0-1.3-.1-2.6-.4-3.9z"/></svg>
       Entrar con Google
     </button>
-    <p class="gate-foot">Solo correos autorizados pueden entrar.<br>Tus datos viven solo entre ustedes.</p>
+    <p class="gate-foot">Solo correos autorizados pueden entrar.<br>Acceso reservado a su familia.</p>
   </div>
 </div>
 
@@ -405,13 +405,13 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:
       </div>
 
       <div class="adventure-layout">
-        <section class="world-card" aria-label="Nuestro hogar esta semana">
+        <details class="world-explorer"><summary>Explorar nuestra casa y los avatares</summary><section class="world-card" aria-label="Nuestro hogar esta semana">
           <div class="world-top"><span class="eyebrow">El mundo de los Vilvel</span><span id="world-season">Bogotá</span></div>
-          <h2>Pequeñas aventuras. Momentos reales.</h2><p>Explora, ensaya y hazlo en casa. Cada aventura virtual prepara un momento para vivir juntos.</p>
+          <h2>Su casa, un mundo compartido.</h2><p>Explora, ensaya y hazlo en casa. Cada aventura virtual prepara un momento para vivir juntos.</p>
           <div class="house-stage" id="house-stage"></div>
           <div class="world-bottom"><strong>Un hogar, un equipo</strong><span id="world-count">Pequeños pasos, grandes recuerdos</span></div>
         </section>
-        <section class="day-panel" id="day-adventure" aria-label="La aventura del día"></section>
+        </details><section class="day-panel" id="day-adventure" aria-label="La aventura del día"></section>
       </div>
 
       <div class="streak-banner" id="streak-banner">
@@ -771,11 +771,12 @@ function levelFromXP(xp){
 
 const state = {
   user: null,
-  remotePresence: {}, localPresence: {}, sharePresence: false, presenceStatus: "local", unsubPresence: null,
+  familyMessages: [], remotePresence: {}, localPresence: {}, sharePresence: false, presenceStatus: "local", unsubPresence: null,
   todayISO: null,
   todayDayIdx: 0,
   todayDayName: null,
   blocks: [],
+  checksReady: false,
   checks: {},            // today's: { blockId: [memberIds] }
   weekChecks: {},        // whole week: { iso: { blockId: [memberIds] } }
   moments: [],
@@ -913,7 +914,7 @@ function showGateError(msg){ const el=$("#gate-error"); el.textContent=msg; el.c
 
 onAuthStateChanged(auth, async user => {
   $("#boot").classList.add("hide");
-  if (!user){ state.user=null; state.unsubPresence?.(); state.unsubChecks?.(); state.unsubBlocks?.(); state.unsubMoments?.(); clearInterval(state.nowTicker); state.remotePresence={}; state.localPresence={}; state.sharePresence=false; window.dispatchEvent(new Event("house:signed-out")); $("#gate").style.display="flex"; $("#app").classList.remove("show"); return; }
+  if (!user){ state.user=null; state.unsubPresence?.(); state.unsubChecks?.(); state.unsubBlocks?.(); state.unsubMoments?.(); clearInterval(state.nowTicker); state.remotePresence={}; state.localPresence={}; state.familyMessages=[]; state.sharePresence=false; window.dispatchEvent(new Event("house:signed-out")); $("#gate").style.display="flex"; $("#app").classList.remove("show"); return; }
   if (!AUTHORIZED_EMAILS.includes(user.email)) {
     showGateError(`${user.email} no está autorizado.`);
     await signOut(auth); return;
@@ -944,8 +945,10 @@ async function bootApp(){
   });
 
   // Today's checks
+  state.checksReady=false;
   if (state.unsubChecks) state.unsubChecks();
   state.unsubChecks = onSnapshot(dayCheckRef(state.todayISO), snap=>{
+    state.checksReady=true;
     state.checks = snap.exists() ? (snap.data().marks || {}) : {};
     state.weekChecks[state.todayISO] = state.checks;
     renderAll();
@@ -989,11 +992,12 @@ function subscribePresence(){
  state.unsubPresence?.();state.presenceStatus='loading';
  state.unsubPresence=onSnapshot(familyRef(),{includeMetadataChanges:true},snap=>{
   state.remotePresence=validPresence(snap.data()?.presence);
+  state.familyMessages=(Array.isArray(snap.data()?.familyMessages)?snap.data().familyMessages:[]).filter(m=>m&&typeof m.id==='string'&&['anderson','damaris'].includes(m.from)&&['anderson','damaris','family'].includes(m.to)&&typeof m.text==='string').slice(-30).map(m=>({...m,text:m.text.slice(0,500)}));
   if(!snap.metadata.hasPendingWrites)for(const [id,p] of Object.entries(state.localPresence)){
    if(state.remotePresence[id]?.clientMutationId===p.clientMutationId)delete state.localPresence[id];
   }
-  state.presenceStatus=snap.metadata.hasPendingWrites?'syncing':snap.metadata.fromCache?'cache':'synced';renderHouse();
- },()=>{state.presenceStatus='error';renderHouse();});
+  state.presenceStatus=snap.metadata.hasPendingWrites?'syncing':snap.metadata.fromCache?'cache':'synced';renderHouse();window.dispatchEvent(new Event('house:state-updated'));
+ },()=>{state.presenceStatus='error';renderHouse();window.dispatchEvent(new Event('house:state-updated'));});
 }
 async function moveFamilyMember(id,room,x,y,source='manual'){
  if(!state.user||!Object.hasOwn(MEMBER_NAMES,id)||!Object.hasOwn(ROOM_NAMES,room))return;
@@ -1005,13 +1009,15 @@ async function moveFamilyMember(id,room,x,y,source='manual'){
 }
 async function setSharing(enabled){state.sharePresence=enabled;try{localStorage.setItem('house-sharing-'+state.user.uid,String(enabled));}catch{}showToast(enabled?'Los próximos movimientos se compartirán.':'Los próximos movimientos quedan en este celular.');}
 const renderHouse = mountHomeWorld({getState:worldState,openActivity:openInfoSheet,completeActivity:completeGameActivity,onMove:moveFamilyMember,onSharing:setSharing});
-mountFamilyVoice({root:document.getElementById('family-voice'),getState:worldState,completeActivity:completeGameActivity,onLocation:room=>{moveFamilyMember(worldState().memberId,room,50,82,'voice');renderHouse.selectMember(worldState().memberId);}});
+mountFamilyVoice({root:document.getElementById('family-voice'),getState:worldState,completeActivity:completeGameActivity,undoActivity:undoVoiceActivity,sendMessage:sendFamilyMessage,onLocation:room=>{moveFamilyMember(worldState().memberId,room,50,82,'voice');renderHouse.selectMember(worldState().memberId);}});
+document.querySelector('.adventure-layout').before(document.getElementById('family-voice'));
 const renderAdventure = mountAdventure({getState:()=>state,openActivity:id=>renderHouse.play(state.blocks.find(b=>b.id===id)),openSchedule:()=>document.querySelector('[data-page="semana"]').click()});
 
 /* ===== Render everything ===== */
 function renderAll(){
   renderHero();
   renderHouse();
+  window.dispatchEvent(new Event("house:state-updated"));
   renderStreak();
   renderFamily();
   renderMissionList();
@@ -1366,8 +1372,23 @@ async function completeGameActivity(bid){
     state.checks[bid]=[...new Set([...(state.checks[bid]||[]),member.id])];
     if(added){launchConfetti(18);window.dispatchEvent(new CustomEvent('house:activity-complete',{detail:{id:bid,title:b.title,date}}));}
     renderAll();
-    return {ok:true,message:added?"Tu participación quedó guardada en la agenda familiar.":"Tu participación ya estaba registrada. No se duplicaron puntos."};
+    return {ok:true,added,message:added?"Tu participación quedó guardada en la agenda familiar.":"Tu participación ya estaba registrada. No se duplicaron puntos."};
   } catch {return {ok:false,message:"No se pudo guardar. Revisa la conexión e inténtalo otra vez."};}
+}
+
+async function undoVoiceActivity(bid){
+ const member=worldState().memberId,date=state.todayISO;
+ if(!member||todayISO()!==date)return {ok:false,message:'No puedo modificar un día diferente.'};
+ try{await runTransaction(db,async tx=>{const ref=dayCheckRef(date),snap=await tx.get(ref),marks=snap.data()?.marks||{};tx.set(ref,{date,marks:{...marks,[bid]:(marks[bid]||[]).filter(id=>id!==member)},updatedBy:state.user.email,updatedAt:serverTimestamp()},{merge:true});});
+ state.checks[bid]=(state.checks[bid]||[]).filter(id=>id!==member);renderAll();return {ok:true,message:'Deshice tu último registro. La actividad vuelve a estar pendiente para ti.'};
+ }catch{return {ok:false,message:'No pude deshacer el registro. Revisa la conexión.'};}
+}
+async function sendFamilyMessage(message){
+ const from=worldState().memberId;
+ if(!from||!['anderson','damaris','family'].includes(message.to)||typeof message.text!=='string'||!message.text.trim())return {ok:false,message:'No pude identificar el destinatario o el mensaje.'};
+ const item={id:crypto.randomUUID(),from,to:message.to,text:message.text.trim().slice(0,500),createdAt:Date.now()};
+ try{await runTransaction(db,async tx=>{const snap=await tx.get(familyRef()),old=Array.isArray(snap.data()?.familyMessages)?snap.data().familyMessages:[];tx.set(familyRef(),{familyMessages:[...old.slice(-29),item]},{merge:true});});return {ok:true};}
+ catch{return {ok:false,message:'El mensaje no se envió. Revisa la conexión y vuelve a dictarlo.'};}
 }
 
 /* ===== Info sheet ===== */

@@ -1,0 +1,13 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {interpret,pendingActivities} from '../assets/voice-intents.js';
+const blocks=[{id:'breakfast',title:'Desayuno en familia',startTime:'08:00',day:'Martes',for:['anderson','damaris']},{id:'read',title:'Leer un cuento',startTime:'09:00',day:'Martes',for:['anderson']},{id:'dinner',title:'Cena en familia',startTime:'18:00',day:'Martes',for:['anderson']},{id:'other',title:'Trabajo de Dama',startTime:'10:00',day:'Martes',for:['damaris']}];
+const state={blocks,checks:{},memberId:'anderson',todayDayName:'Martes'};
+test('clear completion matches exact activity',()=>assert.equal(interpret('Ya terminé el desayuno',state).block.id,'breakfast'));
+test('negations and future plans never complete',()=>{for(const text of ['Todavía no terminé el desayuno','Casi terminé el desayuno','Voy a terminar el desayuno','¿Ya terminé el desayuno?'])assert.notEqual(interpret(text,state).kind,'complete');});
+test('ambiguous family activity asks',()=>assert.equal(interpret('Terminé la actividad en familia',state).kind,'choose'));
+test('generic done requires active activity',()=>{assert.equal(interpret('listo',state).kind,'choose');assert.equal(interpret('listo',state,'read').block.id,'read');});
+test('spoken choice selects pending eligible activity',()=>assert.equal(interpret('la segunda',state,null,['breakfast','read']).block.id,'read'));
+test('completed and other member activities excluded',()=>{const s={...state,checks:{breakfast:['anderson']}};assert.equal(pendingActivities(s).length,2);assert.notEqual(interpret('Terminé Trabajo de Dama',s).kind,'complete');});
+test('message content cannot trigger accomplishment',()=>{const i=interpret('Dile a Dama que ya terminé el desayuno',state);assert.equal(i.kind,'message');assert.equal(i.to,'damaris');assert.equal(i.text,'ya terminé el desayuno');});
+test('undo and pause explicit commands',()=>{assert.equal(interpret('deshacer',state).kind,'undo');assert.equal(interpret('pausa',state).kind,'pause');});
